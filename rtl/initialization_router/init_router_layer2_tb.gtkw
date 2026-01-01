@@ -1,0 +1,33 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Tue May 20 16:11:50 2025
+[*]
+[dumpfile] "E:\Education\Academic\Projects\fyp\Codes\e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs\code\rtl\initialization_router\init_router_layer2_tb.vcd"
+[dumpfile_mtime] "Tue May 20 16:05:05 2025"
+[dumpfile_size] 5989
+[savefile] "E:\Education\Academic\Projects\fyp\Codes\e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs\code\rtl\initialization_router\init_router_layer2_tb.gtkw"
+[timestart] 0
+[size] 1536 801
+[pos] -191 -191
+*-14.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] init_router_layer2_tb.
+[sst_width] 270
+[signals_width] 222
+[sst_expanded] 1
+[sst_vpaned_height] 224
+@28
+init_router_layer2_tb.clk
+init_router_layer2_tb.load_data_top_in
+@22
+init_router_layer2_tb.data_top_in[7:0]
+init_router_layer2_tb.load_data_lower_out[7:0]
+init_router_layer2_tb.data_lower_out[63:0]
+@28
+init_router_layer2_tb.ready_data_top_in
+@23
+init_router_layer2_tb.uut.port_select[8:0]
+@22
+init_router_layer2_tb.uut.header_flit[7:0]
+init_router_layer2_tb.uut.current_flit[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -1,0 +1,95 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Sat May 24 08:38:55 2025
+[*]
+[dumpfile] "E:\Education\Academic\Projects\fyp\Codes\e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs\code\rtl\initialization_router\init_routers_tb.vcd"
+[dumpfile_mtime] "Sat May 24 08:38:04 2025"
+[dumpfile_size] 50909
+[savefile] "E:\Education\Academic\Projects\fyp\Codes\e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs\code\rtl\initialization_router\init_routers_tb.gtkw"
+[timestart] 0
+[size] 1536 801
+[pos] -87 -87
+*-15.000000 15000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] init_routers_tb.
+[treeopen] init_routers_tb.lower_routers[0].
+[treeopen] init_routers_tb.lower_routers[4].
+[sst_width] 217
+[signals_width] 286
+[sst_expanded] 1
+[sst_vpaned_height] 224
+@28
+init_routers_tb.rst
+init_routers_tb.state[2:0]
+init_routers_tb.clk
+init_routers_tb.upper_router.ready_data_top_in
+init_routers_tb.load_data_upper_top_in
+init_routers_tb.upper_router.from_top
+@22
+init_routers_tb.data_upper_top_in[7:0]
+@28
+init_routers_tb.upper_router.next_state[2:0]
+init_routers_tb.upper_router.input_port[2:0]
+init_routers_tb.upper_router.state[2:0]
+@22
+init_routers_tb.upper_router.header_flit[7:0]
+init_routers_tb.upper_router.current_flit[7:0]
+@28
+init_routers_tb.upper_router.port_select[2:0]
+@22
+init_routers_tb.upper_router.packet_counter[7:0]
+@28
+init_routers_tb.upper_router.ready_data_lower_out[7:0]
+init_routers_tb.upper_router.load_data_lower_out[7:0]
+@22
+init_routers_tb.data_upper_lower_out[63:0]
+@28
+init_routers_tb.upper_router.send_done
+init_routers_tb.lower_routers[4].lower_router.ready_data_top_in
+init_routers_tb.lower_routers[4].lower_router.load_data_top_in
+@22
+init_routers_tb.lower_routers[4].lower_router.data_top_in[7:0]
+@c00028
+init_routers_tb.lower_routers[4].lower_router.next_state[2:0]
+@28
+(0)init_routers_tb.lower_routers[4].lower_router.next_state[2:0]
+(1)init_routers_tb.lower_routers[4].lower_router.next_state[2:0]
+(2)init_routers_tb.lower_routers[4].lower_router.next_state[2:0]
+@1401200
+-group_end
+@28
+init_routers_tb.lower_routers[4].lower_router.state[2:0]
+@22
+init_routers_tb.lower_routers[4].lower_router.header_flit[7:0]
+init_routers_tb.lower_routers[4].lower_router.current_flit[7:0]
+@23
+init_routers_tb.lower_routers[4].lower_router.packet_counter[7:0]
+@22
+init_routers_tb.lower_routers[4].lower_router.data_lower_out[31:0]
+@28
+init_routers_tb.lower_routers[4].lower_router.load_data_lower_out[3:0]
+init_routers_tb.lower_state[2:0]
+init_routers_tb.ready_data_router0_lower_in[3:0]
+init_routers_tb.load_data_upper_lower_in[7:0]
+@22
+init_routers_tb.data_router0_lower_in[31:0]
+@28
+init_routers_tb.lower_routers[0].lower_router.next_state[2:0]
+init_routers_tb.lower_routers[0].lower_router.state[2:0]
+init_routers_tb.lower_routers[0].lower_router.load_data_top_out
+@22
+init_routers_tb.lower_routers[0].lower_router.data_top_out[7:0]
+init_routers_tb.upper_router.load_data_lower_in[7:0]
+init_routers_tb.upper_router.data_lower_in[63:0]
+@28
+init_routers_tb.upper_router.next_state[2:0]
+init_routers_tb.upper_router.state[2:0]
+@22
+init_routers_tb.upper_router.header_flit[7:0]
+init_routers_tb.upper_router.current_flit[7:0]
+init_routers_tb.upper_router.packet_counter[7:0]
+@28
+init_routers_tb.upper_router.load_data_top_out
+@22
+init_routers_tb.upper_router.data_top_out[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

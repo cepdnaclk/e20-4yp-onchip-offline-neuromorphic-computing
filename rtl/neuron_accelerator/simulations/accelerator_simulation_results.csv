@@ -1,0 +1,20 @@
+# Neuromorphic Accelerator Simulation Results
+# Generated: 2025-10-27 13:54:56
+# User: e19129@localhost.localdomain
+# Run Configuration:
+#   Mode: Full Simulation
+#   Layer Filter: 1
+#   Neuron Filter: 512
+#   Timestep Filter: 25 50 75 100
+
+#   Verbose Mode: Disabled
+#   Total Expected Simulations: 16
+#
+# CSV Format: Config,Layers,Neurons,Train_TimeSteps,Inference_TimeSteps,Accuracy
+Config,Layers,Neurons,Train_TimeSteps,Inference_TimeSteps,Accuracy
+h512_l1_t100,1,512,100,25,N/A
+h512_l1_t100,1,512,100,50,N/A
+h512_l1_t100,1,512,100,75,N/A
+h512_l1_t100,1,512,100,100,N/A
+h512_l1_t25,1,512,25,25,N/A
+h512_l1_t25,1,512,25,50,N/A

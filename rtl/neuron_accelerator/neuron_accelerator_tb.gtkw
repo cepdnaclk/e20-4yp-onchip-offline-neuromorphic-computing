@@ -1,0 +1,48 @@
+[*]
+[*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
+[*] Sun Jun 22 03:21:31 2025
+[*]
+[dumpfile] "/storage/e19129/projects/fyp/e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs/code/rtl/neuron_accelerator/neuron_accelerator_tb.vcd"
+[dumpfile_mtime] "Sat Jun 21 18:01:54 2025"
+[dumpfile_size] 1554673280
+[savefile] "/storage/e19129/projects/fyp/e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs/code/rtl/neuron_accelerator/neuron_accelerator_tb.gtkw"
+[timestart] 4263810000
+[size] 1366 722
+[pos] -1380 -37
+*-22.000000 4271930200 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] neuron_accelerator_tb.
+[treeopen] neuron_accelerator_tb.uut.
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.neuron_layer_left.
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.neuron_layer_left.neuron_gen[0].
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.neuron_layer_left.neuron_gen[0].neuron_inst.
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.neuron_layer_left.neuron_gen[1].
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.neuron_layer_left.neuron_gen[1].neuron_inst.
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.neuron_layer_right.
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.neuron_layer_right.neuron_gen[0].
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.neuron_layer_right.neuron_gen[0].neuron_inst.
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[1].
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[1].neuron_cluster_inst.
+[treeopen] neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].spike_forwarder_4_inst.
+[treeopen] neuron_accelerator_tb.uut.spike_forwarder.
+[sst_width] 356
+[signals_width] 214
+[sst_expanded] 1
+[sst_vpaned_height] 205
+@28
+neuron_accelerator_tb.clk
+neuron_accelerator_tb.uut.time_step
+neuron_accelerator_tb.uut.rst_potential
+neuron_accelerator_tb.uut.accelerator_done
+@22
+neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].spike_forwarder_4_inst.spike_forwarder_inst.main_out_data_out[10:0]
+neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.packet_out[10:0]
+neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.packet_in[10:0]
+neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[1].neuron_cluster_inst.neuron_layer_left.spikes[15:0]
+neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[1].neuron_cluster_inst.packet_out[10:0]
+neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.incoming_forwarder.weight_out_left[511:0]
+@23
+neuron_accelerator_tb.uut.gen_spike_forwarder_4[0].gen_neuron_cluster[0].neuron_cluster_inst.incoming_forwarder.weight_out_right[511:0]
+[pattern_trace] 1
+[pattern_trace] 0

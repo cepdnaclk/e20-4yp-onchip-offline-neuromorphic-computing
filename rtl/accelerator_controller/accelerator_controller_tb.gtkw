@@ -1,0 +1,49 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Thu May 29 11:15:57 2025
+[*]
+[dumpfile] "E:\Education\Academic\Projects\fyp\Codes\e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs\code\rtl\accelerator_controller\accelerator_controller_tb.vcd"
+[dumpfile_mtime] "Thu May 29 11:07:55 2025"
+[dumpfile_size] 156228
+[savefile] "E:\Education\Academic\Projects\fyp\Codes\e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs\code\rtl\accelerator_controller\accelerator_controller_tb.gtkw"
+[timestart] 540900
+[size] 1536 801
+[pos] -1 -1
+*-15.000000 585000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] accelerator_controller_tb.
+[sst_width] 279
+[signals_width] 238
+[sst_expanded] 1
+[sst_vpaned_height] 224
+@28
+accelerator_controller_tb.clk
+accelerator_controller_tb.dut.fire
+@22
+accelerator_controller_tb.dut.data1[63:0]
+accelerator_controller_tb.dut.data2[63:0]
+accelerator_controller_tb.dut.data_buffer[127:0]
+@28
+accelerator_controller_tb.dut.next_sub_state[2:0]
+accelerator_controller_tb.dut.sub_state[2:0]
+accelerator_controller_tb.dut.init_spike_select
+@22
+accelerator_controller_tb.dut.flit_count[3:0]
+@28
+accelerator_controller_tb.dut.init_ready_data_send
+accelerator_controller_tb.dut.init_load_data_send
+@22
+accelerator_controller_tb.dut.init_data_send[7:0]
+accelerator_controller_tb.dut.int_data_receive[7:0]
+@28
+accelerator_controller_tb.dut.init_load_data_receive
+accelerator_controller_tb.dut.data_done
+accelerator_controller_tb.dut.ready
+accelerator_controller_tb.dut.init_load_data_receive
+@29
+accelerator_controller_tb.dut.init_ready_data_receive
+@22
+accelerator_controller_tb.dut.data_out[63:0]
+@28
+accelerator_controller_tb.dut.init_receive_done
+[pattern_trace] 1
+[pattern_trace] 0
