@@ -1,0 +1,38 @@
+
+block2.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	3fc00113          	li	sp,1020
+   4:	008000ef          	jal	c <main>
+
+00000008 <loop>:
+   8:	0000006f          	j	8 <loop>
+
+0000000c <main>:
+   c:	20000713          	li	a4,512
+  10:	000017b7          	lui	a5,0x1
+  14:	11178793          	addi	a5,a5,273 # 1111 <main+0x1105>
+  18:	00f72023          	sw	a5,0(a4)
+  1c:	06400793          	li	a5,100
+  20:	10f02023          	sw	a5,256(zero) # 100 <main+0xf4>
+  24:	06500793          	li	a5,101
+  28:	10f02223          	sw	a5,260(zero) # 104 <main+0xf8>
+  2c:	06600793          	li	a5,102
+  30:	10f02423          	sw	a5,264(zero) # 108 <main+0xfc>
+  34:	06700793          	li	a5,103
+  38:	10f02623          	sw	a5,268(zero) # 10c <main+0x100>
+  3c:	06800793          	li	a5,104
+  40:	10f02823          	sw	a5,272(zero) # 110 <main+0x104>
+  44:	06900793          	li	a5,105
+  48:	10f02a23          	sw	a5,276(zero) # 114 <main+0x108>
+  4c:	06a00793          	li	a5,106
+  50:	10f02c23          	sw	a5,280(zero) # 118 <main+0x10c>
+  54:	06b00793          	li	a5,107
+  58:	10f02e23          	sw	a5,284(zero) # 11c <main+0x110>
+  5c:	0000b7b7          	lui	a5,0xb
+  60:	aaa78793          	addi	a5,a5,-1366 # aaaa <main+0xaa9e>
+  64:	00f72023          	sw	a5,0(a4)
+  68:	00008067          	ret

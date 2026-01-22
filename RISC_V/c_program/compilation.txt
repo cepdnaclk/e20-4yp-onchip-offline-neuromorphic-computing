@@ -1,0 +1,3 @@
+riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -O1 -nostdlib -T link.ld crt0.s vector_test.c -o vector.elf
+riscv64-unknown-elf-objcopy -O verilog --verilog-data-width=4 vector.elf vector.hex
+riscv64-unknown-elf-objdump -d vector.elf > vector.dump
