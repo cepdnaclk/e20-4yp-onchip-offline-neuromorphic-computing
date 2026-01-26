@@ -107,7 +107,7 @@ initial begin
 // memory_array[14] = 32'b0000000_01101_01100_000_01110_0110011;  // ADD x14, x13, x12 (Final verification step)
 // memory_array[15] = 32'b000000000000_00000_000_00000_1110011;  // EBREAK (Stop execution)
 
-$readmemh("../snn_tests/block3.hex", memory_array);
+$readmemh("../snn_tests/block4_lif.hex", memory_array);
 
    
 

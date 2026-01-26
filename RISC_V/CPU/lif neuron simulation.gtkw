@@ -1,0 +1,53 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*] Mon Jan 26 19:52:12 2026
+[*]
+[dumpfile] "/media/ravindu/Lecture video & Notes/FYP - Neurophomic hardware/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/CPU/cpu_pipeline.vcd"
+[dumpfile_mtime] "Mon Jan 26 19:43:00 2026"
+[dumpfile_size] 76962359
+[savefile] "/media/ravindu/Lecture video & Notes/FYP - Neurophomic hardware/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/CPU/lif neuron simulation.gtkw"
+[timestart] 360
+[size] 1050 980
+[pos] 149 -1
+*-6.000000 480 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] cpu_testbench.
+[treeopen] cpu_testbench.cpu_inst.
+[sst_width] 269
+[signals_width] 246
+[sst_expanded] 1
+[sst_vpaned_height] 289
+@28
+cpu_testbench.cpu_inst.CLK
+@22
+cpu_testbench.cpu_inst.INSTRUCTION[31:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[512][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[513][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[514][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[515][7:0]
+@24
+cpu_testbench.cpu_inst.datamemory1.\memory_array[432][7:0]
+@200
+-weights 
+@24
+cpu_testbench.cpu_inst.datamemory1.\memory_array[256][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[257][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[258][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[259][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[260][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[261][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[262][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[263][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[264][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[265][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[266][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[267][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[268][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[269][7:0]
+@22
+cpu_testbench.cpu_inst.datamemory1.\memory_array[270][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[271][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[272][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[273][7:0]
+cpu_testbench.cpu_inst.datamemory1.\memory_array[274][7:0]
+[pattern_trace] 1
+[pattern_trace] 0

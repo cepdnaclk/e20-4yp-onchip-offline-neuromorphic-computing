@@ -88,49 +88,42 @@ begin
         BUSYWAIT = 0;
 end
 
-//Reading & writing
+// Reading (Combinational)
 always @(*)
 begin
     if(READ)
     begin
-        READDATA =#1 {memory_array[ADDRESS+3],memory_array[ADDRESS+2],memory_array[ADDRESS+1],memory_array[ADDRESS]};
+        READDATA = #1 {memory_array[ADDRESS+3],memory_array[ADDRESS+2],memory_array[ADDRESS+1],memory_array[ADDRESS]};
     end
+end
+
+// Writing (Synchronous)
+always @(negedge CLK)
+begin
     if(WRITE)
-	begin
+    begin
         case(FUNCT3)
         3'b000: //SB
-        begin
-            #2
-            memory_array[ADDRESS] <= WRITEDATA[7:0];
-        end
+             memory_array[ADDRESS] <= WRITEDATA[7:0];
         3'b001: //SH
         begin
-            #2
-            memory_array[ADDRESS]   <= WRITEDATA[7:0];    
-            memory_array[ADDRESS+1] <= WRITEDATA[15:8];   
+             memory_array[ADDRESS]   <= WRITEDATA[7:0];    
+             memory_array[ADDRESS+1] <= WRITEDATA[15:8];   
         end
         3'b010: //SW
         begin
-            #2
-            memory_array[ADDRESS]   <= WRITEDATA[7:0];    
-            memory_array[ADDRESS+1] <= WRITEDATA[15:8];   
-            memory_array[ADDRESS+2] <= WRITEDATA[23:16]; 
-            memory_array[ADDRESS+3] <= WRITEDATA[31:24];
+             memory_array[ADDRESS]   <= WRITEDATA[7:0];    
+             memory_array[ADDRESS+1] <= WRITEDATA[15:8];   
+             memory_array[ADDRESS+2] <= WRITEDATA[23:16]; 
+             memory_array[ADDRESS+3] <= WRITEDATA[31:24];  
         end
         endcase
     end
 end
 
 integer i;
-
-//Reset memory
-always @(posedge RESET)
-begin
-    if (RESET)
-    begin
-        for (i=0;i<1024; i=i+1)
-            memory_array[i] <= 0;
-    end
+initial begin
+    for(i=0; i<1024; i=i+1) memory_array[i] = 0;
 end
 
 endmodule
