@@ -1,0 +1,291 @@
+$date
+	Fri May 16 23:24:56 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module fifo_tb $end
+$var wire 1 ! full $end
+$var wire 1 " empty $end
+$var wire 11 # dout [10:0] $end
+$var wire 4 $ count [3:0] $end
+$var parameter 32 % DEPTH $end
+$var parameter 32 & WIDTH $end
+$var reg 1 ' clk $end
+$var reg 11 ( din [10:0] $end
+$var reg 1 ) rd_en $end
+$var reg 1 * rst $end
+$var reg 1 + wr_en $end
+$var integer 32 , i [31:0] $end
+$scope module uut $end
+$var wire 1 ' clk $end
+$var wire 11 - din [10:0] $end
+$var wire 1 . do_read $end
+$var wire 1 / do_write $end
+$var wire 1 ) rd_en $end
+$var wire 1 * rst $end
+$var wire 1 + wr_en $end
+$var wire 1 ! full $end
+$var wire 1 " empty $end
+$var parameter 32 0 DEPTH $end
+$var parameter 32 1 WIDTH $end
+$var reg 4 2 count [3:0] $end
+$var reg 11 3 dout [10:0] $end
+$var reg 3 4 rd_ptr [2:0] $end
+$var reg 3 5 wr_ptr [2:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1011 1
+b1000 0
+b1011 &
+b1000 %
+$end
+#0
+$dumpvars
+b0 5
+b0 4
+b0 3
+b0 2
+0/
+0.
+b0 -
+bx ,
+0+
+1*
+0)
+b0 (
+0'
+b0 $
+b0 #
+1"
+0!
+$end
+#5000
+1'
+#10000
+0'
+#15000
+1'
+#20000
+0'
+0*
+#25000
+1'
+#30000
+1/
+0'
+b100100011 (
+b100100011 -
+1+
+#35000
+0"
+b1 $
+b1 2
+b1 5
+1'
+#40000
+0/
+0'
+0+
+#45000
+1'
+#50000
+1.
+0'
+1)
+#55000
+0.
+1"
+b0 $
+b0 2
+b1 4
+b100100011 #
+b100100011 3
+1'
+#60000
+0'
+0)
+#65000
+1'
+#70000
+0'
+#75000
+1'
+#80000
+1/
+0'
+b100000000 (
+b100000000 -
+1+
+b0 ,
+#85000
+0"
+b1 $
+b1 2
+b10 5
+1'
+#90000
+0'
+b100000001 (
+b100000001 -
+b1 ,
+#95000
+b10 $
+b10 2
+b11 5
+1'
+#100000
+0'
+b100000010 (
+b100000010 -
+b10 ,
+#105000
+b11 $
+b11 2
+b100 5
+1'
+#110000
+0'
+b100000011 (
+b100000011 -
+b11 ,
+#115000
+b100 $
+b100 2
+b101 5
+1'
+#120000
+0'
+b100000100 (
+b100000100 -
+b100 ,
+#125000
+b101 $
+b101 2
+b110 5
+1'
+#130000
+0'
+b100000101 (
+b100000101 -
+b101 ,
+#135000
+b110 $
+b110 2
+b111 5
+1'
+#140000
+0'
+b100000110 (
+b100000110 -
+b110 ,
+#145000
+b111 $
+b111 2
+b0 5
+1'
+#150000
+0'
+b100000111 (
+b100000111 -
+b111 ,
+#155000
+0/
+1!
+b1000 $
+b1000 2
+b1 5
+1'
+#160000
+0'
+0+
+b1000 ,
+#165000
+1'
+#170000
+0'
+#175000
+1'
+#180000
+b0 #
+b0 3
+1"
+0!
+b0 $
+b0 2
+b0 4
+b0 5
+0'
+1*
+#185000
+1'
+#190000
+0'
+0*
+#195000
+1'
+#200000
+0'
+#205000
+1'
+#210000
+1/
+0'
+b1000000000 (
+b1000000000 -
+1+
+#215000
+0"
+b1 $
+b1 2
+b1 5
+1'
+#220000
+0'
+b1000000001 (
+b1000000001 -
+#225000
+b10 $
+b10 2
+b10 5
+1'
+#230000
+0/
+0'
+0+
+#235000
+1'
+#240000
+1.
+1/
+0'
+b1000000010 (
+b1000000010 -
+1)
+1+
+#245000
+b11 5
+b1 4
+b1000000000 #
+b1000000000 3
+1'
+#250000
+0.
+0/
+0'
+0)
+0+
+#255000
+1'
+#260000
+0'
+#265000
+1'
+#270000
+0'

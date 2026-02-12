@@ -1,0 +1,3 @@
+cd /home/ravindu/Documents/e20-co502-RV32IM-pipeline-implementation-group-2/CPU
+iverilog -o cpu_sim CPU_tb.v
+vvp cpu_sim

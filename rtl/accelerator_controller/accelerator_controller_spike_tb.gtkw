@@ -1,0 +1,69 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Sat May 31 19:17:52 2025
+[*]
+[dumpfile] "E:\Education\Academic\Projects\fyp\Codes\e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs\code\rtl\accelerator_controller\accelerator_controller_spike_tb.vcd"
+[dumpfile_mtime] "Sat May 31 19:14:54 2025"
+[dumpfile_size] 21401
+[savefile] "E:\Education\Academic\Projects\fyp\Codes\e19-4yp-RISC-V-SoC-With-Neuromorphic-Accelerator-for-SNNs\code\rtl\accelerator_controller\accelerator_controller_spike_tb.gtkw"
+[timestart] 297240
+[size] 1531 791
+[pos] -1 -1
+*-14.000000 355000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] accelerator_controller_spike_tb.
+[sst_width] 277
+[signals_width] 238
+[sst_expanded] 1
+[sst_vpaned_height] 220
+@28
+accelerator_controller_spike_tb.clk
+accelerator_controller_spike_tb.fire
+accelerator_controller_spike_tb.dut.ready
+@22
+accelerator_controller_spike_tb.data1[63:0]
+accelerator_controller_spike_tb.data2[63:0]
+accelerator_controller_spike_tb.dut.data_out[63:0]
+accelerator_controller_spike_tb.dut.temp[10:0]
+@28
+accelerator_controller_spike_tb.dut.time_step
+accelerator_controller_spike_tb.dut.network_mode
+@22
+accelerator_controller_spike_tb.dut.data_buffer[127:0]
+@28
+accelerator_controller_spike_tb.dut.next_state[2:0]
+accelerator_controller_spike_tb.dut.state[2:0]
+@24
+accelerator_controller_spike_tb.dut.valid_flit_count[3:0]
+@22
+accelerator_controller_spike_tb.dut.flit_count[3:0]
+@c00022
+accelerator_controller_spike_tb.dut.actual_data_out_count[3:0]
+@28
+(0)accelerator_controller_spike_tb.dut.actual_data_out_count[3:0]
+(1)accelerator_controller_spike_tb.dut.actual_data_out_count[3:0]
+(2)accelerator_controller_spike_tb.dut.actual_data_out_count[3:0]
+(3)accelerator_controller_spike_tb.dut.actual_data_out_count[3:0]
+@1401200
+-group_end
+@22
+accelerator_controller_spike_tb.dut.spike_input_count[3:0]
+@28
+accelerator_controller_spike_tb.dut.spike_input_packet_done
+accelerator_controller_spike_tb.dut.spike_output_full
+accelerator_controller_spike_tb.dut.end_of_spikes
+accelerator_controller_spike_tb.dut.spike_done
+@29
+accelerator_controller_spike_tb.dut.spike_done_reg
+@28
+accelerator_controller_spike_tb.dut.main_fifo_wr_en_in
+@22
+accelerator_controller_spike_tb.dut.main_fifo_din_in[10:0]
+@28
+accelerator_controller_spike_tb.dut.main_fifo_full_in
+accelerator_controller_spike_tb.dut.main_fifo_rd_en_out
+accelerator_controller_spike_tb.dut.main_fifo_empty_out
+accelerator_controller_spike_tb.dut.wait_for_data
+@22
+accelerator_controller_spike_tb.dut.main_fifo_dout_out[10:0]
+[pattern_trace] 1
+[pattern_trace] 0
