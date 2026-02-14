@@ -1,0 +1,26 @@
+{
+    "team": [
+        {
+            "name": "J.M.W.G.R.L. Wikramasinha",
+            "email": "e20439@eng.pdn.ac.lk",
+            "eNumber": "E/20/439"
+        },
+        {
+            "name": "M.M.S.S. Wakkumbura",
+            "email": "e20419@eng.pdn.ac.lk",
+            "eNumber": "E/20/419"
+        },
+        {
+            "name": "K.G.R.I.Bandara",
+            "email": "e20036@eng.pdn.ac.lk",
+            "eNumber": "E/20/036"
+        }
+    ],
+    "supervisors": [
+        {
+            "name": "Dr. Isuru Nawinne",
+            "email": "isurunawinne@eng.pdn.ac.lk"
+        }
+    ],
+    "tags": ["RV32IM", "RISC-V", "Computer Architecture", "Verilog"]
+}

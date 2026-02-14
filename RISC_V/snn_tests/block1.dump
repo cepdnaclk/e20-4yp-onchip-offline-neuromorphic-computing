@@ -1,0 +1,18 @@
+
+block1.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	3fc00113          	li	sp,1020
+   4:	008000ef          	jal	c <main>
+
+00000008 <loop>:
+   8:	0000006f          	j	8 <loop>
+
+0000000c <main>:
+   c:	deadc7b7          	lui	a5,0xdeadc
+  10:	eef78793          	addi	a5,a5,-273 # deadbeef <main+0xdeadbee3>
+  14:	20f02023          	sw	a5,512(zero) # 200 <main+0x1f4>
+  18:	00008067          	ret

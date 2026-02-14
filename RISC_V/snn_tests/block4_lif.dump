@@ -1,0 +1,37 @@
+
+block4_lif.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	3fc00113          	li	sp,1020
+   4:	008000ef          	jal	c <main>
+
+00000008 <loop>:
+   8:	0000006f          	j	8 <loop>
+
+0000000c <main>:
+   c:	000017b7          	lui	a5,0x1
+  10:	11178793          	addi	a5,a5,273 # 1111 <main+0x1105>
+  14:	20f02023          	sw	a5,512(zero) # 200 <main+0x1f4>
+  18:	10000713          	li	a4,256
+  1c:	00000793          	li	a5,0
+  20:	01e00613          	li	a2,30
+  24:	000105b7          	lui	a1,0x10
+  28:	fff58593          	addi	a1,a1,-1 # ffff <main+0xfff3>
+  2c:	11400693          	li	a3,276
+  30:	0140006f          	j	44 <main+0x38>
+  34:	1a002823          	sw	zero,432(zero) # 1b0 <main+0x1a4>
+  38:	00f72023          	sw	a5,0(a4)
+  3c:	00470713          	addi	a4,a4,4
+  40:	00d70c63          	beq	a4,a3,58 <main+0x4c>
+  44:	00878793          	addi	a5,a5,8
+  48:	fef656e3          	bge	a2,a5,34 <main+0x28>
+  4c:	1ab02823          	sw	a1,432(zero) # 1b0 <main+0x1a4>
+  50:	00000793          	li	a5,0
+  54:	fe5ff06f          	j	38 <main+0x2c>
+  58:	0000b7b7          	lui	a5,0xb
+  5c:	aaa78793          	addi	a5,a5,-1366 # aaaa <main+0xaa9e>
+  60:	20f02023          	sw	a5,512(zero) # 200 <main+0x1f4>
+  64:	0000006f          	j	64 <main+0x58>
