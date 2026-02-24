@@ -70,7 +70,7 @@ module instruction_memory (          // Clock signal
 );
 
 // Declare memory array 256x32-bits (to simplify)
-reg [31:0] memory_array [0:255]; // Memory to store instructions
+reg [31:0] memory_array [0:1023]; // Memory to store instructions (4KB)
 
 // Initialize the instruction memory
 initial begin
@@ -107,7 +107,7 @@ initial begin
 // memory_array[14] = 32'b0000000_01101_01100_000_01110_0110011;  // ADD x14, x13, x12 (Final verification step)
 // memory_array[15] = 32'b000000000000_00000_000_00000_1110011;  // EBREAK (Stop execution)
 
-$readmemh("../snn_tests/block4_lif.hex", memory_array);
+$readmemh("../c_program/mini_snn.hex", memory_array);
 
    
 
@@ -122,7 +122,7 @@ always @(PC,RESET) begin
     if (RESET) begin
         INSTRUCTION <= 32'b0; // Output zero on reset
     end else begin
-        INSTRUCTION <= memory_array[PC[9:2]]; // Fetch instruction (PC[9:2] to align with 32-bit words)
+        INSTRUCTION <= memory_array[PC[11:2]]; // Fetch instruction (PC[11:2] to align with 32-bit words)
     end
 
 end
