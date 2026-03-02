@@ -29,8 +29,9 @@ module neuron_layer #(
     input wire rst_potential,
     
     // ================ Output Interface ================
-    output reg [neuron_bank_size-1:0] spikes_out,  // Spike outputs
-    output wire neurons_done                      // All neurons completed processing
+    output reg  [neuron_bank_size-1:0]    spikes_out,   // Spike outputs
+    output wire                           neurons_done, // All neurons completed processing
+    output wire [32*neuron_bank_size-1:0] v_mem_out     // All V_mem values packed (for dump)
 );
 
     integer j,k;
@@ -68,7 +69,8 @@ module neuron_layer #(
                 .neuron_weight_in(weight_in[i*32 +: 32]),  // Weight inputs
                 .rst_potential(rst_potential),
                 .spike(spikes[i]),                 // Spike output
-                .done(neuron_done[i])              // Completion signal
+                .done(neuron_done[i]),             // Completion signal
+                .v_mem_out(v_mem_out[i*32 +: 32]) // Membrane potential for dump
             );
         end
     endgenerate

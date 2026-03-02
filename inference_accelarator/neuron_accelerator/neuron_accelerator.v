@@ -76,7 +76,19 @@ module neuron_accelerator #(
     output wire [packet_width-1:0] main_fifo_dout_out,  // Spike output to the network
 
     // accelerator done
-    output wire accelerator_done
+    output wire accelerator_done,
+    output wire dbg_all_clusters_done,  // expose for testbench monitoring
+
+    // ================== Port B: Shared Memory Dump Interface ================
+    output reg  [15:0] portb_addr,       // Word address into shared memory
+    output reg  [31:0] portb_din,        // Data to write
+    output reg         portb_we,         // Write enable
+    output reg         portb_en,         // Port enable
+
+    // Layout config (set by CPU before inference starts)
+    input wire  [15:0] vmem_base_addr,   // Start word-address of V_mem region
+    input wire  [15:0] spike_base_addr,  // Start word-address of Spike region
+    input wire  [3:0]  current_timestep  // Current timestep index (0..T-1)
 );
 
     // ================== Parameters ================
@@ -131,6 +143,17 @@ module neuron_accelerator #(
     assign all_forwarders_done = &(forwarder_4_done | done_mask) && forwarder_8_done;
     assign resolvers_done = &(weight_resolver_done | done_mask);
     assign accelerator_done = all_clusters_done & all_forwarders_done & main_fifo_empty_in & main_fifo_empty_out & resolvers_done;
+    assign dbg_all_clusters_done = all_clusters_done;  // expose for debug
+
+    // ================== V_mem & Spike & Neurons-Done Collection Wires ================
+    // Total neurons = number_of_clusters * neurons_per_cluster
+    localparam N_TOTAL   = number_of_clusters * neurons_per_cluster;
+    localparam N_SPIKE_W = (N_TOTAL + 31) / 32;
+
+    wire [32*N_TOTAL-1:0] all_vmem;          // V_mem, one 32-bit word per neuron
+    wire [N_TOTAL-1:0]    all_spikes;         // Spike bits, packed
+    wire [number_of_clusters-1:0] all_neurons_done_vec;  // Per-cluster compute-done
+    wire all_neurons_done = &all_neurons_done_vec;        // ALL clusters computed
 
     // ================== Main Spike In FIFO ================
     fifo #(
@@ -420,9 +443,104 @@ module neuron_accelerator #(
                     ),
 
                     // cluster done
-                    .cluster_done(cluster_done[j])
+                    .cluster_done(cluster_done[j]),
+
+                    // dump interface
+                    .v_mem_out    (all_vmem  [(i*4+j)*32*neurons_per_cluster +: 32*neurons_per_cluster]),
+                    .spikes_out_raw(all_spikes[(i*4+j)*neurons_per_cluster   +: neurons_per_cluster]),
+                    .neurons_done_out(all_neurons_done_vec[i*4+j])  // per-cluster compute done
                 );
             end
         end
     endgenerate
+
+    // =========================================================================
+    //  Dump FSM — writes V_mem then Spikes to Shared Memory (Port B)
+    //  Triggers when ALL clusters finish computing V_mem (neurons_done).
+    //  This fires every timestep as soon as neuron computation is done,
+    //  independent of the spike encoder (outgoing_enc_done).
+    // =========================================================================
+    localparam DUMP_IDLE   = 2'd0;
+    localparam DUMP_VMEM   = 2'd1;
+    localparam DUMP_SPIKES = 2'd2;
+    localparam DUMP_DONE   = 2'd3;
+
+    reg [1:0]  dump_state;
+    reg [10:0] dump_idx;             // neuron counter or spike-word counter
+    reg [3:0]  t_latch;              // timestep latched when dump starts
+    reg        prev_clusters_done;   // for rising-edge detection
+
+    always @(posedge clk) begin
+        if (rst) begin
+            dump_state         <= DUMP_IDLE;
+            portb_we           <= 1'b0;
+            portb_en           <= 1'b0;
+            portb_addr         <= 16'h0;
+            portb_din          <= 32'h0;
+            dump_idx           <= 11'd0;
+            t_latch            <= 4'd0;
+            prev_clusters_done <= 1'b0;
+        end else begin
+            prev_clusters_done <= accelerator_done;  // track accelerator_done
+
+            case (dump_state)
+
+                // ── Wait for rising edge OR already-high at startup ──
+                DUMP_IDLE: begin
+                    portb_we <= 1'b0;
+                    portb_en <= 1'b0;
+                    // Trigger: accelerator_done goes high between each timestep
+                    if (accelerator_done && !prev_clusters_done) begin
+                        dump_state <= DUMP_VMEM;
+                        t_latch    <= current_timestep;
+                        dump_idx   <= 11'd0;
+                    end
+                end
+
+                // ── Write one V_mem word per cycle (N_TOTAL cycles total) ──
+                DUMP_VMEM: begin
+                    portb_en   <= 1'b1;
+                    portb_we   <= 1'b1;
+                    portb_addr <= vmem_base_addr
+                                  + ({12'd0, t_latch} * N_TOTAL[15:0])
+                                  + {5'd0, dump_idx};
+                    portb_din  <= all_vmem[dump_idx*32 +: 32];
+
+                    if (dump_idx == N_TOTAL - 1) begin
+                        dump_state <= DUMP_SPIKES;
+                        dump_idx   <= 11'd0;
+                    end else begin
+                        dump_idx <= dump_idx + 1'd1;
+                    end
+                end
+
+                // ── Pack 32 spikes per word, write one word per cycle ──
+                DUMP_SPIKES: begin
+                    portb_en   <= 1'b1;
+                    portb_we   <= 1'b1;
+                    portb_addr <= spike_base_addr
+                                  + ({12'd0, t_latch} * N_SPIKE_W[15:0])
+                                  + {5'd0, dump_idx};
+                    portb_din  <= all_spikes[dump_idx*32 +: 32];
+
+                    if (dump_idx == N_SPIKE_W - 1) begin
+                        dump_state <= DUMP_DONE;   // DUMP_DONE deasserts portb_we next cycle
+                        dump_idx   <= 11'd0;
+                    end else begin
+                        dump_idx <= dump_idx + 1'd1;
+                    end
+                end
+
+                // ── One idle cycle, then back to waiting for next timestep ──
+                DUMP_DONE: begin
+                    portb_we   <= 1'b0;
+                    portb_en   <= 1'b0;
+                    dump_state <= DUMP_IDLE;
+                end
+
+                default: dump_state <= DUMP_IDLE;
+            endcase
+        end
+    end
+
 endmodule

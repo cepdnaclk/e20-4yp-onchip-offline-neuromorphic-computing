@@ -199,20 +199,22 @@ module snn_shared_memory_tb;
     endtask
 
     // Read via Port B (accelerator)
-    task portb_read;
-        input  [ADDR_WIDTH-1:0] addr;
-        output [31:0]           data;
-        begin
-            @(posedge clk);
-            portb_addr <= addr;
-            portb_we   <= 1'b0;
-            portb_en   <= 1'b1;
+task portb_read;
+    input  [ADDR_WIDTH-1:0] addr;
+    output [31:0]           data;
+    begin
+        @(posedge clk);
+        portb_addr <= addr;
+        portb_we   <= 1'b0;
+        portb_en   <= 1'b1;
 
-            @(posedge clk);     // Data available on next rising edge
-            data = portb_dout;
-            portb_en   <= 1'b0;
-        end
-    endtask
+        @(posedge clk);     // Address is registered, memory does the lookup
+        @(posedge clk);     // ← ADD THIS: now data is stable on portb_dout
+        data = portb_dout;
+        portb_en <= 1'b0;
+    end
+endtask
+
 
     // ==================== Check Helper ====================
     task check;

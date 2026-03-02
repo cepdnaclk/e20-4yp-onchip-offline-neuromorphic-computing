@@ -41,7 +41,8 @@ module neuron (
     input wire [31:0] neuron_weight_in,
     input wire rst_potential,
     output wire spike,
-    output wire done
+    output wire done,
+    output wire [31:0] v_mem_out    // Membrane potential for shared memory dump
 );
     wire load;
     wire [9:0] address;
@@ -113,5 +114,6 @@ module neuron (
     assign decayed_potential = output_potential_decay;
 
     assign done = adder_done;
+    assign v_mem_out = final_potential;
 
 endmodule
