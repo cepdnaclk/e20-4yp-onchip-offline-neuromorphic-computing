@@ -84,6 +84,7 @@ module neuron_accelerator #(
     output reg  [31:0] portb_din,        // Data to write
     output reg         portb_we,         // Write enable
     output reg         portb_en,         // Port enable
+    output wire        dump_done,        // High for 1 cycle when dump completes
 
     // Layout config (set by CPU before inference starts)
     input wire  [15:0] vmem_base_addr,   // Start word-address of V_mem region
@@ -469,6 +470,7 @@ module neuron_accelerator #(
     reg [10:0] dump_idx;             // neuron counter or spike-word counter
     reg [3:0]  t_latch;              // timestep latched when dump starts
     reg        prev_clusters_done;   // for rising-edge detection
+    reg [N_TOTAL-1:0] latched_spikes; // spikes captured at dump trigger (safe from time_step clear)
 
     always @(posedge clk) begin
         if (rst) begin
@@ -480,6 +482,7 @@ module neuron_accelerator #(
             dump_idx           <= 11'd0;
             t_latch            <= 4'd0;
             prev_clusters_done <= 1'b0;
+            latched_spikes     <= {N_TOTAL{1'b0}};
         end else begin
             prev_clusters_done <= accelerator_done;  // track accelerator_done
 
@@ -491,9 +494,10 @@ module neuron_accelerator #(
                     portb_en <= 1'b0;
                     // Trigger: accelerator_done goes high between each timestep
                     if (accelerator_done && !prev_clusters_done) begin
-                        dump_state <= DUMP_VMEM;
-                        t_latch    <= current_timestep;
-                        dump_idx   <= 11'd0;
+                        dump_state     <= DUMP_VMEM;
+                        t_latch        <= current_timestep;
+                        dump_idx       <= 11'd0;
+                        latched_spikes <= all_spikes; // ← capture NOW before time_step clears them
                     end
                 end
 
@@ -521,7 +525,7 @@ module neuron_accelerator #(
                     portb_addr <= spike_base_addr
                                   + ({12'd0, t_latch} * N_SPIKE_W[15:0])
                                   + {5'd0, dump_idx};
-                    portb_din  <= all_spikes[dump_idx*32 +: 32];
+                    portb_din  <= latched_spikes[dump_idx*32 +: 32]; // use latch!
 
                     if (dump_idx == N_SPIKE_W - 1) begin
                         dump_state <= DUMP_DONE;   // DUMP_DONE deasserts portb_we next cycle
@@ -542,5 +546,8 @@ module neuron_accelerator #(
             endcase
         end
     end
+
+    // dump_done: pulses high for exactly one cycle when DUMP_DONE state is active
+    assign dump_done = (dump_state == DUMP_DONE);
 
 endmodule

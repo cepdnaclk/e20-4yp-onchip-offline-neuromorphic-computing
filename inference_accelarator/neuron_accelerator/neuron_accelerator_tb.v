@@ -8,7 +8,7 @@ module neuron_accelerator_tb;
     parameter main_fifo_depth = 32;
     parameter forwarder_8_fifo_depth = 16;
     parameter forwarder_4_fifo_depth = 8;
-    parameter number_of_clusters = 64;
+    parameter number_of_clusters = 32;  // cluster_group_count*4 = 8*4 = 32 actual clusters
     parameter neurons_per_cluster = 32;
     parameter incoming_weight_table_rows = 1024;
     parameter max_weight_table_rows = 4096;
@@ -39,6 +39,7 @@ module neuron_accelerator_tb;
     reg waiting_for_data = 0; // Flag to indicate if we are waiting for data
 
     wire accelerator_done;
+    wire dump_done;           // HIGH for 1 cycle when dump FSM completes
     wire dbg_all_clusters_done;
 
     // ── Port B: Accelerator → Shared Memory ──
@@ -85,10 +86,10 @@ module neuron_accelerator_tb;
     reg init_done;
 
     // inferencing signals - configurable via runtime parameters
-    parameter time_step_window = 5; // 5 timesteps to match simple test
-    parameter input_neurons = 784;
-    parameter nn_layers = 3;
-    parameter input_count = 1;    // 1 sample
+    parameter time_step_window = 10; // XOR spike_mem: 10 timesteps per sample
+    parameter input_neurons = 2;     // XOR: only 2 input neurons (A and B)
+    parameter nn_layers = 1;         // XOR: 1 layer (no inter-layer propagation lag)
+    parameter input_count = 4;    // run all 4 XOR patterns: (0,0),(0,1),(1,0),(1,1)
     
     // Runtime parameter values (overridden by +args)
     integer runtime_time_step_window;
@@ -134,6 +135,7 @@ module neuron_accelerator_tb;
         .main_fifo_empty_out(main_fifo_empty_out),
         .accelerator_done(accelerator_done),
         .dbg_all_clusters_done(dbg_all_clusters_done),
+        .dump_done(dump_done),
         // Port B dump interface
         .portb_addr      (portb_addr),
         .portb_din       (portb_din),
@@ -218,8 +220,8 @@ module neuron_accelerator_tb;
         network_mode = 1; // Set to network mode
 
         // load mem file
-        $readmemh("data_mem_simple.mem", init_mem);
-        $readmemh("spike_mem_simple.mem", spike_mem);
+        $readmemh("data_mem.mem", init_mem);
+        $readmemh("spike_mem.mem", spike_mem);
 
         file = $fopen("output.txt", "w");
         if (!file) begin
@@ -233,7 +235,7 @@ module neuron_accelerator_tb;
 
     always @(posedge clk) begin
         if (start_init) begin
-            if (init_index < 10000) begin   // enough for 8424-byte simple file
+            if (init_index < 1000000) begin
                 if (init_mem[init_index] !== 8'bx) begin
                     if (ready_in && !load_data_in) begin
                         data_in <= init_mem[init_index];
@@ -280,27 +282,30 @@ module neuron_accelerator_tb;
                         main_fifo_wr_en_in <= 0; 
                     end
                 end else begin
-                    main_fifo_din_in <= 0; // Clear FIFO input
-                    main_fifo_wr_en_in <= 0; // Stop writing to main FIFO
-                    if (accelerator_done) begin
-                        input_neuron_index <= 0; // Reset input neuron index
-                        time_step_index <= time_step_index + 1; // Move to next time step
+                    main_fifo_din_in <= 0;
+                    main_fifo_wr_en_in <= 0;
+                    // Wait for dump to finish BEFORE asserting time_step
+                    // (dump takes 1056 cycles, computation only ~20 cycles)
+                    if (dump_done) begin
+                        input_neuron_index <= 0;
+                        time_step_index <= time_step_index + 1;
                         $display("Time step %d, input index %d", time_step_index, input_index);
-                        time_step <= 1; // Trigger time step
+                        time_step <= 1;
                     end
                 end
             end else if(time_step_index < (runtime_time_step_window + runtime_nn_layers - 1)) begin
-                // continue without inputs
+                // no-input phase: accelerator_done is fine here (no new spikes to capture)
                 if (accelerator_done) begin
-                    time_step_index <= time_step_index + 1; // Move to next time step
+                    time_step_index <= time_step_index + 1;
                     $display("Time step %d, no inputs", time_step_index);
                 end
             end else begin
-                if (accelerator_done) begin
-                    time_step_index <= 0; // Reset time step count
-                    input_index <= input_index + 1; // Move to next input index
-                    rst_potential <= 1; // Reset potential for next input
-                    start_inf <= 0; // Stop the inference process
+                // Final phase: wait for dump then end sample
+                if (dump_done) begin
+                    time_step_index <= 0;
+                    input_index <= input_index + 1;
+                    rst_potential <= 1;
+                    start_inf <= 0;
                     $display("Inference completed for input index %d", input_index);
                 end
             end
