@@ -151,10 +151,8 @@ module neuron_accelerator #(
     localparam N_TOTAL   = number_of_clusters * neurons_per_cluster;
     localparam N_SPIKE_W = (N_TOTAL + 31) / 32;
 
-    wire [32*N_TOTAL-1:0] all_vmem;          // V_mem, one 32-bit word per neuron
+    wire [32*N_TOTAL-1:0] all_pre_spike;     // Pre-fire V_mem (for backprop dump)
     wire [N_TOTAL-1:0]    all_spikes;         // Spike bits, packed
-    wire [number_of_clusters-1:0] all_neurons_done_vec;  // Per-cluster compute-done
-    wire all_neurons_done = &all_neurons_done_vec;        // ALL clusters computed
 
     // ================== Main Spike In FIFO ================
     fifo #(
@@ -447,9 +445,8 @@ module neuron_accelerator #(
                     .cluster_done(cluster_done[j]),
 
                     // dump interface
-                    .v_mem_out    (all_vmem  [(i*4+j)*32*neurons_per_cluster +: 32*neurons_per_cluster]),
-                    .spikes_out_raw(all_spikes[(i*4+j)*neurons_per_cluster   +: neurons_per_cluster]),
-                    .neurons_done_out(all_neurons_done_vec[i*4+j])  // per-cluster compute done
+                    .v_pre_spike_out(all_pre_spike[(i*4+j)*32*neurons_per_cluster +: 32*neurons_per_cluster]),
+                    .spikes_out_raw(all_spikes[(i*4+j)*neurons_per_cluster   +: neurons_per_cluster])
                 );
             end
         end
@@ -465,12 +462,16 @@ module neuron_accelerator #(
     localparam DUMP_VMEM   = 2'd1;
     localparam DUMP_SPIKES = 2'd2;
     localparam DUMP_DONE   = 2'd3;
+    // Extra 3-bit FSM to allow a 1-cycle LATCH state between IDLE and VMEM
+    // (re-use the 2-bit encoding; we add a flag 'dump_latch_cycle' instead)
 
     reg [1:0]  dump_state;
     reg [10:0] dump_idx;             // neuron counter or spike-word counter
     reg [3:0]  t_latch;              // timestep latched when dump starts
     reg        prev_clusters_done;   // for rising-edge detection
-    reg [N_TOTAL-1:0] latched_spikes; // spikes captured at dump trigger (safe from time_step clear)
+    reg        dump_latch_cycle;     // 1-cycle pipeline delay after trigger
+    reg [N_TOTAL-1:0]    latched_spikes;    // spikes captured at dump trigger
+    reg [32*N_TOTAL-1:0] latched_pre_spike; // pre-spike vmem captured 1 cycle after trigger
 
     always @(posedge clk) begin
         if (rst) begin
@@ -482,22 +483,34 @@ module neuron_accelerator #(
             dump_idx           <= 11'd0;
             t_latch            <= 4'd0;
             prev_clusters_done <= 1'b0;
+            dump_latch_cycle   <= 1'b0;
             latched_spikes     <= {N_TOTAL{1'b0}};
+            latched_pre_spike  <= {32*N_TOTAL{1'b0}};
         end else begin
             prev_clusters_done <= accelerator_done;  // track accelerator_done
 
             case (dump_state)
 
-                // ── Wait for rising edge OR already-high at startup ──
+                // ── Wait for rising edge of accelerator_done ──
                 DUMP_IDLE: begin
                     portb_we <= 1'b0;
                     portb_en <= 1'b0;
-                    // Trigger: accelerator_done goes high between each timestep
                     if (accelerator_done && !prev_clusters_done) begin
-                        dump_state     <= DUMP_VMEM;
-                        t_latch        <= current_timestep;
-                        dump_idx       <= 11'd0;
-                        latched_spikes <= all_spikes; // ← capture NOW before time_step clears them
+                        // Rising edge detected.  Don't read all_pre_spike yet —
+                        // it is being updated by non-blocking assignments in the
+                        // same clock cycle.  Wait one cycle (dump_latch_cycle)
+                        // so the registers settle, then latch everything.
+                        dump_latch_cycle <= 1'b1;
+                        t_latch          <= current_timestep;
+                        dump_idx         <= 11'd0;
+                    end
+
+                    // One cycle AFTER the trigger: latch stable values
+                    if (dump_latch_cycle) begin
+                        dump_latch_cycle  <= 1'b0;
+                        latched_spikes    <= all_spikes;
+                        latched_pre_spike <= all_pre_spike;
+                        dump_state        <= DUMP_VMEM;
                     end
                 end
 
@@ -508,10 +521,10 @@ module neuron_accelerator #(
                     portb_addr <= vmem_base_addr
                                   + ({12'd0, t_latch} * N_TOTAL[15:0])
                                   + {5'd0, dump_idx};
-                    portb_din  <= all_vmem[dump_idx*32 +: 32];
+                    portb_din  <= latched_pre_spike[dump_idx*32 +: 32];  // from latch!
 
                     if (dump_idx == N_TOTAL - 1) begin
-                        dump_state <= DUMP_SPIKES;
+                        dump_state <= (|latched_spikes) ? DUMP_SPIKES : DUMP_DONE;
                         dump_idx   <= 11'd0;
                     end else begin
                         dump_idx <= dump_idx + 1'd1;
@@ -525,10 +538,10 @@ module neuron_accelerator #(
                     portb_addr <= spike_base_addr
                                   + ({12'd0, t_latch} * N_SPIKE_W[15:0])
                                   + {5'd0, dump_idx};
-                    portb_din  <= latched_spikes[dump_idx*32 +: 32]; // use latch!
+                    portb_din  <= latched_spikes[dump_idx*32 +: 32]; // from latch!
 
                     if (dump_idx == N_SPIKE_W - 1) begin
-                        dump_state <= DUMP_DONE;   // DUMP_DONE deasserts portb_we next cycle
+                        dump_state <= DUMP_DONE;
                         dump_idx   <= 11'd0;
                     end else begin
                         dump_idx <= dump_idx + 1'd1;

@@ -1,5 +1,5 @@
 // =============================================================================
-//  neuron_cluster_vmem_tb.v — Bottom-up test for v_mem_out and spikes_out_raw
+//  neuron_cluster_vmem_tb.v — Bottom-up test for v_pre_spike_out and spikes_out_raw
 //  Tests that the new output ports are correctly wired through neuron_cluster
 // =============================================================================
 // Run from neuron_cluster/ folder:
@@ -43,8 +43,8 @@ module neuron_cluster_vmem_tb;
     wire                     fifo_rd_en, fifo_wr_en, cluster_done;
     wire [$clog2(MWT)-1:0]   weight_address_out;
     wire                     address_buffer_wr_en;
-    wire [32*NPC-1:0]        v_mem_out;        // NEW — what we're testing
-    wire [NPC-1:0]           spikes_out_raw;   // NEW
+    wire [32*NPC-1:0]        v_pre_spike_out;  // what we're testing
+    wire [NPC-1:0]           spikes_out_raw;
 
     // ── DUT ──
     neuron_cluster #(
@@ -74,8 +74,8 @@ module neuron_cluster_vmem_tb;
         .weights_in(weights_in),
         .load_weight_in(load_weight_in),
         .address_buffer_count(address_buffer_count),
-        .v_mem_out(v_mem_out),         // NEW port under test
-        .spikes_out_raw(spikes_out_raw) // NEW port under test
+        .v_pre_spike_out(v_pre_spike_out),  // port under test
+        .spikes_out_raw(spikes_out_raw) // port under test
     );
 
     // ── Clock ──
@@ -115,13 +115,13 @@ module neuron_cluster_vmem_tb;
         // Wait a few cycles for signals to settle
         repeat(10) @(posedge clk);
 
-        // ─── TEST 1: Check v_mem_out is connected (not X) ───
-        $display("\n--- Test 1: v_mem_out port connectivity ---");
-        if (^v_mem_out === 1'bx) begin
-            $display("  FAIL: v_mem_out is X — port not connected to neuron_layer!");
+        // ─── TEST 1: Check v_pre_spike_out is connected (not X) ───
+        $display("\n--- Test 1: v_pre_spike_out port connectivity ---");
+        if (^v_pre_spike_out === 1'bx) begin
+            $display("  FAIL: v_pre_spike_out is X — port not connected to neuron_layer!");
             fail_count = fail_count + 1;
         end else begin
-            $display("  PASS: v_mem_out is driven (not X)");
+            $display("  PASS: v_pre_spike_out is driven (not X)");
             pass_count = pass_count + 1;
         end
 
@@ -135,13 +135,13 @@ module neuron_cluster_vmem_tb;
             pass_count = pass_count + 1;
         end
 
-        // ─── TEST 3: After reset, v_mem should be 0 (no computation) ───
-        $display("\n--- Test 3: All V_mem = 0 after reset (no input) ---");
-        if (v_mem_out == {(32*NPC){1'b0}}) begin
-            $display("  PASS: All v_mem_out = 0x00000000 after reset");
+        // ─── TEST 3: After reset, v_pre_spike should be 0 (no computation) ───
+        $display("\n--- Test 3: All V_pre_spike = 0 after reset (no input) ---");
+        if (v_pre_spike_out == {(32*NPC){1'b0}}) begin
+            $display("  PASS: All v_pre_spike_out = 0x00000000 after reset");
             pass_count = pass_count + 1;
         end else begin
-            $display("  FAIL: v_mem_out non-zero after reset = 0x%h", v_mem_out);
+            $display("  FAIL: v_pre_spike_out non-zero after reset = 0x%h", v_pre_spike_out);
             fail_count = fail_count + 1;
         end
 
@@ -158,15 +158,15 @@ module neuron_cluster_vmem_tb;
         // ─── Print all neuron values ───
         $display("\n--- Neuron dump ---");
         for (i = 0; i < NPC; i = i + 1)
-            $display("  neuron[%0d]  v_mem=0x%08h  spike=%b",
-                     i, v_mem_out[i*32 +: 32], spikes_out_raw[i]);
+            $display("  neuron[%0d]  v_pre_spike=0x%08h  spike=%b",
+                     i, v_pre_spike_out[i*32 +: 32], spikes_out_raw[i]);
 
         // ─── Summary ───
         $display("\n==============================================");
         $display(" Results: %0d PASSED, %0d FAILED", pass_count, fail_count);
         $display("==============================================");
         if (fail_count == 0)
-            $display(" *** ALL TESTS PASSED — v_mem_out wiring is correct ***");
+            $display(" *** ALL TESTS PASSED — v_pre_spike_out wiring is correct ***");
         else
             $display(" *** SOME TESTS FAILED ***");
 

@@ -40,9 +40,8 @@ module neuron_cluster #(
     output wire cluster_done,
 
     // ================= Dump Interface (Port B → Shared Memory) ================
-    output wire [32*neurons_per_cluster-1:0] v_mem_out,      // V_mem for all neurons
+    output wire [32*neurons_per_cluster-1:0] v_pre_spike_out,  // Pre-fire V_mem (for backprop)
     output wire [neurons_per_cluster-1:0]    spikes_out_raw,  // Raw spikes (pre-latch)
-    output wire                              neurons_done_out, // High when all neurons computed V_mem
 
     // ================= Configuration Interface ================
     input wire load_data,  // Pulse to load configuration data
@@ -108,7 +107,7 @@ module neuron_cluster #(
         .rst_potential(rst_potential),
         .spikes_out(spikes),
         .neurons_done(spikes_done),
-        .v_mem_out(v_mem_out)
+        .v_pre_spike_out(v_pre_spike_out)   // NEW: pre-fire for backprop
     );
 
     incoming_forwarder #(
@@ -157,8 +156,5 @@ module neuron_cluster #(
 
     // Raw spike output for dump (latched spikes_out already in neuron_layer)
     assign spikes_out_raw = spikes;
-
-    // Fires as soon as all neurons finish computing for this timestep
-    assign neurons_done_out = spikes_done;
 
 endmodule
