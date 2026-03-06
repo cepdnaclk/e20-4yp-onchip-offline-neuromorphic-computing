@@ -548,10 +548,12 @@ end
 initial begin
     $dumpfile("known_value_dump_tb.vcd");
     $dumpvars(0, known_value_dump_tb); // all TB signals
-    // DUT internal signals (depth=3 to catch cluster and neuron internals)
+    // DUT internal signals (depth=0 → entire hierarchy)
     // GTKWave: search for dut.gen_spike_forwarder_4[0].gen_neuron_cluster[0]
     //         .neuron_cluster_inst.neuron_layer_inst.neuron_gen[0].neuron_inst
-    $dumpvars(3, dut);
+    // NOTE: depth=3 was WRONG — neuron_inst is 6 levels deep from dut, so
+    //       accumulated_out / v_pre_spike_out / spike / done were never dumped.
+    $dumpvars(0, dut);
 end
 
 // ─── Test ─────────────────────────────────────────────────────────────────────

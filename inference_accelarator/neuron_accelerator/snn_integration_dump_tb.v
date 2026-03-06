@@ -445,7 +445,7 @@ end
 initial begin
     $dumpfile("snn_integration_dump_tb.vcd");
     $dumpvars(0, snn_integration_dump_tb);
-    $dumpvars(3, dut);
+    $dumpvars(0, dut);  // depth=0 → entire hierarchy; depth=3 misses neuron_layer_inst→neuron_gen→neuron_inst (6 levels deep)
 end
 
 // ─── Test flow ────────────────────────────────────────────────────────────────
