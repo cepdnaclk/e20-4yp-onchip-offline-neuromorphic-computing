@@ -1,11 +1,11 @@
-module Mem_WBPipeline (CLK,Reset,Write_enable,Memory_access,Memory_Data,ALU_Output,Write_Address,Write_Enable_Out,Memory_access_Out,Memory_Data_Out,ALU_Output_Out,Write_Address_out);
-    input Write_enable,Memory_access;
-    input [31:0] Memory_Data,ALU_Output;
+module Mem_WBPipeline (CLK,Reset,Write_enable,Memory_access,Memory_Data,ALU_Output,Write_Address,Write_Enable_Out,Memory_access_Out,Memory_Data_Out,ALU_Output_Out,Write_Address_out,Custom_Writeback,Custom_Writeback_Out,Updated_Weight,Updated_Weight_Out);
+    input Write_enable,Memory_access,Custom_Writeback;
+    input [31:0] Memory_Data,ALU_Output,Updated_Weight;
     input [4:0] Write_Address;
     input CLK, Reset;
 
-    output reg Write_Enable_Out,Memory_access_Out;
-    output reg [31:0] Memory_Data_Out,ALU_Output_Out;
+    output reg Write_Enable_Out,Memory_access_Out,Custom_Writeback_Out;
+    output reg [31:0] Memory_Data_Out,ALU_Output_Out,Updated_Weight_Out;
     output reg [4:0] Write_Address_out;
 
     always @(posedge CLK) begin
@@ -16,6 +16,8 @@ module Mem_WBPipeline (CLK,Reset,Write_enable,Memory_access,Memory_Data,ALU_Outp
             Memory_Data_Out <= 32'bx;
             ALU_Output_Out <= 32'bx;
             Write_Address_out <= 5'bx;
+            Custom_Writeback_Out <= 1'bx;
+            Updated_Weight_Out <= 32'bx;
             
         end else begin
             #2
@@ -24,6 +26,8 @@ module Mem_WBPipeline (CLK,Reset,Write_enable,Memory_access,Memory_Data,ALU_Outp
             Memory_Data_Out <= Memory_Data;
             ALU_Output_Out <= ALU_Output;
             Write_Address_out <= Write_Address;
+            Custom_Writeback_Out <= Custom_Writeback;
+            Updated_Weight_Out <= Updated_Weight;
         end
         
         

@@ -1,0 +1,199 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000002985ca8a2f0 .scope module, "customCalculation_tb" "customCalculation_tb" 2 3;
+ .timescale -9 -12;
+v000002985caf39e0_0 .net/s "Updated_weight", 31 0, v000002985caf3da0_0;  1 drivers
+v000002985caf3bc0_0 .var "clk", 0 0;
+v000002985caf4340_0 .var "enable", 0 0;
+v000002985caf4520_0 .var/s "error_term", 31 0;
+v000002985caf3d00_0 .var/s "gradient_val", 31 0;
+v000002985caf4480_0 .var "load_new_weight", 0 0;
+v000002985caf3f80_0 .var "rst_n", 0 0;
+v000002985caf4160_0 .var/s "weight", 31 0;
+S_000002985ca9c8b0 .scope module, "uut" "customCalculation" 2 8, 3 3 0, S_000002985ca8a2f0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "rst_n";
+    .port_info 2 /INPUT 1 "enable";
+    .port_info 3 /INPUT 32 "error_term";
+    .port_info 4 /INPUT 32 "gradient_val";
+    .port_info 5 /INPUT 32 "weight";
+    .port_info 6 /INPUT 1 "load_new_weight";
+    .port_info 7 /OUTPUT 32 "Updated_weight";
+v000002985caf3da0_0 .var/s "Updated_weight", 31 0;
+v000002985caf47a0_0 .net "clk", 0 0, v000002985caf3bc0_0;  1 drivers
+v000002985caf3e40_0 .var "data_valid", 2 0;
+v000002985caf3c60_0 .net/s "delta_out", 31 0, v000002985cbdded0_0;  1 drivers
+v000002985caf3ee0_0 .var/s "delta_out_buffer", 31 0;
+v000002985caf38a0_0 .net "enable", 0 0, v000002985caf4340_0;  1 drivers
+v000002985caf3a80_0 .net/s "error_term", 31 0, v000002985caf4520_0;  1 drivers
+v000002985caf3b20_0 .net/s "gradient_val", 31 0, v000002985caf3d00_0;  1 drivers
+v000002985caf3940_0 .net "load_new_weight", 0 0, v000002985caf4480_0;  1 drivers
+v000002985caf43e0_0 .net "rst_n", 0 0, v000002985caf3f80_0;  1 drivers
+v000002985caf45c0_0 .net/s "weight", 31 0, v000002985caf4160_0;  1 drivers
+E_000002985cbdadc0/0 .event negedge, v000002985caf4660_0;
+E_000002985cbdadc0/1 .event posedge, v000002985cbdde30_0;
+E_000002985cbdadc0 .event/or E_000002985cbdadc0/0, E_000002985cbdadc0/1;
+S_000002985ca9ca40 .scope module, "backprop_unit" "custom_backprop_unit" 3 15, 4 1 0, S_000002985ca9c8b0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "rst_n";
+    .port_info 2 /INPUT 1 "enable";
+    .port_info 3 /INPUT 32 "error_term";
+    .port_info 4 /INPUT 32 "gradient_val";
+    .port_info 5 /OUTPUT 32 "delta_out";
+v000002985ca62dc0_0 .net *"_ivl_12", 55 0, L_000002985caf5850;  1 drivers
+v000002985ca62b60_0 .net *"_ivl_2", 29 0, L_000002985caf4020;  1 drivers
+v000002985ca9cbd0_0 .net/s *"_ivl_4", 63 0, L_000002985caf4200;  1 drivers
+v000002985ca9cc70_0 .net/s *"_ivl_6", 63 0, L_000002985caf42a0;  1 drivers
+v000002985cbdde30_0 .net "clk", 0 0, v000002985caf3bc0_0;  alias, 1 drivers
+v000002985cbdded0_0 .var/s "delta_out", 31 0;
+v000002985cbddf70_0 .net "enable", 0 0, v000002985caf4340_0;  alias, 1 drivers
+v000002985cbde010_0 .net/s "error_scaled", 31 0, L_000002985caf40c0;  1 drivers
+v000002985cbde0b0_0 .net/s "error_term", 31 0, v000002985caf4520_0;  alias, 1 drivers
+v000002985cbde150_0 .net/s "gradient_val", 31 0, v000002985caf3d00_0;  alias, 1 drivers
+v000002985cbde1f0_0 .net/s "raw_product", 63 0, L_000002985caf62f0;  1 drivers
+v000002985caf4660_0 .net "rst_n", 0 0, v000002985caf3f80_0;  alias, 1 drivers
+v000002985caf4700_0 .net/s "shifted_result", 63 0, L_000002985caf6570;  1 drivers
+E_000002985cbdb8c0 .event anyedge, v000002985caf4700_0;
+L_000002985caf4020 .part v000002985caf4520_0, 2, 30;
+L_000002985caf40c0 .extend/s 32, L_000002985caf4020;
+L_000002985caf4200 .extend/s 64, L_000002985caf40c0;
+L_000002985caf42a0 .extend/s 64, v000002985caf3d00_0;
+L_000002985caf62f0 .arith/mult 64, L_000002985caf4200, L_000002985caf42a0;
+L_000002985caf5850 .part L_000002985caf62f0, 8, 56;
+L_000002985caf6570 .extend/s 64, L_000002985caf5850;
+    .scope S_000002985ca9ca40;
+T_0 ;
+    %wait E_000002985cbdb8c0;
+    %load/vec4 v000002985caf4660_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 32;
+    %assign/vec4 v000002985cbdded0_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v000002985cbddf70_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.2, 8;
+    %load/vec4 v000002985caf4700_0;
+    %parti/s 32, 0, 2;
+    %assign/vec4 v000002985cbdded0_0, 0;
+T_0.2 ;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_000002985ca9c8b0;
+T_1 ;
+    %wait E_000002985cbdadc0;
+    %load/vec4 v000002985caf3c60_0;
+    %assign/vec4 v000002985caf3ee0_0, 0;
+    %load/vec4 v000002985caf3e40_0;
+    %addi 1, 0, 3;
+    %assign/vec4 v000002985caf3e40_0, 0;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_000002985ca9c8b0;
+T_2 ;
+    %wait E_000002985cbdadc0;
+    %load/vec4 v000002985caf43e0_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_2.0, 8;
+    %pushi/vec4 0, 0, 32;
+    %assign/vec4 v000002985caf3da0_0, 0;
+    %pushi/vec4 0, 0, 3;
+    %assign/vec4 v000002985caf3e40_0, 0;
+    %jmp T_2.1;
+T_2.0 ;
+    %load/vec4 v000002985caf38a0_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_2.2, 8;
+    %load/vec4 v000002985caf3940_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_2.4, 8;
+    %load/vec4 v000002985caf45c0_0;
+    %assign/vec4 v000002985caf3da0_0, 0;
+    %jmp T_2.5;
+T_2.4 ;
+    %load/vec4 v000002985caf3e40_0;
+    %pad/u 32;
+    %cmpi/u 2, 0, 32;
+    %flag_inv 5; GE is !LT
+    %jmp/0xz  T_2.6, 5;
+    %load/vec4 v000002985caf3da0_0;
+    %load/vec4 v000002985caf3ee0_0;
+    %add;
+    %assign/vec4 v000002985caf3da0_0, 0;
+T_2.6 ;
+T_2.5 ;
+T_2.2 ;
+T_2.1 ;
+    %jmp T_2;
+    .thread T_2;
+    .scope S_000002985ca8a2f0;
+T_3 ;
+    %delay 5000, 0;
+    %load/vec4 v000002985caf3bc0_0;
+    %inv;
+    %store/vec4 v000002985caf3bc0_0, 0, 1;
+    %jmp T_3;
+    .thread T_3;
+    .scope S_000002985ca8a2f0;
+T_4 ;
+    %vpi_call 2 18 "$dumpfile", "pipeline_sim.vcd" {0 0 0};
+    %vpi_call 2 19 "$dumpvars", 32'sb00000000000000000000000000000000, S_000002985ca8a2f0 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000002985caf3bc0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000002985caf3f80_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000002985caf4340_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000002985caf4480_0, 0, 1;
+    %pushi/vec4 1000, 0, 32;
+    %store/vec4 v000002985caf4160_0, 0, 32;
+    %delay 10000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000002985caf3f80_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000002985caf4480_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000002985caf4340_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000002985caf4480_0, 0, 1;
+    %pushi/vec4 1024, 0, 32;
+    %store/vec4 v000002985caf4520_0, 0, 32;
+    %pushi/vec4 256, 0, 32;
+    %store/vec4 v000002985caf3d00_0, 0, 32;
+    %delay 10000, 0;
+    %pushi/vec4 2048, 0, 32;
+    %store/vec4 v000002985caf4520_0, 0, 32;
+    %pushi/vec4 256, 0, 32;
+    %store/vec4 v000002985caf3d00_0, 0, 32;
+    %delay 10000, 0;
+    %pushi/vec4 4096, 0, 32;
+    %store/vec4 v000002985caf4520_0, 0, 32;
+    %pushi/vec4 256, 0, 32;
+    %store/vec4 v000002985caf3d00_0, 0, 32;
+    %delay 10000, 0;
+    %delay 20000, 0;
+    %vpi_call 2 34 "$finish" {0 0 0};
+    %end;
+    .thread T_4;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "Adder_extension_tb.v";
+    "Adder_extension.v";
+    "./customUnit.v";
