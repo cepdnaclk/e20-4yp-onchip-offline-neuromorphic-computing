@@ -28,10 +28,13 @@ module weight_resolver #(
 );
 
     reg [15:0] weight_addr_init;
+    reg [15:0] committed_addr;   // latched address — safe to use one cycle after pending_write
     reg [32*neurons_per_cluster-1:0] weight_in_mem;
+    reg [32*neurons_per_cluster-1:0] committed_weight; // latched weight data
     reg [1:0] state;
     reg [4*$clog2(neurons_per_cluster)-1:0] weight_flit_count, weight_flit_counter;
     reg load_weight_mem;
+    reg pending_write;  // set when last flit received; cleared after memory write fires
 
     wire [$clog2(max_weight_rows)-1:0] buffer_addr_out [3:0];
     wire [3:0] buffer_empty;
@@ -62,7 +65,7 @@ module weight_resolver #(
     ) weight_memory_inst (
         .clk(clk),
         .rst(rst),
-        .weight_in(weight_in_mem),
+        .weight_in(committed_weight),   // use stable latched data, not live accumulator
         .load_weight(load_weight_mem),
         .weight_addr(weight_addr_in_mem),
         .weight_out(weight_out_mem)
@@ -97,7 +100,9 @@ module weight_resolver #(
 
     assign buffer_rd_en = selected_buffer;
 
-    assign weight_addr_in_mem = chip_mode ? weight_addr_init : |store_selected_buffer ? buffer_addr_out[onehot_to_index(store_selected_buffer)] : 0;
+    assign weight_addr_in_mem = (load_weight_mem) ? committed_addr :
+                                 (chip_mode || pending_write || state != 0) ? weight_addr_init :
+                                 |store_selected_buffer ? buffer_addr_out[onehot_to_index(store_selected_buffer)] : 0;
 
     assign weight_resolver_done = ~|selected_buffer && ~|store_selected_buffer;
 
@@ -112,48 +117,68 @@ module weight_resolver #(
     always @(posedge clk) begin
         if (rst) begin
             weight_in_mem <= 0;
+            committed_addr <= 0;
+            committed_weight <= 0;
             store_selected_buffer <= 4'b0;
             state <= 0;
             load_weight_mem <= 0;
+            pending_write <= 0;
             weight_flit_counter <= 0;
             weight_flit_count <= 0;
             weight_addr_init <= 0;
-        end else if(chip_mode && load_data) begin
-            case (state)
-                0: begin
-                    weight_addr_init[7:0] <= data;
-                    weight_flit_counter <= 0;
-                    load_weight_mem <= 0;
-                    weight_in_mem <= 0;
-                    state <= 1;
-                end 
-                1: begin
-                    weight_addr_init[15:8] <= data;
-                    state <= 2;
-                end
-                2: begin
-                    weight_flit_count <= data;
-                    state <= 3;
-                end
-                3: begin
-                    weight_in_mem[8*weight_flit_counter +: 8] <= data;
-                    weight_flit_counter <= weight_flit_counter + 1;
-                    if (weight_flit_counter == weight_flit_count - 1) begin
-                        state <= 0;
-                        load_weight_mem <= 1;
-                    end
-                end
-                default: begin
-                    state <= 0;
-                    weight_in_mem <= 0;
-                    weight_addr_init <= 0;
-                    load_weight_mem <= 0;
-                    weight_flit_counter <= 0;
-                end
-            endcase
         end else begin
-            store_selected_buffer <= selected_buffer;
-            load_weight_mem <= 0;
+            // ── Pending-write commit (fires the cycle AFTER the last flit) ──
+            // This is unconditional — chip_mode may have already dropped.
+            if (pending_write) begin
+                load_weight_mem  <= 1;
+                committed_addr   <= weight_addr_init;   // latch NOW before next pkt clobbers it
+                committed_weight <= weight_in_mem;      // latch weight data too
+                pending_write    <= 0;
+            end else begin
+                load_weight_mem <= 0;
+            end
+
+            // ── Normal inference-mode FIFO tracking ──
+            if (!chip_mode) begin
+                store_selected_buffer <= selected_buffer;
+            end
+
+            // ── Init-mode byte reception ──
+            // chip_mode gates NEW packet starts (state=0); once mid-stream
+            // (state>0) we continue regardless of chip_mode so a late drop
+            // of chip_mode during router pipeline flush doesn't abort the write.
+            if ((chip_mode || state != 0) && load_data) begin
+                case (state)
+                    0: begin
+                        weight_addr_init[7:0] <= data;
+                        weight_flit_counter <= 0;
+                        weight_in_mem <= 0;
+                        state <= 1;
+                    end
+                    1: begin
+                        weight_addr_init[15:8] <= data;
+                        state <= 2;
+                    end
+                    2: begin
+                        weight_flit_count <= data;
+                        state <= 3;
+                    end
+                    3: begin
+                        weight_in_mem[8*weight_flit_counter +: 8] <= data;
+                        weight_flit_counter <= weight_flit_counter + 1;
+                        if (weight_flit_counter == weight_flit_count - 1) begin
+                            state        <= 0;
+                            pending_write <= 1;  // will fire load_weight_mem next cycle
+                        end
+                    end
+                    default: begin
+                        state <= 0;
+                        weight_in_mem <= 0;
+                        weight_addr_init <= 0;
+                        weight_flit_counter <= 0;
+                    end
+                endcase
+            end
         end
     end
 endmodule

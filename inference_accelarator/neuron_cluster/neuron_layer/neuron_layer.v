@@ -29,8 +29,9 @@ module neuron_layer #(
     input wire rst_potential,
     
     // ================ Output Interface ================
-    output reg [neuron_bank_size-1:0] spikes_out,  // Spike outputs
-    output wire neurons_done                      // All neurons completed processing
+    output reg  [neuron_bank_size-1:0]    spikes_out,   // Spike outputs
+    output wire                           neurons_done, // All neurons completed processing
+    output wire [32*neuron_bank_size-1:0] v_pre_spike_out // Pre-fire V_mem (for backprop)
 );
 
     integer j,k;
@@ -62,13 +63,14 @@ module neuron_layer #(
                 .clk(neuron_clock[i]),
                 .rst(rst),
                 .time_step(time_step),
-                .load_data(load_data_neuron[i]),  // Individual load signal
+                .load_data(load_data_neuron[i]),
                 .chip_mode(chip_mode),
-                .data(data),                      // Shared configuration bus
-                .neuron_weight_in(weight_in[i*32 +: 32]),  // Weight inputs
+                .data(data),
+                .neuron_weight_in(weight_in[i*32 +: 32]),
                 .rst_potential(rst_potential),
-                .spike(spikes[i]),                 // Spike output
-                .done(neuron_done[i])              // Completion signal
+                .spike(spikes[i]),
+                .done(neuron_done[i]),
+                .v_pre_spike_out(v_pre_spike_out[i*32 +: 32])  // NEW
             );
         end
     endgenerate

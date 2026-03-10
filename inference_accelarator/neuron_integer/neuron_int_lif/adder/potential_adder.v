@@ -8,9 +8,10 @@ module potential_adder (
     input wire [31:0] decayed_potential,
     input wire [1:0] reset_mode, // 0: no reset, 1: reset to 0, 2: decrese by threshold
     input wire load,
-    output reg [31:0] final_potential, 
-    output reg done,
-    output reg spike
+    output reg  [31:0] final_potential,
+    output reg  [31:0] v_pre_spike,     // pre-fire potential for backprop (REGISTERED)
+    output reg  done,
+    output reg  spike
 );
 
     // Common Signals
@@ -42,20 +43,24 @@ module potential_adder (
         prev_time_step <= time_step;
         if (rst) begin
             final_potential <= 0;
-            spike <= 0;
-            done <= 0;
-            prev_time_step <= 0;
-            adder_state <= 0;
+            spike           <= 0;
+            done            <= 0;
+            v_pre_spike     <= 0;
+            prev_time_step  <= 0;
+            adder_state     <= 0;
         end else if (time_step && !prev_time_step) begin
             adder_state <= 1;
         end else if(adder_state == 1) begin
-            spike <= (weight_added > v_threshold);
+            spike           <= (weight_added > v_threshold);
             final_potential <= reset_value;
-            done <= 1;
-            adder_state <= 0;
+            v_pre_spike     <= weight_added; // latch pre-fire value — holds until next timestep
+            done            <= 1;
+            adder_state     <= 0;
         end else begin
-            done <= 0;
+            done  <= 0;
             spike <= 0;
+            // v_pre_spike and final_potential HOLD their values
         end
     end
+
 endmodule
