@@ -1,8 +1,8 @@
-module controlUnit(INSTRUCTION,WRITE_ENABLE,MEMORY_ACCESS,MEM_WRITE,MEM_READ,JUMP_AND_LINK,ALU_OPCODE,IMMEDIATE_SELECT,OFFSET_GENARATOR,BRANCH,JUMP,IMMEDIATE_TYPE);
+module controlUnit(INSTRUCTION,WRITE_ENABLE,MEMORY_ACCESS,MEM_WRITE,MEM_READ,JUMP_AND_LINK,ALU_OPCODE,IMMEDIATE_SELECT,OFFSET_GENARATOR,BRANCH,JUMP,IMMEDIATE_TYPE,PUSH,POP,CUSTOM_ENABLE,LOAD_NEW_WEIGHT,MEM_TO_LIFO_START,MEM_TO_LIFO_TARGET,CUSTOM_WRITEBACK);
 input[31:0] INSTRUCTION;
 output reg[4:0] ALU_OPCODE;
 output reg[2:0] IMMEDIATE_TYPE;
-output reg WRITE_ENABLE,MEMORY_ACCESS,MEM_WRITE,MEM_READ,JUMP_AND_LINK,BRANCH,JUMP;
+output reg WRITE_ENABLE,MEMORY_ACCESS,MEM_WRITE,MEM_READ,JUMP_AND_LINK,BRANCH,JUMP,PUSH,POP,CUSTOM_ENABLE,LOAD_NEW_WEIGHT,MEM_TO_LIFO_START,MEM_TO_LIFO_TARGET,CUSTOM_WRITEBACK;
 output reg[1:0]OFFSET_GENARATOR,IMMEDIATE_SELECT;
 wire [6:0] OPCODE,FUNCT7;
 wire [2:0] FUNCT3;
@@ -15,6 +15,15 @@ assign FUNCT7 = INSTRUCTION[31:25];
 
 always @(OPCODE,FUNCT3,FUNCT7) begin
     #1 
+    // Default values for custom control signals
+    PUSH = 1'b0;
+    POP = 1'b0;
+    CUSTOM_ENABLE = 1'b0;
+    LOAD_NEW_WEIGHT = 1'b0;
+    MEM_TO_LIFO_START = 1'b0;
+    MEM_TO_LIFO_TARGET = 1'b0;
+    CUSTOM_WRITEBACK = 1'b0;
+    
     case(OPCODE)
     7'b0110011:begin //R type istruction
         IMMEDIATE_TYPE = 3'bxxx;
@@ -175,6 +184,58 @@ always @(OPCODE,FUNCT3,FUNCT7) begin
         ALU_OPCODE = 5'b00000;
     end
     
+    7'b0001011:begin // LIFO custom instructions
+        IMMEDIATE_TYPE = 3'bxxx;
+        WRITE_ENABLE = 1'b0;
+        MEMORY_ACCESS = 1'b0;
+        MEM_WRITE = 1'b0;
+        MEM_READ = 1'b0;
+        JUMP_AND_LINK = 1'b0;
+        IMMEDIATE_SELECT = 2'b00;
+        OFFSET_GENARATOR = 2'b00;
+        BRANCH = 1'b0;
+        JUMP = 1'b0;
+        ALU_OPCODE = 5'b00000;
+        
+        case(FUNCT3)
+        3'b000: begin  // LIFOPUSH - Push rs1,rs2 to LIFO buffers
+            PUSH = 1'b1;
+            POP = 1'b0;
+        end
+        3'b001: begin  // LIFOPOP rs1,rs2 - Start streaming + load weight (rs1) + error (rs2) + enable computation
+            PUSH = 1'b0;
+            POP = 1'b1;
+            CUSTOM_ENABLE = 1'b1;       // Enable backprop computation
+            LOAD_NEW_WEIGHT = 1'b1;     // Latch weight (rs1) and error (rs2)
+            WRITE_ENABLE = 1'b0;        // Don't write back immediately, wait for LIFOWB after computation
+            CUSTOM_WRITEBACK = 1'b0;
+        end
+        3'b010: begin  // BKPROP - Enable custom unit to process serial data from LIFO buffers
+            CUSTOM_ENABLE = 1'b1;
+            LOAD_NEW_WEIGHT = 1'b0;
+            WRITE_ENABLE = 1'b0;  // Custom unit handles weight updates separately
+        end
+        3'b011: begin  // LOADWT - Load new weight value from rs1
+            CUSTOM_ENABLE = 1'b1;
+            LOAD_NEW_WEIGHT = 1'b1;
+            WRITE_ENABLE = 1'b1;
+        end
+        // 3'b100: LIFOPUSHM removed - use register-based LIFOPUSH for spike data instead
+        // Spike data is only 16 bits, fits in register, can be pushed in parallel with gradient loading
+        3'b101: begin  // LIFOPUSHMG - Load gradient data from memory to gradient LIFO
+            MEM_TO_LIFO_START = 1'b1;
+            MEM_TO_LIFO_TARGET = 1'b1;  // 1 = gradient LIFO
+        end
+        3'b110: begin  // LIFOWB rd - Write computed weight from custom unit to destination register
+            WRITE_ENABLE = 1'b1;
+            CUSTOM_WRITEBACK = 1'b1;
+        end
+        default: begin
+            PUSH = 1'b0;
+            POP = 1'b0;
+        end
+        endcase
+    end
 
     endcase
 end
