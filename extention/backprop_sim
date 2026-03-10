@@ -1,0 +1,131 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000002da9a3cbb20 .scope module, "custom_backprop_unit_tb" "custom_backprop_unit_tb" 2 3;
+ .timescale -9 -12;
+v000002da9a32ca70_0 .var "clk", 0 0;
+v000002da9a32c390_0 .net/s "delta_out", 31 0, v000002da9a3ce190_0;  1 drivers
+v000002da9a32c6b0_0 .var "enable", 0 0;
+v000002da9a32cf70_0 .var/s "error_term", 31 0;
+v000002da9a32c430_0 .var/s "gradient_val", 31 0;
+v000002da9a32cc50_0 .var "rst_n", 0 0;
+S_000002da9a3cde20 .scope module, "uut" "custom_backprop_unit" 2 14, 3 1 0, S_000002da9a3cbb20;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "rst_n";
+    .port_info 2 /INPUT 1 "enable";
+    .port_info 3 /INPUT 32 "error_term";
+    .port_info 4 /INPUT 32 "gradient_val";
+    .port_info 5 /OUTPUT 32 "delta_out";
+v000002da9a2a2d80_0 .net *"_ivl_12", 55 0, L_000002da9a32cb10;  1 drivers
+v000002da9a2a2b20_0 .net *"_ivl_2", 29 0, L_000002da9a32c1b0;  1 drivers
+v000002da9a3cdfb0_0 .net/s *"_ivl_4", 63 0, L_000002da9a32cbb0;  1 drivers
+v000002da9a3ce050_0 .net/s *"_ivl_6", 63 0, L_000002da9a32c9d0;  1 drivers
+v000002da9a3ce0f0_0 .net "clk", 0 0, v000002da9a32ca70_0;  1 drivers
+v000002da9a3ce190_0 .var/s "delta_out", 31 0;
+v000002da9a2d43f0_0 .net "enable", 0 0, v000002da9a32c6b0_0;  1 drivers
+v000002da9a2d4490_0 .net/s "error_scaled", 31 0, L_000002da9a32c750;  1 drivers
+v000002da9a2d4530_0 .net/s "error_term", 31 0, v000002da9a32cf70_0;  1 drivers
+v000002da9a2d45d0_0 .net/s "gradient_val", 31 0, v000002da9a32c430_0;  1 drivers
+v000002da9a2d4670_0 .net/s "raw_product", 63 0, L_000002da9a32c930;  1 drivers
+v000002da9a2d4710_0 .net "rst_n", 0 0, v000002da9a32cc50_0;  1 drivers
+v000002da9a32c2f0_0 .net/s "shifted_result", 63 0, L_000002da9a32ccf0;  1 drivers
+E_000002da9a2dd3c0/0 .event negedge, v000002da9a2d4710_0;
+E_000002da9a2dd3c0/1 .event posedge, v000002da9a3ce0f0_0;
+E_000002da9a2dd3c0 .event/or E_000002da9a2dd3c0/0, E_000002da9a2dd3c0/1;
+L_000002da9a32c1b0 .part v000002da9a32cf70_0, 2, 30;
+L_000002da9a32c750 .extend/s 32, L_000002da9a32c1b0;
+L_000002da9a32cbb0 .extend/s 64, L_000002da9a32c750;
+L_000002da9a32c9d0 .extend/s 64, v000002da9a32c430_0;
+L_000002da9a32c930 .arith/mult 64, L_000002da9a32cbb0, L_000002da9a32c9d0;
+L_000002da9a32cb10 .part L_000002da9a32c930, 8, 56;
+L_000002da9a32ccf0 .extend/s 64, L_000002da9a32cb10;
+    .scope S_000002da9a3cde20;
+T_0 ;
+    %wait E_000002da9a2dd3c0;
+    %load/vec4 v000002da9a2d4710_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 32;
+    %assign/vec4 v000002da9a3ce190_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v000002da9a2d43f0_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.2, 8;
+    %load/vec4 v000002da9a32c2f0_0;
+    %parti/s 32, 0, 2;
+    %assign/vec4 v000002da9a3ce190_0, 0;
+T_0.2 ;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_000002da9a3cbb20;
+T_1 ;
+    %delay 5000, 0;
+    %load/vec4 v000002da9a32ca70_0;
+    %inv;
+    %store/vec4 v000002da9a32ca70_0, 0, 1;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_000002da9a3cbb20;
+T_2 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000002da9a32ca70_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000002da9a32cc50_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000002da9a32c6b0_0, 0, 1;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v000002da9a32cf70_0, 0, 32;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v000002da9a32c430_0, 0, 32;
+    %vpi_call 2 36 "$dumpfile", "backprop_sim.vcd" {0 0 0};
+    %vpi_call 2 37 "$dumpvars", 32'sb00000000000000000000000000000000, S_000002da9a3cbb20 {0 0 0};
+    %delay 20000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000002da9a32cc50_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000002da9a32c6b0_0, 0, 1;
+    %pushi/vec4 1024, 0, 32;
+    %store/vec4 v000002da9a32cf70_0, 0, 32;
+    %pushi/vec4 256, 0, 32;
+    %store/vec4 v000002da9a32c430_0, 0, 32;
+    %delay 10000, 0;
+    %vpi_call 2 48 "$display", "Time: %t | Error: %d | Grad: %d | Delta: %d", $time, v000002da9a32cf70_0, v000002da9a32c430_0, v000002da9a32c390_0 {0 0 0};
+    %pushi/vec4 4294966272, 0, 32;
+    %store/vec4 v000002da9a32cf70_0, 0, 32;
+    %pushi/vec4 256, 0, 32;
+    %store/vec4 v000002da9a32c430_0, 0, 32;
+    %delay 10000, 0;
+    %vpi_call 2 55 "$display", "Time: %t | Error: %d | Grad: %d | Delta: %d", $time, v000002da9a32cf70_0, v000002da9a32c430_0, v000002da9a32c390_0 {0 0 0};
+    %pushi/vec4 40000, 0, 32;
+    %store/vec4 v000002da9a32cf70_0, 0, 32;
+    %pushi/vec4 20000, 0, 32;
+    %store/vec4 v000002da9a32c430_0, 0, 32;
+    %delay 10000, 0;
+    %vpi_call 2 61 "$display", "Time: %t | Error: %d | Grad: %d | Delta: %d", $time, v000002da9a32cf70_0, v000002da9a32c430_0, v000002da9a32c390_0 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000002da9a32c6b0_0, 0, 1;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v000002da9a32cf70_0, 0, 32;
+    %delay 10000, 0;
+    %vpi_call 2 67 "$display", "Time: %t | (Disabled) Error: %d | Delta: %d", $time, v000002da9a32cf70_0, v000002da9a32c390_0 {0 0 0};
+    %delay 50000, 0;
+    %vpi_call 2 70 "$finish" {0 0 0};
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "customUnit_tb.v";
+    "customUnit.v";

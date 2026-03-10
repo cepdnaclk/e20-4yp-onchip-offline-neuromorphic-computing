@@ -1,0 +1,128 @@
+$date
+	Mon Feb 23 09:00:12 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module custom_backprop_unit_tb $end
+$var wire 32 ! delta_out [31:0] $end
+$var reg 1 " clk $end
+$var reg 1 # enable $end
+$var reg 32 $ error_term [31:0] $end
+$var reg 32 % gradient_val [31:0] $end
+$var reg 1 & rst_n $end
+$scope module uut $end
+$var wire 1 " clk $end
+$var wire 1 # enable $end
+$var wire 32 ' error_term [31:0] $end
+$var wire 32 ( gradient_val [31:0] $end
+$var wire 1 & rst_n $end
+$var wire 64 ) shifted_result [63:0] $end
+$var wire 64 * raw_product [63:0] $end
+$var wire 32 + error_scaled [31:0] $end
+$var reg 32 , delta_out [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 ,
+b0 +
+b0 *
+b0 )
+b0 (
+b0 '
+0&
+b0 %
+b0 $
+0#
+0"
+b0 !
+$end
+#5000
+1"
+#10000
+0"
+#15000
+1"
+#20000
+0"
+1&
+#25000
+1"
+#30000
+b100000000 )
+b10000000000000000 *
+b100000000 +
+0"
+b100000000 %
+b100000000 (
+b10000000000 $
+b10000000000 '
+1#
+#35000
+b100000000 !
+b100000000 ,
+1"
+#40000
+b1111111111111111111111111111111111111111111111111111111100000000 )
+b1111111111111111111111111111111111111111111111110000000000000000 *
+b11111111111111111111111100000000 +
+0"
+b11111111111111111111110000000000 $
+b11111111111111111111110000000000 '
+#45000
+b11111111111111111111111100000000 !
+b11111111111111111111111100000000 ,
+1"
+#50000
+b10111110101111000010 )
+b10011100010000 +
+0"
+b1011111010111100001000000000 *
+b100111000100000 %
+b100111000100000 (
+b1001110001000000 $
+b1001110001000000 '
+#55000
+b10111110101111000010 !
+b10111110101111000010 ,
+1"
+#60000
+b0 )
+b0 *
+b0 +
+0"
+b0 $
+b0 '
+0#
+#65000
+1"
+#70000
+0"
+#75000
+1"
+#80000
+0"
+#85000
+1"
+#90000
+0"
+#95000
+1"
+#100000
+0"
+#105000
+1"
+#110000
+0"
+#115000
+1"
+#120000
+0"
