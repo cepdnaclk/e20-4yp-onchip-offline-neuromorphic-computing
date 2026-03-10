@@ -1,0 +1,36 @@
+# ===========================
+# LiteX SoC Environment
+# ===========================
+# LiteX packages (installed in soc/ folder, not tracked)
+soc/*
+!soc/README.md
+
+# ===========================
+# Python
+# ===========================
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+*.so
+
+# ===========================
+# Simulation & Build Outputs
+# ===========================
+*.vcd
+*.fst
+*.lxt
+*.gtkw
+
+# ===========================
+# OS & Editor
+# ===========================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
