@@ -48,19 +48,19 @@ int32_t snn_backprop_compute(
     //   4 cycles: LIFOWB writeback
     
     asm volatile (
-        /* 1. Initialize registers with necessary values */
-        "addi x1, x0, %[grad_addr] \n"    /* x1 = gradient memory base address */
-        "addi x2, x0, 16 \n"              /* x2 = gradient count (16 values) */
-        "addi x3, x0, %[spike] \n"        /* x3 = spike pattern (16 bits) */
-        "addi x4, x0, %[error] \n"        /* x4 = error term */
-        "addi x5, x0, %[weight] \n"       /* x5 = initial weight */
-        
-        /* 2. LIFOPUSH x3, x0 - Push spike pattern to spike LIFO (1 cycle) */
-        ".word 0x0000003b \n"             /* LIFOPUSH opcode: 0001011 | funct3=000 | rs2=0 | rs1=3 | rd=0 */
-        
-        /* 3. LIFOPUSHMG x1, x2 - Load gradients from memory to gradient LIFO (62 cycles) */
-        ".word 0x0000A03b \n"             /* LIFOPUSHMG opcode: 0001011 | funct3=101 | rs2=2 | rs1=1 | rd=0 */
-        
+        /* 1. Initialize temporaries with necessary values */
+        "mv x28, %[grad_addr] \n"         /* x28/t3 = gradient memory base address */
+        "li x29, 16 \n"                   /* x29/t4 = gradient count (16 values) */
+        "mv x30, %[spike] \n"             /* x30/t5 = spike pattern */
+        "mv x31, %[error] \n"             /* x31/t6 = error term */
+        "mv x5, %[weight] \n"             /* x5/t0  = initial weight */
+
+        /* 2. LIFOPUSH x30, x0 - Push spike pattern to spike LIFO */
+        ".word 0x000F000B \n"
+
+        /* 3. LIFOPUSHMG x28, x29 - Load gradients from memory to gradient LIFO */
+        ".word 0x01DE500B \n"
+
         /* 4. Wait for gradient loader to complete (~62 NOPs) */
         "nop \n" "nop \n" "nop \n" "nop \n" "nop \n"
         "nop \n" "nop \n" "nop \n" "nop \n" "nop \n"
@@ -75,28 +75,28 @@ int32_t snn_backprop_compute(
         "nop \n" "nop \n" "nop \n" "nop \n" "nop \n"
         "nop \n" "nop \n" "nop \n" "nop \n" "nop \n"
         "nop \n" "nop \n"
-        
-        /* 5. LIFOPOP x5, x4 - Start streaming + load weight (x5) + error (x4) + enable computation (17+ cycles) */
-        ".word 0x0008903b \n"             /* LIFOPOP opcode: 0001011 | funct3=001 | rs2=4 | rs1=5 | rd=0 */
-        
+
+        /* 5. LIFOPOP x5, x31 - Start streaming + load weight + error + enable computation */
+        ".word 0x01F2900B \n"
+
         /* 6. Wait for computation to complete (17 cycles) */
         "nop \n" "nop \n" "nop \n" "nop \n" "nop \n"
         "nop \n" "nop \n" "nop \n" "nop \n" "nop \n"
         "nop \n" "nop \n" "nop \n" "nop \n" "nop \n"
         "nop \n" "nop \n"
-        
+
         /* 7. LIFOWB x6 - Write computed weight from custom unit to register x6 */
-        ".word 0x0000303b \n"             /* LIFOWB opcode: 0001011 | funct3=110 | rs2=0 | rs1=0 | rd=6 */
-        
-        /* 8. Recover the result from x6 into updated_weight output register */
-        "addi %[result], x6, 0 \n"
-        
+        ".word 0x0000630B \n"
+
+        /* 8. Recover the result from x6 into updated_weight */
+        "mv %[result], x6 \n"
+
         : [result] "=r" (updated_weight)
-        : [grad_addr] "i" (grad_mem_addr),
-          [spike] "i" (spike_pattern & 0xFFFF),
-          [error] "i" (error_term),
-          [weight] "i" (initial_weight & 0xFFFF)
-        : "x1", "x2", "x3", "x4", "x5", "x6"
+        : [grad_addr] "r" (grad_mem_addr),
+          [spike] "r" ((uint32_t)spike_pattern),
+          [error] "r" ((int32_t)error_term),
+          [weight] "r" ((int32_t)initial_weight)
+        : "x5", "x6", "x28", "x29", "x30", "x31", "memory"
     );
     
     return updated_weight;

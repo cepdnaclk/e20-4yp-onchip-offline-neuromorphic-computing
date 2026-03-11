@@ -1,4 +1,12 @@
 # ===========================
+# Node.js / xpm
+# ===========================
+node_modules/
+npm-debug.log*
+yarn-error.log*
+*.log
+
+# ===========================
 # LiteX SoC Environment
 # ===========================
 # LiteX packages (installed in soc/ folder, not tracked)
@@ -10,6 +18,7 @@ soc/*
 # ===========================
 __pycache__/
 *.py[cod]
+*.pyc
 *.egg-info/
 *.egg
 dist/
@@ -17,12 +26,46 @@ build/
 *.so
 
 # ===========================
-# Simulation & Build Outputs
+# RISC-V Compiled Build Outputs
+# ===========================
+*.elf
+*.dump
+*.vvp
+*.o
+*.out
+*.bin
+
+# C program build outputs (generated from compilation)
+RISC_V/c_program/*.hex
+RISC_V/c_program/*.elf
+RISC_V/c_program/*.dump
+
+# ===========================
+# Verilog Simulation Binaries (no extension, compiled by iverilog)
+# ===========================
+extention/backprop_sim
+extention/pipeline_sim
+RISC_V/extention/backprop_sim
+RISC_V/extention/pipeline_sim
+RISC_V/ALUunit/ALUResult
+RISC_V/BranchController/BranchControllerresult
+RISC_V/CPU/cpu_sim
+RISC_V/CPU/CPU_tb
+RISC_V/CPU/branch_cond
+RISC_V/CPU/branch_debug
+RISC_V/CPU/debug_block3
+RISC_V/CPU/deep_debug
+RISC_V/CPU/early_debug
+RISC_V/CPU/lifo_buffer_intergrated
+inference_accelarator/neuron_accelerator/sim
+inference_accelarator/neuron_cluster/sim
+
+# ===========================
+# Verilog Simulation Waveforms
 # ===========================
 *.vcd
 *.fst
 *.lxt
-*.gtkw
 
 # ===========================
 # OS & Editor
