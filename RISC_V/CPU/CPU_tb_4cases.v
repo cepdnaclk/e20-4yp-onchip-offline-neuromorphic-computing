@@ -20,8 +20,9 @@ module CPU_tb_4cases;
 
     // Test stimulus
     initial begin
-        $dumpfile("cpu_4cases.vcd");
-        $dumpvars(0, CPU_tb_4cases);
+        // VCD dump disabled — enable manually if GTKWave inspection needed
+        // $dumpfile("cpu_4cases.vcd");
+        // $dumpvars(0, CPU_tb_4cases);
         
         $display("\n========================================");
         $display("Testing 4 Cases from Spreadsheet");
