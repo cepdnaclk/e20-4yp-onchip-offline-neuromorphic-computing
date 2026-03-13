@@ -32,8 +32,9 @@
 
 // ─── SELECT ONE  (comment out the other two) ─────────────────────────────────
 //`define WEIGHT_SOURCE_PYTHON          // Option A: Python model (reference)
-`define WEIGHT_SOURCE_C_CODE        // Option B: C-code LIF24 200-hidden
+//`define WEIGHT_SOURCE_C_CODE        // Option B: C-code LIF24 200-hidden
 //`define WEIGHT_SOURCE_C_PYMATCHED   // Option C: C-code LIF2  16-hidden (validates pipeline)
+`define WEIGHT_TRAINED
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Auto-derived settings — DO NOT EDIT below (changes automatically with above)
@@ -43,6 +44,10 @@
   `define OUTPUT_CLU_VAL    1
 `elsif WEIGHT_SOURCE_C_CODE
   `define DATA_MEM_FILE     "data_mem_mnist_new.mem"
+  `define N_HIDDEN_VAL      200
+  `define OUTPUT_CLU_VAL    2
+`elsif WEIGHT_TRAINED
+  `define DATA_MEM_FILE     "data_mem_mnist_new_v4.mem"
   `define N_HIDDEN_VAL      200
   `define OUTPUT_CLU_VAL    2
 `elsif WEIGHT_SOURCE_C_PYMATCHED
