@@ -1,0 +1,124 @@
+0
+34
++itf+/mnt/hidden_home/synopsys/vcs/linux64/lib/vcsdp_lite.tab
++v2k
++vcsd1
++vpi
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/mnt/hidden_home/synopsys/vcs/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags= -rdynamic
+-Mobjects= /mnt/hidden_home/synopsys/vcs/linux64/lib/libvirsim.so /mnt/hidden_home/synopsys/vcs/linux64/lib/liberrorinf.so /mnt/hidden_home/synopsys/vcs/linux64/lib/libsnpsmalloc.so /mnt/hidden_home/synopsys/vcs/linux64/lib/libvfs.so
+-Mout=simv_mnist_inf
+-Msaverestoreobj=/mnt/hidden_home/synopsys/vcs/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=/mnt/hidden_home/synopsys/verdi/X-2025.06-SP2/share/PLI/VCS/LINUX64/pli.a -ldl
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/mnt/hidden_home/synopsys/vcs/include
+-Mxllcflags=
+-P
+-Xhdlxmropt
+-debug_access+all
+-fsdb
+-full64
+-gen_obj
+-o simv_mnist_inf
+-picarchive
+-sverilog
+/mnt/hidden_home/synopsys/vcs/linux64/bin/vcs1fe
+simv_mnist_inf
+/mnt/hidden_home/synopsys/verdi/X-2025.06-SP2/share/PLI/VCS/LINUX64/verdi.tab
+mnist_infertest_tb.v
+50
+XDG_SESSION_TYPE=tty
+XDG_SESSION_ID=63
+XDG_SESSION_CLASS=user
+XDG_RUNTIME_DIR=/run/user/2299
+VMR_MODE_FLAG=64
+VERDI_LIB=/mnt/hidden_home/synopsys/verdi/X-2025.06-SP2/share/PLI/VCS/linux64
+VERDI_HOME=/mnt/hidden_home/synopsys/verdi/X-2025.06-SP2
+VCS_TARGET_ARCH=amd64
+VCS_SKIP_SYNOPSYS_OS_CHECK=1
+VCS_PYTHON3=/mnt/hidden_home/synopsys/vcs/linux64/bin/Python3/bin/python3
+VCS_PATHMAP_PRELOAD_DONE=1
+VCS_MX_HOME_INTERNAL=1
+VCS_MODE_FLAG=64
+VCS_INTERNAL_CONVERTEDLIBS=
+VCS_HOME=/mnt/hidden_home/synopsys/vcs
+VCS_EXEC_DONE=1
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH_OVERRIDE=linux
+VCS_ARCH=linux64
+UNAME=/bin/uname
+TOOL_HOME=/mnt/hidden_home/synopsys/vcs/linux64
+SYNOPSYS_LC_ROOT=/mnt/hidden_home/synopsys/lc/X-2025.06-SP3
+SSH_TTY=/dev/pts/0
+SSH_CONNECTION=10.40.18.7 49736 10.40.18.20 22
+SSH_CLIENT=10.40.18.7 49736 22
+SNPS_VCS_PYTHON3=/mnt/hidden_home/synopsys/vcs/linux64/bin/Python3/bin/python3
+SNPS_VCS_CLANG_PATH=/mnt/hidden_home/synopsys/vcs/linux64/clang
+SNPS_ROOT=/mnt/hidden_home/synopsys
+SNPS_INTERNAL_VCS_LINUX_OS=linux
+SELINUX_USE_CURRENT_RANGE=
+SELINUX_ROLE_REQUESTED=
+SELINUX_LEVEL_REQUESTED=
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+RTLA_HOME=/mnt/hidden_home/synopsys/rtla/X-2025.06-SP2
+PRIME_HOME=/mnt/hidden_home/synopsys/prime/X-2025.06-SP3
+OVA_UUM=0
+NOVAS_HOME=/mnt/hidden_home/synopsys/verdi/X-2025.06-SP2
+MOTD_SHOWN=pam
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LC_STARTUP_CHECKOUT_LIC=1
+LC_ROOT=/mnt/hidden_home/synopsys/lc/X-2025.06-SP3
+LC_HOME=/mnt/hidden_home/synopsys/lc/X-2025.06-SP3
+LC_ALL=C
+ICC2_HOME=/mnt/hidden_home/synopsys/icc2/X-2025.06-SP2
+HISTCONTROL=ignoredups
+GPG_TTY=/dev/pts/0
+DEBUGINFOD_IMA_CERT_PATH=/etc/keys/ima:
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/2299/bus
+0
+0
+27
+1773236907 ../../shared_memory/snn_shared_memory_wb.v
+1773236913 ../weight_resolver/weight_memory.v
+1773236913 ../weight_resolver/weight_resolver.v
+1773236910 ../initialization_router/self_data_mng.v
+1773236910 ../initialization_router/init_router.v
+1773236913 ../spike_network/spike_forwarder_8.v
+1773236911 ../spike_network/spike_forwarder_4.v
+1773236934 ../spike_network/spike_forwarder_controller/spike_forwarder_controller_8.v
+1773236934 ../spike_network/spike_forwarder_controller/spike_forwarder_controller_4.v
+1773236934 ../spike_network/spike_forwarder/spike_forwarder.v
+1773236910 ../neuron_cluster/neuron_cluster.v
+1773236910 ../FIFO/fifo.v
+1773236934 ../neuron_cluster/outgoing_enc/outgoing_enc.v
+1773236934 ../neuron_cluster/cluster_controller/cluster_controller.v
+1773236934 ../neuron_cluster/incoming_forwarder/incoming_forwarder.v
+1773236934 ../neuron_cluster/neuron_layer/neuron_layer.v
+1773236950 ../neuron_integer/neuron_int_lif/neuron/neuron.v
+1773236950 ../neuron_integer/neuron_int_lif/neuron/controller.v
+1773236950 ../neuron_integer/neuron_int_lif/accumulator/accumulator.v
+1773236950 ../neuron_integer/neuron_int_lif/adder/potential_adder.v
+1773236950 ../neuron_integer/neuron_int_lif/decay/potential_decay.v
+1773236950 ../neuron_integer/neuron_int_lif/utils/encording.v
+1773236911 neuron_accelerator.v
+1764591403 /mnt/hidden_home/synopsys/vcs/linux64/packages/snps_msv_nettype_pkg/AN.DB
+1773351794 mnist_infertest_tb.v
+1764232856 /mnt/hidden_home/synopsys/verdi/X-2025.06-SP2/share/PLI/VCS/LINUX64/verdi.tab
+1764575419 /mnt/hidden_home/synopsys/vcs/linux64/lib/vcsdp_lite.tab
+4
+1764579420 /mnt/hidden_home/synopsys/vcs/linux64/lib/libvirsim.so
+1764576997 /mnt/hidden_home/synopsys/vcs/linux64/lib/liberrorinf.so
+1764576990 /mnt/hidden_home/synopsys/vcs/linux64/lib/libsnpsmalloc.so
+1764576977 /mnt/hidden_home/synopsys/vcs/linux64/lib/libvfs.so
+1773351956 simv_mnist_inf.daidir
+-1 partitionlib

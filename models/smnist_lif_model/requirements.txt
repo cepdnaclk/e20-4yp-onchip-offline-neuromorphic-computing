@@ -1,0 +1,98 @@
+# ============================================================================
+# Requirements for Spiking Neural Network MNIST Classifier
+# ============================================================================
+# This file specifies all Python dependencies needed to train and deploy
+# spiking neural networks for the neuromorphic accelerator project.
+#
+# Installation:
+#   pip install -r requirements.txt
+#
+# For GPU acceleration (recommended):
+#   Install PyTorch with CUDA support from https://pytorch.org/get-started/locally/
+# ============================================================================
+
+# Core Deep Learning Framework
+torch>=2.0.0,<3.0.0          # PyTorch deep learning framework
+torchvision>=0.15.0,<1.0.0   # Computer vision datasets and transforms
+
+# Spiking Neural Network Library
+snntorch>=0.7.0              # SNNTorch - spiking neural network framework
+
+# Numerical Computing
+numpy>=1.24.0,<2.0.0         # Numerical operations (transitive dependency, pinned for stability)
+
+# ============================================================================
+# Local Package Dependencies
+# ============================================================================
+# The neuron_mapper module is required for hardware deployment mapping
+# Install in editable mode to reflect code changes without reinstallation:
+# pip install -e ../../model_compiler
+#
+# Note: The path is relative to this requirements.txt file location
+# For manual installation from this directory:
+pip install -e ../model_compiler
+# ============================================================================
+
+# Standard Library (included in Python, listed for documentation)
+# argparse                   # Command-line argument parsing (built-in)
+# sys                        # System-specific parameters (built-in)
+# pathlib                    # Object-oriented filesystem paths (built-in)
+# traceback                  # Stack trace utilities (built-in)
+
+# ============================================================================
+# Optional Dependencies (for enhanced functionality)
+# ============================================================================
+
+# Progress bars for training visualization (optional but recommended)
+tqdm>=4.65.0                 # Progress bars for loops
+
+# Plotting and visualization (optional)
+matplotlib>=3.7.0            # Plotting library for loss/accuracy curves
+seaborn>=0.12.0              # Statistical data visualization
+
+# Jupyter notebook support (optional, for interactive development)
+jupyter>=1.0.0               # Jupyter notebook
+ipykernel>=6.0.0             # IPython kernel for Jupyter
+
+# Model analysis tools (optional)
+tensorboard>=2.13.0          # TensorFlow's visualization toolkit
+torchinfo>=1.8.0             # Model architecture summary
+
+# ============================================================================
+# Development Dependencies (for testing and code quality)
+# ============================================================================
+
+# Code formatting and linting (optional)
+black>=23.0.0                # Code formatter
+flake8>=6.0.0                # Linting tool
+pylint>=2.17.0               # Code analysis
+
+# Testing framework (optional)
+pytest>=7.3.0                # Testing framework
+pytest-cov>=4.1.0            # Coverage plugin for pytest
+
+# ============================================================================
+# CUDA/GPU Support Notes
+# ============================================================================
+# For GPU acceleration, install PyTorch with CUDA support:
+#
+# CUDA 11.8:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+#
+# CUDA 12.1:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+#
+# CPU only:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+# ============================================================================
+
+# ============================================================================
+# Compatibility Notes
+# ============================================================================
+# Python Version: 3.8 or higher required (3.10+ recommended)
+# Tested on:
+#   - Python 3.10, 3.11
+#   - PyTorch 2.0+, 2.1+
+#   - SNNTorch 0.7.0, 0.8.0
+#   - Windows 10/11, Linux (Ubuntu 20.04+)
+# ============================================================================

@@ -1,0 +1,782 @@
+================================================================
+SPIKING NEURAL NETWORK EXPERIMENT SUMMARY
+================================================================
+Generated on: Sun Oct 19 03:53:38 PM UTC 2025
+Total configurations tested: 72
+Inference time steps tested per model: 4
+
+CONFIGURATION PARAMETERS:
+----------------------------------------------------------------
+Network Architecture:
+  - Hidden layers: 1 2 3
+  - Hidden neurons: 16 32 64 128 256 512
+  - Training time steps: 25 50 75 100
+  - Inference time steps: 25 50 75 100
+
+Training Hyperparameters:
+  - Epochs: 10
+  - Batch size: 64
+  - Learning rate: 5e-4
+  - Beta (decay): 
+
+Data Conversion:
+  - Test samples: 960
+  - Encoding time steps: 
+  - Full dataset: false
+
+Hardware Encoding:
+  - Cluster size: 32
+  - Base cluster ID: 32
+  - No-spike marker: FFF
+
+TOP PERFORMING MODELS:
+----------------------------------------------------------------
+By Training Accuracy:
+  h512_l2_t25: 97.91% (Layers:2, Neurons:512, TrainSteps:25)
+  h512_l2_t25: 97.91% (Layers:2, Neurons:512, TrainSteps:25)
+  h512_l2_t25: 97.91% (Layers:2, Neurons:512, TrainSteps:25)
+  h512_l2_t25: 97.91% (Layers:2, Neurons:512, TrainSteps:25)
+  h512_l3_t50: 97.86% (Layers:3, Neurons:512, TrainSteps:50)
+
+By Test Accuracy (Inference):
+  h512_l2_t25 (inf_t75): 98.00% (Layers:2, Neurons:512)
+  h512_l2_t25 (inf_t25): 97.92% (Layers:2, Neurons:512)
+  h512_l2_t50 (inf_t75): 97.90% (Layers:2, Neurons:512)
+  h512_l2_t25 (inf_t100): 97.90% (Layers:2, Neurons:512)
+  h512_l2_t50 (inf_t25): 97.89% (Layers:2, Neurons:512)
+
+================================================================
+DETAILED RESULTS BY CONFIGURATION:
+================================================================
+
+Configuration: h16_l1_t25
+  Architecture: 1 hidden layers × 16 neurons
+  Training time steps: 25
+  Training accuracy: 93.36%
+  Inference results:
+    Time steps 25: 93.19%
+    Time steps 50: 93.33%
+    Time steps 75: 93.20%
+    Time steps 100: 93.31%
+
+Configuration: h16_l1_t50
+  Architecture: 1 hidden layers × 16 neurons
+  Training time steps: 50
+  Training accuracy: 93.31%
+  Inference results:
+    Time steps 25: 93.44%
+    Time steps 50: 93.27%
+    Time steps 75: 93.38%
+    Time steps 100: 93.37%
+
+Configuration: h16_l1_t75
+  Architecture: 1 hidden layers × 16 neurons
+  Training time steps: 75
+  Training accuracy: 92.31%
+  Inference results:
+    Time steps 25: 92.28%
+    Time steps 50: 92.09%
+    Time steps 75: 92.22%
+    Time steps 100: 92.31%
+
+Configuration: h16_l1_t100
+  Architecture: 1 hidden layers × 16 neurons
+  Training time steps: 100
+  Training accuracy: 92.53%
+  Inference results:
+    Time steps 25: 92.51%
+    Time steps 50: 92.47%
+    Time steps 75: 92.40%
+    Time steps 100: 92.51%
+
+Configuration: h32_l1_t25
+  Architecture: 1 hidden layers × 32 neurons
+  Training time steps: 25
+  Training accuracy: 95.80%
+  Inference results:
+    Time steps 25: 95.58%
+    Time steps 50: 95.61%
+    Time steps 75: 95.74%
+    Time steps 100: 95.77%
+
+Configuration: h32_l1_t50
+  Architecture: 1 hidden layers × 32 neurons
+  Training time steps: 50
+  Training accuracy: 95.50%
+  Inference results:
+    Time steps 25: 95.32%
+    Time steps 50: 95.39%
+    Time steps 75: 95.47%
+    Time steps 100: 95.42%
+
+Configuration: h32_l1_t75
+  Architecture: 1 hidden layers × 32 neurons
+  Training time steps: 75
+  Training accuracy: 95.32%
+  Inference results:
+    Time steps 25: 95.32%
+    Time steps 50: 95.40%
+    Time steps 75: 95.22%
+    Time steps 100: 95.27%
+
+Configuration: h32_l1_t100
+  Architecture: 1 hidden layers × 32 neurons
+  Training time steps: 100
+  Training accuracy: 94.18%
+  Inference results:
+    Time steps 25: 94.18%
+    Time steps 50: 94.11%
+    Time steps 75: 94.22%
+    Time steps 100: 94.19%
+
+Configuration: h64_l1_t25
+  Architecture: 1 hidden layers × 64 neurons
+  Training time steps: 25
+  Training accuracy: 96.81%
+  Inference results:
+    Time steps 25: 96.76%
+    Time steps 50: 96.83%
+    Time steps 75: 96.70%
+    Time steps 100: 96.79%
+
+Configuration: h64_l1_t50
+  Architecture: 1 hidden layers × 64 neurons
+  Training time steps: 50
+  Training accuracy: 96.09%
+  Inference results:
+    Time steps 25: 96.12%
+    Time steps 50: 96.04%
+    Time steps 75: 96.22%
+    Time steps 100: 96.03%
+
+Configuration: h64_l1_t75
+  Architecture: 1 hidden layers × 64 neurons
+  Training time steps: 75
+  Training accuracy: 96.50%
+  Inference results:
+    Time steps 25: 96.41%
+    Time steps 50: 96.64%
+    Time steps 75: 96.51%
+    Time steps 100: 96.35%
+
+Configuration: h64_l1_t100
+  Architecture: 1 hidden layers × 64 neurons
+  Training time steps: 100
+  Training accuracy: 96.40%
+  Inference results:
+    Time steps 25: 96.53%
+    Time steps 50: 96.45%
+    Time steps 75: 96.36%
+    Time steps 100: 96.52%
+
+Configuration: h128_l1_t25
+  Architecture: 1 hidden layers × 128 neurons
+  Training time steps: 25
+  Training accuracy: 97.19%
+  Inference results:
+    Time steps 25: 97.15%
+    Time steps 50: 97.16%
+    Time steps 75: 97.27%
+    Time steps 100: 97.19%
+
+Configuration: h128_l1_t50
+  Architecture: 1 hidden layers × 128 neurons
+  Training time steps: 50
+  Training accuracy: 97.29%
+  Inference results:
+    Time steps 25: 97.38%
+    Time steps 50: 97.36%
+    Time steps 75: 97.38%
+    Time steps 100: 97.33%
+
+Configuration: h128_l1_t75
+  Architecture: 1 hidden layers × 128 neurons
+  Training time steps: 75
+  Training accuracy: 96.95%
+  Inference results:
+    Time steps 25: 96.98%
+    Time steps 50: 96.97%
+    Time steps 75: 96.91%
+    Time steps 100: 96.84%
+
+Configuration: h128_l1_t100
+  Architecture: 1 hidden layers × 128 neurons
+  Training time steps: 100
+  Training accuracy: 97.10%
+  Inference results:
+    Time steps 25: 97.04%
+    Time steps 50: 97.13%
+    Time steps 75: 96.93%
+    Time steps 100: 97.12%
+
+Configuration: h256_l1_t25
+  Architecture: 1 hidden layers × 256 neurons
+  Training time steps: 25
+  Training accuracy: 97.70%
+  Inference results:
+    Time steps 25: 97.72%
+    Time steps 50: 97.75%
+    Time steps 75: 97.77%
+    Time steps 100: 97.72%
+
+Configuration: h256_l1_t50
+  Architecture: 1 hidden layers × 256 neurons
+  Training time steps: 50
+  Training accuracy: 97.43%
+  Inference results:
+    Time steps 25: 97.48%
+    Time steps 50: 97.38%
+    Time steps 75: 97.49%
+    Time steps 100: 97.34%
+
+Configuration: h256_l1_t75
+  Architecture: 1 hidden layers × 256 neurons
+  Training time steps: 75
+  Training accuracy: 97.21%
+  Inference results:
+    Time steps 25: 97.19%
+    Time steps 50: 97.31%
+    Time steps 75: 97.25%
+    Time steps 100: 97.16%
+
+Configuration: h256_l1_t100
+  Architecture: 1 hidden layers × 256 neurons
+  Training time steps: 100
+  Training accuracy: 96.80%
+  Inference results:
+    Time steps 25: 96.89%
+    Time steps 50: 96.88%
+    Time steps 75: 96.91%
+    Time steps 100: 96.82%
+
+Configuration: h512_l1_t25
+  Architecture: 1 hidden layers × 512 neurons
+  Training time steps: 25
+  Training accuracy: 97.80%
+  Inference results:
+    Time steps 25: 97.79%
+    Time steps 50: 97.87%
+    Time steps 75: 97.80%
+    Time steps 100: 97.83%
+
+Configuration: h512_l1_t50
+  Architecture: 1 hidden layers × 512 neurons
+  Training time steps: 50
+  Training accuracy: 97.66%
+  Inference results:
+    Time steps 25: 97.78%
+    Time steps 50: 97.78%
+    Time steps 75: 97.62%
+    Time steps 100: 97.63%
+
+Configuration: h512_l1_t75
+  Architecture: 1 hidden layers × 512 neurons
+  Training time steps: 75
+  Training accuracy: 97.61%
+  Inference results:
+    Time steps 25: 97.62%
+    Time steps 50: 97.77%
+    Time steps 75: 97.65%
+    Time steps 100: 97.68%
+
+Configuration: h512_l1_t100
+  Architecture: 1 hidden layers × 512 neurons
+  Training time steps: 100
+  Training accuracy: 97.46%
+  Inference results:
+    Time steps 25: 97.39%
+    Time steps 50: 97.41%
+    Time steps 75: 97.48%
+    Time steps 100: 97.42%
+
+Configuration: h16_l2_t25
+  Architecture: 2 hidden layers × 16 neurons
+  Training time steps: 25
+  Training accuracy: 93.79%
+  Inference results:
+    Time steps 25: 93.76%
+    Time steps 50: 93.88%
+    Time steps 75: 93.60%
+    Time steps 100: 93.83%
+
+Configuration: h16_l2_t50
+  Architecture: 2 hidden layers × 16 neurons
+  Training time steps: 50
+  Training accuracy: 93.58%
+  Inference results:
+    Time steps 25: 93.65%
+    Time steps 50: 93.80%
+    Time steps 75: 93.59%
+    Time steps 100: 93.63%
+
+Configuration: h16_l2_t75
+  Architecture: 2 hidden layers × 16 neurons
+  Training time steps: 75
+  Training accuracy: 92.90%
+  Inference results:
+    Time steps 25: 92.75%
+    Time steps 50: 92.86%
+    Time steps 75: 93.13%
+    Time steps 100: 92.88%
+
+Configuration: h16_l2_t100
+  Architecture: 2 hidden layers × 16 neurons
+  Training time steps: 100
+  Training accuracy: 91.86%
+  Inference results:
+    Time steps 25: 91.74%
+    Time steps 50: 91.75%
+    Time steps 75: 91.73%
+    Time steps 100: 91.84%
+
+Configuration: h32_l2_t25
+  Architecture: 2 hidden layers × 32 neurons
+  Training time steps: 25
+  Training accuracy: 95.78%
+  Inference results:
+    Time steps 25: 95.89%
+    Time steps 50: 95.99%
+    Time steps 75: 95.77%
+    Time steps 100: 95.87%
+
+Configuration: h32_l2_t50
+  Architecture: 2 hidden layers × 32 neurons
+  Training time steps: 50
+  Training accuracy: 95.36%
+  Inference results:
+    Time steps 25: 95.58%
+    Time steps 50: 95.67%
+    Time steps 75: 95.43%
+    Time steps 100: 95.60%
+
+Configuration: h32_l2_t75
+  Architecture: 2 hidden layers × 32 neurons
+  Training time steps: 75
+  Training accuracy: 94.99%
+  Inference results:
+    Time steps 25: 94.89%
+    Time steps 50: 94.98%
+    Time steps 75: 94.92%
+    Time steps 100: 95.00%
+
+Configuration: h32_l2_t100
+  Architecture: 2 hidden layers × 32 neurons
+  Training time steps: 100
+  Training accuracy: 95.02%
+  Inference results:
+    Time steps 25: 94.89%
+    Time steps 50: 95.10%
+    Time steps 75: 94.83%
+    Time steps 100: 94.74%
+
+Configuration: h64_l2_t25
+  Architecture: 2 hidden layers × 64 neurons
+  Training time steps: 25
+  Training accuracy: 96.65%
+  Inference results:
+    Time steps 25: 96.85%
+    Time steps 50: 96.87%
+    Time steps 75: 96.90%
+    Time steps 100: 96.94%
+
+Configuration: h64_l2_t50
+  Architecture: 2 hidden layers × 64 neurons
+  Training time steps: 50
+  Training accuracy: 97.02%
+  Inference results:
+    Time steps 25: 96.75%
+    Time steps 50: 96.92%
+    Time steps 75: 97.07%
+    Time steps 100: 97.05%
+
+Configuration: h64_l2_t75
+  Architecture: 2 hidden layers × 64 neurons
+  Training time steps: 75
+  Training accuracy: 95.83%
+  Inference results:
+    Time steps 25: 95.85%
+    Time steps 50: 95.97%
+    Time steps 75: 95.92%
+    Time steps 100: 95.88%
+
+Configuration: h64_l2_t100
+  Architecture: 2 hidden layers × 64 neurons
+  Training time steps: 100
+  Training accuracy: 95.97%
+  Inference results:
+    Time steps 25: 96.02%
+    Time steps 50: 95.88%
+    Time steps 75: 96.04%
+    Time steps 100: 95.85%
+
+Configuration: h128_l2_t25
+  Architecture: 2 hidden layers × 128 neurons
+  Training time steps: 25
+  Training accuracy: 96.88%
+  Inference results:
+    Time steps 25: 96.74%
+    Time steps 50: 96.92%
+    Time steps 75: 96.73%
+    Time steps 100: 96.83%
+
+Configuration: h128_l2_t50
+  Architecture: 2 hidden layers × 128 neurons
+  Training time steps: 50
+  Training accuracy: 97.54%
+  Inference results:
+    Time steps 25: 97.49%
+    Time steps 50: 97.49%
+    Time steps 75: 97.60%
+    Time steps 100: 97.52%
+
+Configuration: h128_l2_t75
+  Architecture: 2 hidden layers × 128 neurons
+  Training time steps: 75
+  Training accuracy: 97.11%
+  Inference results:
+    Time steps 25: 97.11%
+    Time steps 50: 97.23%
+    Time steps 75: 97.09%
+    Time steps 100: 97.17%
+
+Configuration: h128_l2_t100
+  Architecture: 2 hidden layers × 128 neurons
+  Training time steps: 100
+  Training accuracy: 96.88%
+  Inference results:
+    Time steps 25: 96.99%
+    Time steps 50: 97.01%
+    Time steps 75: 96.93%
+    Time steps 100: 97.05%
+
+Configuration: h256_l2_t25
+  Architecture: 2 hidden layers × 256 neurons
+  Training time steps: 25
+  Training accuracy: 97.83%
+  Inference results:
+    Time steps 25: 97.79%
+    Time steps 50: 97.77%
+    Time steps 75: 97.72%
+    Time steps 100: 97.67%
+
+Configuration: h256_l2_t50
+  Architecture: 2 hidden layers × 256 neurons
+  Training time steps: 50
+  Training accuracy: 97.05%
+  Inference results:
+    Time steps 25: 97.07%
+    Time steps 50: 96.94%
+    Time steps 75: 97.07%
+    Time steps 100: 97.06%
+
+Configuration: h256_l2_t75
+  Architecture: 2 hidden layers × 256 neurons
+  Training time steps: 75
+  Training accuracy: 97.55%
+  Inference results:
+    Time steps 25: 97.47%
+    Time steps 50: 97.50%
+    Time steps 75: 97.59%
+    Time steps 100: 97.45%
+
+Configuration: h256_l2_t100
+  Architecture: 2 hidden layers × 256 neurons
+  Training time steps: 100
+  Training accuracy: 97.06%
+  Inference results:
+    Time steps 25: 97.26%
+    Time steps 50: 97.09%
+    Time steps 75: 97.13%
+    Time steps 100: 97.05%
+
+Configuration: h512_l2_t25
+  Architecture: 2 hidden layers × 512 neurons
+  Training time steps: 25
+  Training accuracy: 97.91%
+  Inference results:
+    Time steps 25: 97.92%
+    Time steps 50: 97.88%
+    Time steps 75: 98.00%
+    Time steps 100: 97.90%
+
+Configuration: h512_l2_t50
+  Architecture: 2 hidden layers × 512 neurons
+  Training time steps: 50
+  Training accuracy: 97.85%
+  Inference results:
+    Time steps 25: 97.89%
+    Time steps 50: 97.76%
+    Time steps 75: 97.90%
+    Time steps 100: 97.89%
+
+Configuration: h512_l2_t75
+  Architecture: 2 hidden layers × 512 neurons
+  Training time steps: 75
+  Training accuracy: 97.65%
+  Inference results:
+    Time steps 25: 97.71%
+    Time steps 50: 97.75%
+    Time steps 75: 97.71%
+    Time steps 100: 97.60%
+
+Configuration: h512_l2_t100
+  Architecture: 2 hidden layers × 512 neurons
+  Training time steps: 100
+  Training accuracy: 97.49%
+  Inference results:
+    Time steps 25: 97.50%
+    Time steps 50: 97.49%
+    Time steps 75: 97.60%
+    Time steps 100: 97.53%
+
+Configuration: h16_l3_t25
+  Architecture: 3 hidden layers × 16 neurons
+  Training time steps: 25
+  Training accuracy: 93.54%
+  Inference results:
+    Time steps 25: 93.53%
+    Time steps 50: 93.84%
+    Time steps 75: 93.74%
+    Time steps 100: 93.61%
+
+Configuration: h16_l3_t50
+  Architecture: 3 hidden layers × 16 neurons
+  Training time steps: 50
+  Training accuracy: 92.50%
+  Inference results:
+    Time steps 25: 92.07%
+    Time steps 50: 92.20%
+    Time steps 75: 92.33%
+    Time steps 100: 92.04%
+
+Configuration: h16_l3_t75
+  Architecture: 3 hidden layers × 16 neurons
+  Training time steps: 75
+  Training accuracy: 92.89%
+  Inference results:
+    Time steps 25: 92.73%
+    Time steps 50: 92.65%
+    Time steps 75: 92.71%
+    Time steps 100: 92.71%
+
+Configuration: h16_l3_t100
+  Architecture: 3 hidden layers × 16 neurons
+  Training time steps: 100
+  Training accuracy: 92.12%
+  Inference results:
+    Time steps 25: 92.13%
+    Time steps 50: 92.20%
+    Time steps 75: 92.36%
+    Time steps 100: 92.24%
+
+Configuration: h32_l3_t25
+  Architecture: 3 hidden layers × 32 neurons
+  Training time steps: 25
+  Training accuracy: 95.29%
+  Inference results:
+    Time steps 25: 95.17%
+    Time steps 50: 95.26%
+    Time steps 75: 95.36%
+    Time steps 100: 95.16%
+
+Configuration: h32_l3_t50
+  Architecture: 3 hidden layers × 32 neurons
+  Training time steps: 50
+  Training accuracy: 95.19%
+  Inference results:
+    Time steps 25: 95.19%
+    Time steps 50: 95.40%
+    Time steps 75: 95.32%
+    Time steps 100: 95.28%
+
+Configuration: h32_l3_t75
+  Architecture: 3 hidden layers × 32 neurons
+  Training time steps: 75
+  Training accuracy: 94.56%
+  Inference results:
+    Time steps 25: 94.78%
+    Time steps 50: 94.48%
+    Time steps 75: 94.57%
+    Time steps 100: 94.57%
+
+Configuration: h32_l3_t100
+  Architecture: 3 hidden layers × 32 neurons
+  Training time steps: 100
+  Training accuracy: 94.95%
+  Inference results:
+    Time steps 25: 95.13%
+    Time steps 50: 94.74%
+    Time steps 75: 95.05%
+    Time steps 100: 95.20%
+
+Configuration: h64_l3_t25
+  Architecture: 3 hidden layers × 64 neurons
+  Training time steps: 25
+  Training accuracy: 96.48%
+  Inference results:
+    Time steps 25: 96.42%
+    Time steps 50: 96.51%
+    Time steps 75: 96.36%
+    Time steps 100: 96.35%
+
+Configuration: h64_l3_t50
+  Architecture: 3 hidden layers × 64 neurons
+  Training time steps: 50
+  Training accuracy: 96.44%
+  Inference results:
+    Time steps 25: 96.45%
+    Time steps 50: 96.27%
+    Time steps 75: 96.55%
+    Time steps 100: 96.58%
+
+Configuration: h64_l3_t75
+  Architecture: 3 hidden layers × 64 neurons
+  Training time steps: 75
+  Training accuracy: 96.39%
+  Inference results:
+    Time steps 25: 96.48%
+    Time steps 50: 96.29%
+    Time steps 75: 96.44%
+    Time steps 100: 96.25%
+
+Configuration: h64_l3_t100
+  Architecture: 3 hidden layers × 64 neurons
+  Training time steps: 100
+  Training accuracy: 96.40%
+  Inference results:
+    Time steps 25: 96.27%
+    Time steps 50: 96.19%
+    Time steps 75: 96.13%
+    Time steps 100: 96.12%
+
+Configuration: h128_l3_t25
+  Architecture: 3 hidden layers × 128 neurons
+  Training time steps: 25
+  Training accuracy: 96.92%
+  Inference results:
+    Time steps 25: 96.91%
+    Time steps 50: 97.04%
+    Time steps 75: 96.95%
+    Time steps 100: 97.00%
+
+Configuration: h128_l3_t50
+  Architecture: 3 hidden layers × 128 neurons
+  Training time steps: 50
+  Training accuracy: 97.17%
+  Inference results:
+    Time steps 25: 97.13%
+    Time steps 50: 97.22%
+    Time steps 75: 97.26%
+    Time steps 100: 97.15%
+
+Configuration: h128_l3_t75
+  Architecture: 3 hidden layers × 128 neurons
+  Training time steps: 75
+  Training accuracy: 96.66%
+  Inference results:
+    Time steps 25: 96.70%
+    Time steps 50: 96.64%
+    Time steps 75: 96.67%
+    Time steps 100: 96.47%
+
+Configuration: h128_l3_t100
+  Architecture: 3 hidden layers × 128 neurons
+  Training time steps: 100
+  Training accuracy: 96.40%
+  Inference results:
+    Time steps 25: 96.30%
+    Time steps 50: 96.43%
+    Time steps 75: 96.30%
+    Time steps 100: 96.58%
+
+Configuration: h256_l3_t25
+  Architecture: 3 hidden layers × 256 neurons
+  Training time steps: 25
+  Training accuracy: 97.65%
+  Inference results:
+    Time steps 25: 97.60%
+    Time steps 50: 97.64%
+    Time steps 75: 97.57%
+    Time steps 100: 97.61%
+
+Configuration: h256_l3_t50
+  Architecture: 3 hidden layers × 256 neurons
+  Training time steps: 50
+  Training accuracy: 97.47%
+  Inference results:
+    Time steps 25: 97.35%
+    Time steps 50: 97.26%
+    Time steps 75: 97.27%
+    Time steps 100: 97.27%
+
+Configuration: h256_l3_t75
+  Architecture: 3 hidden layers × 256 neurons
+  Training time steps: 75
+  Training accuracy: 97.35%
+  Inference results:
+    Time steps 25: 97.37%
+    Time steps 50: 97.33%
+    Time steps 75: 97.34%
+    Time steps 100: 97.33%
+
+Configuration: h256_l3_t100
+  Architecture: 3 hidden layers × 256 neurons
+  Training time steps: 100
+  Training accuracy: 97.28%
+  Inference results:
+    Time steps 25: 97.27%
+    Time steps 50: 97.21%
+    Time steps 75: 97.25%
+    Time steps 100: 97.31%
+
+Configuration: h512_l3_t25
+  Architecture: 3 hidden layers × 512 neurons
+  Training time steps: 25
+  Training accuracy: 97.29%
+  Inference results:
+    Time steps 25: 97.45%
+    Time steps 50: 97.33%
+    Time steps 75: 97.44%
+    Time steps 100: 97.28%
+
+Configuration: h512_l3_t50
+  Architecture: 3 hidden layers × 512 neurons
+  Training time steps: 50
+  Training accuracy: 97.86%
+  Inference results:
+    Time steps 25: 97.74%
+    Time steps 50: 97.80%
+    Time steps 75: 97.79%
+    Time steps 100: 97.79%
+
+Configuration: h512_l3_t75
+  Architecture: 3 hidden layers × 512 neurons
+  Training time steps: 75
+  Training accuracy: 97.68%
+  Inference results:
+    Time steps 25: 97.73%
+    Time steps 50: 97.69%
+    Time steps 75: 97.71%
+    Time steps 100: 97.67%
+
+Configuration: h512_l3_t100
+  Architecture: 3 hidden layers × 512 neurons
+  Training time steps: 100
+  Training accuracy: 97.64%
+  Inference results:
+    Time steps 25: 97.61%
+    Time steps 50: 97.63%
+    Time steps 75: 97.69%
+    Time steps 100: 97.58%
+
+================================================================
+OUTPUT STRUCTURE:
+================================================================
+/home/kanishka/fyp/neuromorphic-accelerator/models/smnist_lif_model/experiments/
+├── experiment_results.csv              # CSV with all results
+├── experiment_summary.txt         # This summary report
+├── logs/                        # Execution logs
+└── h{N}_l{L}_t{T}/             # Per-configuration directories
+    ├── models/                  # Trained .pth models
+    ├── mappings/                # neuron_mapping.txt files
+    └── test_data/               # test_values_t{T}.txt files

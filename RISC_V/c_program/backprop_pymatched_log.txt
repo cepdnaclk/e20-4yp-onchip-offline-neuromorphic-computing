@@ -1,0 +1,765 @@
+=================================================================
+  backprop_pymatched  (integer-forward / float-backward)
+=================================================================
+  Architecture  : 784 → 16 → 10
+  Decay         : LIF2  β=0.5
+  Threshold     : 1.0  (int=256)
+  Reset         : RESET_ZERO
+  Timesteps     : 16
+  Input encode  : Normalised Poisson (mean=0.1307 std=0.3081)
+  W1 clamp      : ±20  (0.0781 float)
+  W2 clamp      : ±100  (0.3906 float)
+  LR / batch    : 0.00500 / 32
+=================================================================
+
+Ep 1 |  1000/60000 | acc=9.70% | maxW1f=0.0526 maxW2f=0.2988
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 |  2000/60000 | acc=10.05% | maxW1f=0.0619 maxW2f=0.2998
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 |  3000/60000 | acc=10.67% | maxW1f=0.0772 maxW2f=0.3037
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 |  4000/60000 | acc=11.57% | maxW1f=0.0781 maxW2f=0.3210
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 |  5000/60000 | acc=12.08% | maxW1f=0.0781 maxW2f=0.3405
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 |  6000/60000 | acc=13.08% | maxW1f=0.0781 maxW2f=0.3574
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 |  7000/60000 | acc=14.20% | maxW1f=0.0780 maxW2f=0.3712
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 |  8000/60000 | acc=15.23% | maxW1f=0.0781 maxW2f=0.3830
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 |  9000/60000 | acc=16.20% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 10000/60000 | acc=17.17% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 11000/60000 | acc=18.09% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 12000/60000 | acc=18.61% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 13000/60000 | acc=19.25% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 14000/60000 | acc=19.98% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 15000/60000 | acc=20.50% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 16000/60000 | acc=20.96% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 17000/60000 | acc=21.29% | maxW1f=0.0781 maxW2f=0.3902
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 18000/60000 | acc=22.02% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 19000/60000 | acc=22.63% | maxW1f=0.0781 maxW2f=0.3900
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 20000/60000 | acc=23.33% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 21000/60000 | acc=23.83% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 22000/60000 | acc=24.56% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 23000/60000 | acc=25.27% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 24000/60000 | acc=25.91% | maxW1f=0.0781 maxW2f=0.3901
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 25000/60000 | acc=26.64% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 26000/60000 | acc=27.45% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 27000/60000 | acc=28.24% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 28000/60000 | acc=28.91% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 29000/60000 | acc=29.67% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 30000/60000 | acc=30.25% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 31000/60000 | acc=30.88% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 32000/60000 | acc=31.50% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 33000/60000 | acc=32.10% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 34000/60000 | acc=32.89% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 35000/60000 | acc=33.63% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 36000/60000 | acc=34.41% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 37000/60000 | acc=35.02% | maxW1f=0.0781 maxW2f=0.3899
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 38000/60000 | acc=35.61% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 39000/60000 | acc=36.19% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 40000/60000 | acc=36.73% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 41000/60000 | acc=37.35% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 42000/60000 | acc=37.81% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 43000/60000 | acc=38.17% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 44000/60000 | acc=38.57% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 45000/60000 | acc=38.98% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 46000/60000 | acc=39.38% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 47000/60000 | acc=39.74% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 48000/60000 | acc=40.10% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 49000/60000 | acc=40.44% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 50000/60000 | acc=40.76% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 51000/60000 | acc=41.13% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 52000/60000 | acc=41.53% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 53000/60000 | acc=41.94% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 54000/60000 | acc=42.30% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 55000/60000 | acc=42.60% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 56000/60000 | acc=42.94% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 57000/60000 | acc=43.35% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 58000/60000 | acc=43.71% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 59000/60000 | acc=44.08% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 1 | 60000/60000 | acc=44.48% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Epoch 1 DONE | acc=44.48%
+
+Ep 2 |  1000/60000 | acc=63.90% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 |  2000/60000 | acc=63.45% | maxW1f=0.0781 maxW2f=0.3906
+Ep 2 |  3000/60000 | acc=63.90% | maxW1f=0.0781 maxW2f=0.3906
+Ep 2 |  4000/60000 | acc=64.25% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 |  5000/60000 | acc=64.92% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 |  6000/60000 | acc=65.07% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 |  7000/60000 | acc=64.81% | maxW1f=0.0781 maxW2f=0.3906
+Ep 2 |  8000/60000 | acc=64.69% | maxW1f=0.0781 maxW2f=0.3906
+Ep 2 |  9000/60000 | acc=64.74% | maxW1f=0.0781 maxW2f=0.3906
+Ep 2 | 10000/60000 | acc=65.18% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 11000/60000 | acc=65.33% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 12000/60000 | acc=65.38% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 13000/60000 | acc=65.46% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 14000/60000 | acc=65.61% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 15000/60000 | acc=65.48% | maxW1f=0.0781 maxW2f=0.3906
+Ep 2 | 16000/60000 | acc=65.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 2 | 17000/60000 | acc=65.56% | maxW1f=0.0781 maxW2f=0.3906
+Ep 2 | 18000/60000 | acc=65.72% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 19000/60000 | acc=66.01% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 20000/60000 | acc=66.21% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 21000/60000 | acc=66.42% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 22000/60000 | acc=66.68% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 23000/60000 | acc=66.85% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 24000/60000 | acc=67.06% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 25000/60000 | acc=67.16% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 26000/60000 | acc=67.33% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 27000/60000 | acc=67.41% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 28000/60000 | acc=67.56% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 29000/60000 | acc=67.71% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 30000/60000 | acc=67.76% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 31000/60000 | acc=67.88% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 32000/60000 | acc=67.93% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 33000/60000 | acc=68.00% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 34000/60000 | acc=68.19% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 35000/60000 | acc=68.31% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 36000/60000 | acc=68.51% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 37000/60000 | acc=68.56% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 38000/60000 | acc=68.67% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 39000/60000 | acc=68.78% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 40000/60000 | acc=68.81% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 41000/60000 | acc=69.00% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 42000/60000 | acc=69.07% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 43000/60000 | acc=69.13% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 44000/60000 | acc=69.25% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 45000/60000 | acc=69.34% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 46000/60000 | acc=69.41% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 47000/60000 | acc=69.45% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 48000/60000 | acc=69.48% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 49000/60000 | acc=69.54% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 50000/60000 | acc=69.56% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 51000/60000 | acc=69.62% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 52000/60000 | acc=69.74% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 53000/60000 | acc=69.80% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 54000/60000 | acc=69.88% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 55000/60000 | acc=69.92% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 56000/60000 | acc=70.00% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 57000/60000 | acc=70.08% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 58000/60000 | acc=70.17% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 59000/60000 | acc=70.34% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 2 | 60000/60000 | acc=70.44% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Epoch 2 DONE | acc=70.44%
+
+Ep 3 |  1000/60000 | acc=75.40% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 3 |  2000/60000 | acc=73.65% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 |  3000/60000 | acc=73.60% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 |  4000/60000 | acc=74.32% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 |  5000/60000 | acc=74.36% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 |  6000/60000 | acc=73.97% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 |  7000/60000 | acc=73.46% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 |  8000/60000 | acc=73.35% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 |  9000/60000 | acc=73.06% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 10000/60000 | acc=73.45% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 11000/60000 | acc=73.50% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 12000/60000 | acc=73.29% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 13000/60000 | acc=73.18% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 14000/60000 | acc=73.16% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 15000/60000 | acc=72.73% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 16000/60000 | acc=72.66% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 17000/60000 | acc=72.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 18000/60000 | acc=72.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 19000/60000 | acc=72.81% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 20000/60000 | acc=72.81% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 21000/60000 | acc=72.86% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 22000/60000 | acc=72.93% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 23000/60000 | acc=72.87% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 24000/60000 | acc=72.91% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 25000/60000 | acc=72.82% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 26000/60000 | acc=72.88% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 27000/60000 | acc=72.85% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 28000/60000 | acc=72.89% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 29000/60000 | acc=72.98% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 30000/60000 | acc=72.94% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 31000/60000 | acc=72.90% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 32000/60000 | acc=72.88% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 33000/60000 | acc=72.85% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 34000/60000 | acc=72.94% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 35000/60000 | acc=72.95% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 36000/60000 | acc=73.06% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 37000/60000 | acc=73.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 38000/60000 | acc=73.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 39000/60000 | acc=73.17% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 40000/60000 | acc=73.18% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 41000/60000 | acc=73.31% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 42000/60000 | acc=73.33% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 43000/60000 | acc=73.36% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 44000/60000 | acc=73.43% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 45000/60000 | acc=73.50% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 46000/60000 | acc=73.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 47000/60000 | acc=73.58% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 48000/60000 | acc=73.60% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 49000/60000 | acc=73.63% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 50000/60000 | acc=73.67% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 51000/60000 | acc=73.68% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 52000/60000 | acc=73.77% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 53000/60000 | acc=73.84% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 54000/60000 | acc=73.89% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 55000/60000 | acc=73.95% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 56000/60000 | acc=74.02% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 57000/60000 | acc=74.11% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 58000/60000 | acc=74.14% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 59000/60000 | acc=74.30% | maxW1f=0.0781 maxW2f=0.3906
+Ep 3 | 60000/60000 | acc=74.38% | maxW1f=0.0781 maxW2f=0.3906
+Epoch 3 DONE | acc=74.38%
+
+Ep 4 |  1000/60000 | acc=76.50% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 4 |  2000/60000 | acc=75.80% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 |  3000/60000 | acc=76.20% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 |  4000/60000 | acc=77.10% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 4 |  5000/60000 | acc=77.20% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 4 |  6000/60000 | acc=77.03% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 |  7000/60000 | acc=76.87% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 |  8000/60000 | acc=76.70% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 |  9000/60000 | acc=76.34% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 10000/60000 | acc=76.72% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 11000/60000 | acc=76.81% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 12000/60000 | acc=76.81% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 13000/60000 | acc=76.67% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 14000/60000 | acc=76.76% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 15000/60000 | acc=76.34% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 16000/60000 | acc=76.34% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 17000/60000 | acc=76.18% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 18000/60000 | acc=76.22% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 19000/60000 | acc=76.45% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 20000/60000 | acc=76.44% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 21000/60000 | acc=76.45% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 22000/60000 | acc=76.65% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 23000/60000 | acc=76.53% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 24000/60000 | acc=76.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 25000/60000 | acc=76.47% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 26000/60000 | acc=76.49% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 27000/60000 | acc=76.48% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 28000/60000 | acc=76.45% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 29000/60000 | acc=76.56% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 30000/60000 | acc=76.54% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 31000/60000 | acc=76.49% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 32000/60000 | acc=76.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 33000/60000 | acc=76.44% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 34000/60000 | acc=76.55% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 35000/60000 | acc=76.55% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 36000/60000 | acc=76.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 37000/60000 | acc=76.69% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 38000/60000 | acc=76.66% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 39000/60000 | acc=76.76% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 40000/60000 | acc=76.81% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 41000/60000 | acc=76.91% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 42000/60000 | acc=76.88% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 43000/60000 | acc=76.86% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 44000/60000 | acc=76.92% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 45000/60000 | acc=76.97% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 46000/60000 | acc=76.94% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 47000/60000 | acc=76.99% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 48000/60000 | acc=77.00% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 49000/60000 | acc=77.04% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 50000/60000 | acc=77.01% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 51000/60000 | acc=77.01% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 52000/60000 | acc=77.05% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 53000/60000 | acc=77.07% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 54000/60000 | acc=77.10% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 55000/60000 | acc=77.10% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 56000/60000 | acc=77.16% | maxW1f=0.0781 maxW2f=0.3906
+Ep 4 | 57000/60000 | acc=77.20% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 4 | 58000/60000 | acc=77.22% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 4 | 59000/60000 | acc=77.37% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 4 | 60000/60000 | acc=77.45% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Epoch 4 DONE | acc=77.45%
+
+Ep 5 |  1000/60000 | acc=78.60% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 5 |  2000/60000 | acc=78.25% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 |  3000/60000 | acc=78.57% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 |  4000/60000 | acc=79.05% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 5 |  5000/60000 | acc=78.98% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 |  6000/60000 | acc=79.02% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 |  7000/60000 | acc=78.50% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 |  8000/60000 | acc=78.26% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 |  9000/60000 | acc=77.84% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 10000/60000 | acc=78.16% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 11000/60000 | acc=78.25% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 12000/60000 | acc=78.06% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 13000/60000 | acc=78.07% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 14000/60000 | acc=78.08% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 15000/60000 | acc=77.63% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 16000/60000 | acc=77.55% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 17000/60000 | acc=77.44% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 18000/60000 | acc=77.41% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 19000/60000 | acc=77.63% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 20000/60000 | acc=77.59% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 21000/60000 | acc=77.60% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 22000/60000 | acc=77.75% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 23000/60000 | acc=77.70% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 24000/60000 | acc=77.68% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 25000/60000 | acc=77.58% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 26000/60000 | acc=77.58% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 27000/60000 | acc=77.54% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 28000/60000 | acc=77.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 29000/60000 | acc=77.59% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 30000/60000 | acc=77.54% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 31000/60000 | acc=77.47% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 32000/60000 | acc=77.45% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 33000/60000 | acc=77.41% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 34000/60000 | acc=77.51% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 35000/60000 | acc=77.48% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 36000/60000 | acc=77.54% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 37000/60000 | acc=77.56% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 38000/60000 | acc=77.50% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 39000/60000 | acc=77.56% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 40000/60000 | acc=77.57% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 41000/60000 | acc=77.66% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 42000/60000 | acc=77.65% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 43000/60000 | acc=77.61% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 44000/60000 | acc=77.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 45000/60000 | acc=77.65% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 46000/60000 | acc=77.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 47000/60000 | acc=77.70% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 48000/60000 | acc=77.69% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 49000/60000 | acc=77.70% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 50000/60000 | acc=77.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 51000/60000 | acc=77.60% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 52000/60000 | acc=77.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 53000/60000 | acc=77.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 54000/60000 | acc=77.69% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 55000/60000 | acc=77.66% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 56000/60000 | acc=77.71% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 57000/60000 | acc=77.72% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 58000/60000 | acc=77.72% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 59000/60000 | acc=77.87% | maxW1f=0.0781 maxW2f=0.3906
+Ep 5 | 60000/60000 | acc=77.97% | maxW1f=0.0781 maxW2f=0.3906
+Epoch 5 DONE | acc=77.97%
+
+Ep 6 |  1000/60000 | acc=80.90% | maxW1f=0.0781 maxW2f=0.3906
+ >>> Saved weights to best_weights_pymatched.txt <<<
+Ep 6 |  2000/60000 | acc=79.25% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 |  3000/60000 | acc=79.80% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 |  4000/60000 | acc=80.22% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 |  5000/60000 | acc=80.20% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 |  6000/60000 | acc=79.75% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 |  7000/60000 | acc=79.24% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 |  8000/60000 | acc=78.95% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 |  9000/60000 | acc=78.48% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 10000/60000 | acc=78.82% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 11000/60000 | acc=78.65% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 12000/60000 | acc=78.47% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 13000/60000 | acc=78.25% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 14000/60000 | acc=78.25% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 15000/60000 | acc=77.75% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 16000/60000 | acc=77.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 17000/60000 | acc=77.48% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 18000/60000 | acc=77.39% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 19000/60000 | acc=77.49% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 20000/60000 | acc=77.39% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 21000/60000 | acc=77.43% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 22000/60000 | acc=77.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 23000/60000 | acc=77.46% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 24000/60000 | acc=77.47% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 25000/60000 | acc=77.32% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 26000/60000 | acc=77.32% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 27000/60000 | acc=77.22% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 28000/60000 | acc=77.19% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 29000/60000 | acc=77.25% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 30000/60000 | acc=77.18% | maxW1f=0.0781 maxW2f=0.3903
+Ep 6 | 31000/60000 | acc=77.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 32000/60000 | acc=77.11% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 33000/60000 | acc=77.01% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 34000/60000 | acc=77.05% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 35000/60000 | acc=77.03% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 36000/60000 | acc=77.07% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 37000/60000 | acc=77.06% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 38000/60000 | acc=77.03% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 39000/60000 | acc=77.07% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 40000/60000 | acc=77.08% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 41000/60000 | acc=77.13% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 42000/60000 | acc=77.07% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 43000/60000 | acc=76.97% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 44000/60000 | acc=77.00% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 45000/60000 | acc=76.99% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 46000/60000 | acc=76.96% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 47000/60000 | acc=76.97% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 48000/60000 | acc=76.92% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 49000/60000 | acc=76.96% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 50000/60000 | acc=76.89% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 51000/60000 | acc=76.85% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 52000/60000 | acc=76.88% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 53000/60000 | acc=76.89% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 54000/60000 | acc=76.93% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 55000/60000 | acc=76.87% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 56000/60000 | acc=76.91% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 57000/60000 | acc=76.96% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 58000/60000 | acc=77.01% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 59000/60000 | acc=77.17% | maxW1f=0.0781 maxW2f=0.3906
+Ep 6 | 60000/60000 | acc=77.27% | maxW1f=0.0781 maxW2f=0.3906
+Epoch 6 DONE | acc=77.27%
+
+Ep 7 |  1000/60000 | acc=79.10% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 |  2000/60000 | acc=78.70% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 |  3000/60000 | acc=79.23% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 |  4000/60000 | acc=79.85% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 |  5000/60000 | acc=79.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 |  6000/60000 | acc=79.37% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 |  7000/60000 | acc=79.04% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 |  8000/60000 | acc=78.90% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 |  9000/60000 | acc=78.36% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 10000/60000 | acc=78.59% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 11000/60000 | acc=78.45% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 12000/60000 | acc=78.27% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 13000/60000 | acc=78.03% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 14000/60000 | acc=78.07% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 15000/60000 | acc=77.69% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 16000/60000 | acc=77.53% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 17000/60000 | acc=77.38% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 18000/60000 | acc=77.27% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 19000/60000 | acc=77.41% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 20000/60000 | acc=77.37% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 21000/60000 | acc=77.40% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 22000/60000 | acc=77.50% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 23000/60000 | acc=77.38% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 24000/60000 | acc=77.41% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 25000/60000 | acc=77.33% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 26000/60000 | acc=77.30% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 27000/60000 | acc=77.28% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 28000/60000 | acc=77.31% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 29000/60000 | acc=77.41% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 30000/60000 | acc=77.38% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 31000/60000 | acc=77.32% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 32000/60000 | acc=77.30% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 33000/60000 | acc=77.27% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 34000/60000 | acc=77.29% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 35000/60000 | acc=77.29% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 36000/60000 | acc=77.31% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 37000/60000 | acc=77.30% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 38000/60000 | acc=77.24% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 39000/60000 | acc=77.27% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 40000/60000 | acc=77.29% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 41000/60000 | acc=77.35% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 42000/60000 | acc=77.33% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 43000/60000 | acc=77.26% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 44000/60000 | acc=77.35% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 45000/60000 | acc=77.33% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 46000/60000 | acc=77.29% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 47000/60000 | acc=77.31% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 48000/60000 | acc=77.30% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 49000/60000 | acc=77.36% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 50000/60000 | acc=77.31% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 51000/60000 | acc=77.27% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 52000/60000 | acc=77.33% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 53000/60000 | acc=77.34% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 54000/60000 | acc=77.40% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 55000/60000 | acc=77.37% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 56000/60000 | acc=77.43% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 57000/60000 | acc=77.46% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 58000/60000 | acc=77.50% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 59000/60000 | acc=77.66% | maxW1f=0.0781 maxW2f=0.3906
+Ep 7 | 60000/60000 | acc=77.78% | maxW1f=0.0781 maxW2f=0.3906
+Epoch 7 DONE | acc=77.78%
+
+Ep 8 |  1000/60000 | acc=79.40% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 |  2000/60000 | acc=78.95% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 |  3000/60000 | acc=79.07% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 |  4000/60000 | acc=79.72% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 |  5000/60000 | acc=79.72% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 |  6000/60000 | acc=79.80% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 |  7000/60000 | acc=79.51% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 |  8000/60000 | acc=79.45% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 |  9000/60000 | acc=78.88% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 10000/60000 | acc=79.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 11000/60000 | acc=79.17% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 12000/60000 | acc=79.08% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 13000/60000 | acc=78.85% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 14000/60000 | acc=78.82% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 15000/60000 | acc=78.47% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 16000/60000 | acc=78.37% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 17000/60000 | acc=78.22% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 18000/60000 | acc=78.09% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 19000/60000 | acc=78.28% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 20000/60000 | acc=78.28% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 21000/60000 | acc=78.33% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 22000/60000 | acc=78.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 23000/60000 | acc=78.42% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 24000/60000 | acc=78.47% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 25000/60000 | acc=78.42% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 26000/60000 | acc=78.48% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 27000/60000 | acc=78.51% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 28000/60000 | acc=78.58% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 29000/60000 | acc=78.66% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 30000/60000 | acc=78.58% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 31000/60000 | acc=78.60% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 32000/60000 | acc=78.58% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 33000/60000 | acc=78.53% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 34000/60000 | acc=78.54% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 35000/60000 | acc=78.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 36000/60000 | acc=78.53% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 37000/60000 | acc=78.52% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 38000/60000 | acc=78.50% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 39000/60000 | acc=78.56% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 40000/60000 | acc=78.56% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 41000/60000 | acc=78.67% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 42000/60000 | acc=78.66% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 43000/60000 | acc=78.61% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 44000/60000 | acc=78.69% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 45000/60000 | acc=78.70% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 46000/60000 | acc=78.69% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 47000/60000 | acc=78.69% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 48000/60000 | acc=78.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 49000/60000 | acc=78.67% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 50000/60000 | acc=78.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 51000/60000 | acc=78.60% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 52000/60000 | acc=78.67% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 53000/60000 | acc=78.65% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 54000/60000 | acc=78.68% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 55000/60000 | acc=78.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 56000/60000 | acc=78.70% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 57000/60000 | acc=78.72% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 58000/60000 | acc=78.74% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 59000/60000 | acc=78.88% | maxW1f=0.0781 maxW2f=0.3906
+Ep 8 | 60000/60000 | acc=78.97% | maxW1f=0.0781 maxW2f=0.3906
+Epoch 8 DONE | acc=78.97%
+
+Ep 9 |  1000/60000 | acc=79.50% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 |  2000/60000 | acc=79.00% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 |  3000/60000 | acc=79.37% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 |  4000/60000 | acc=79.90% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 |  5000/60000 | acc=79.80% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 |  6000/60000 | acc=79.87% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 |  7000/60000 | acc=79.67% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 |  8000/60000 | acc=79.47% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 |  9000/60000 | acc=78.92% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 10000/60000 | acc=79.19% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 11000/60000 | acc=79.14% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 12000/60000 | acc=78.93% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 13000/60000 | acc=78.79% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 14000/60000 | acc=78.74% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 15000/60000 | acc=78.37% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 16000/60000 | acc=78.22% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 17000/60000 | acc=78.10% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 18000/60000 | acc=77.97% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 19000/60000 | acc=78.13% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 20000/60000 | acc=78.17% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 21000/60000 | acc=78.20% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 22000/60000 | acc=78.41% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 23000/60000 | acc=78.27% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 24000/60000 | acc=78.36% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 25000/60000 | acc=78.25% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 26000/60000 | acc=78.30% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 27000/60000 | acc=78.31% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 28000/60000 | acc=78.36% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 29000/60000 | acc=78.40% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 30000/60000 | acc=78.33% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 31000/60000 | acc=78.28% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 32000/60000 | acc=78.22% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 33000/60000 | acc=78.17% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 34000/60000 | acc=78.19% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 35000/60000 | acc=78.17% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 36000/60000 | acc=78.20% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 37000/60000 | acc=78.16% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 38000/60000 | acc=78.13% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 39000/60000 | acc=78.19% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 40000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 41000/60000 | acc=78.21% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 42000/60000 | acc=78.20% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 43000/60000 | acc=78.10% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 44000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 45000/60000 | acc=78.16% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 46000/60000 | acc=78.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 47000/60000 | acc=78.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 48000/60000 | acc=78.13% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 49000/60000 | acc=78.16% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 50000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 51000/60000 | acc=78.11% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 52000/60000 | acc=78.14% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 53000/60000 | acc=78.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 54000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 55000/60000 | acc=78.13% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 56000/60000 | acc=78.16% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 57000/60000 | acc=78.21% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 58000/60000 | acc=78.23% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 59000/60000 | acc=78.36% | maxW1f=0.0781 maxW2f=0.3906
+Ep 9 | 60000/60000 | acc=78.44% | maxW1f=0.0781 maxW2f=0.3906
+Epoch 9 DONE | acc=78.44%
+
+Ep 10 |  1000/60000 | acc=78.80% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 |  2000/60000 | acc=78.30% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 |  3000/60000 | acc=79.23% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 |  4000/60000 | acc=79.68% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 |  5000/60000 | acc=79.66% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 |  6000/60000 | acc=79.77% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 |  7000/60000 | acc=79.46% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 |  8000/60000 | acc=79.30% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 |  9000/60000 | acc=78.72% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 10000/60000 | acc=78.90% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 11000/60000 | acc=78.92% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 12000/60000 | acc=78.73% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 13000/60000 | acc=78.58% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 14000/60000 | acc=78.64% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 15000/60000 | acc=78.44% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 16000/60000 | acc=78.38% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 17000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 18000/60000 | acc=78.02% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 19000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 20000/60000 | acc=78.18% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 21000/60000 | acc=78.19% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 22000/60000 | acc=78.40% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 23000/60000 | acc=78.23% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 24000/60000 | acc=78.29% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 25000/60000 | acc=78.22% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 26000/60000 | acc=78.20% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 27000/60000 | acc=78.17% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 28000/60000 | acc=78.13% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 29000/60000 | acc=78.19% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 30000/60000 | acc=78.13% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 31000/60000 | acc=78.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 32000/60000 | acc=78.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 33000/60000 | acc=78.09% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 34000/60000 | acc=78.13% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 35000/60000 | acc=78.07% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 36000/60000 | acc=78.14% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 37000/60000 | acc=78.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 38000/60000 | acc=78.10% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 39000/60000 | acc=78.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 40000/60000 | acc=78.10% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 41000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 42000/60000 | acc=78.18% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 43000/60000 | acc=78.13% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 44000/60000 | acc=78.19% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 45000/60000 | acc=78.22% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 46000/60000 | acc=78.20% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 47000/60000 | acc=78.19% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 48000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 49000/60000 | acc=78.18% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 50000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 51000/60000 | acc=78.12% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 52000/60000 | acc=78.16% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 53000/60000 | acc=78.15% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 54000/60000 | acc=78.20% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 55000/60000 | acc=78.19% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 56000/60000 | acc=78.21% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 57000/60000 | acc=78.27% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 58000/60000 | acc=78.29% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 59000/60000 | acc=78.42% | maxW1f=0.0781 maxW2f=0.3906
+Ep 10 | 60000/60000 | acc=78.50% | maxW1f=0.0781 maxW2f=0.3906
+Epoch 10 DONE | acc=78.50%
+
+Training complete. Best accuracy: 80.90%
+
+Convert weights:
+  cd ../../tools/weights
+  python3 convert_ccode_weights_to_datamem.py \
+    ../../RISC_V/c_program/best_weights_pymatched.txt \
+    -o ../../inference_accelarator/neuron_accelerator/data_mem_pymatched.mem \
+    --int-scale 256 --decay lif2 --reset-mode zero
