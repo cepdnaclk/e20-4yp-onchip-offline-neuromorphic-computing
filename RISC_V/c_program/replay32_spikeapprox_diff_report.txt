@@ -1,0 +1,16 @@
+Replay Learning Diff Report
+=================================
+
+[W1]
+count=156800
+changed=319
+max_abs_diff=1
+mean_abs_diff=0.002034
+p95_abs_diff=0.000000
+
+[W2]
+count=2000
+changed=371
+max_abs_diff=2
+mean_abs_diff=0.191000
+p95_abs_diff=1.000000

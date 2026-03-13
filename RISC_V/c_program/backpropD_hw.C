@@ -69,6 +69,39 @@ float dW2_acc[HIDDEN_SIZE][OUTPUT_SIZE];
 
 float best_accuracy = 0.0f;
 
+static void report_weight_saturation(const char *tag) {
+    int w1_pos = 0, w1_neg = 0, w1_zero = 0;
+    int w2_pos = 0, w2_neg = 0, w2_zero = 0;
+    const int w1_total = INPUT_SIZE * HIDDEN_SIZE;
+    const int w2_total = HIDDEN_SIZE * OUTPUT_SIZE;
+
+    for (int i = 0; i < INPUT_SIZE; i++) {
+        for (int j = 0; j < HIDDEN_SIZE; j++) {
+            if (W1[i][j] == W1_CLAMP) w1_pos++;
+            else if (W1[i][j] == -W1_CLAMP) w1_neg++;
+            else if (W1[i][j] == 0) w1_zero++;
+        }
+    }
+    for (int i = 0; i < HIDDEN_SIZE; i++) {
+        for (int j = 0; j < OUTPUT_SIZE; j++) {
+            if (W2[i][j] == W2_CLAMP) w2_pos++;
+            else if (W2[i][j] == -W2_CLAMP) w2_neg++;
+            else if (W2[i][j] == 0) w2_zero++;
+        }
+    }
+
+    printf("[SAT] %s | W1 +clamp=%d (%.2f%%) -clamp=%d (%.2f%%) zero=%d (%.2f%%)\n",
+           tag,
+           w1_pos, 100.0f * (float)w1_pos / (float)w1_total,
+           w1_neg, 100.0f * (float)w1_neg / (float)w1_total,
+           w1_zero, 100.0f * (float)w1_zero / (float)w1_total);
+    printf("[SAT] %s | W2 +clamp=%d (%.2f%%) -clamp=%d (%.2f%%) zero=%d (%.2f%%)\n",
+           tag,
+           w2_pos, 100.0f * (float)w2_pos / (float)w2_total,
+           w2_neg, 100.0f * (float)w2_neg / (float)w2_total,
+           w2_zero, 100.0f * (float)w2_zero / (float)w2_total);
+}
+
 /* ──────────────────────────────────────────────────────────────────────────
  * OPTIONAL DUMP OUTPUT (COMPILE WITH -DDUMP_VMEM_SPIKES)
  * ────────────────────────────────────────────────────────────────────────── */
@@ -396,6 +429,7 @@ int main(void) {
                 for (int i=0;i<HIDDEN_SIZE;i++) for(int j=0;j<OUTPUT_SIZE;j++) { float a=fabsf(W2f[i][j]); if(a>mw2f) mw2f=a; }
                 printf("Epoch %d | %5d/60000 | acc=%.2f%% | maxW1f=%.4f maxW2f=%.4f\n",
                        epoch+1, count, acc, mw1f, mw2f);
+                report_weight_saturation("mid-epoch");
                 if (acc > best_accuracy) {
                     best_accuracy = acc;
                     save_weights_txt("best_weights_hw.txt");
@@ -406,6 +440,7 @@ int main(void) {
 
         float ep_acc = (float)correct / count * 100.0f;
         printf("Epoch %d DONE | acc=%.2f%%\n\n", epoch + 1, ep_acc);
+        report_weight_saturation("epoch-end");
         if (ep_acc > best_accuracy) {
             best_accuracy = ep_acc;
             save_weights_txt("best_weights_hw.txt");

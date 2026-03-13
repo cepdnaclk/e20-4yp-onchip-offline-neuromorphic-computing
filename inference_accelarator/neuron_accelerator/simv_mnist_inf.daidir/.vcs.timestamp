@@ -34,11 +34,13 @@
 simv_mnist_inf
 /mnt/hidden_home/synopsys/verdi/X-2025.06-SP2/share/PLI/VCS/LINUX64/verdi.tab
 mnist_infertest_tb.v
-50
+54
 XDG_SESSION_TYPE=tty
-XDG_SESSION_ID=63
+XDG_SESSION_ID=77
 XDG_SESSION_CLASS=user
 XDG_RUNTIME_DIR=/run/user/2299
+VSCODE_PYTHON_AUTOACTIVATE_GUARD=1
+VSCODE_IPC_HOOK_CLI=/run/user/2299/vscode-ipc-f417d5d8-b2a8-44e3-bd2a-ff2c35f6743f.sock
 VMR_MODE_FLAG=64
 VERDI_LIB=/mnt/hidden_home/synopsys/verdi/X-2025.06-SP2/share/PLI/VCS/linux64
 VERDI_HOME=/mnt/hidden_home/synopsys/verdi/X-2025.06-SP2
@@ -57,10 +59,11 @@ VCS_ARCH_OVERRIDE=linux
 VCS_ARCH=linux64
 UNAME=/bin/uname
 TOOL_HOME=/mnt/hidden_home/synopsys/vcs/linux64
+TERM_PROGRAM_VERSION=1.111.0
+TERM_PROGRAM=vscode
 SYNOPSYS_LC_ROOT=/mnt/hidden_home/synopsys/lc/X-2025.06-SP3
-SSH_TTY=/dev/pts/0
-SSH_CONNECTION=10.40.18.7 49736 10.40.18.20 22
-SSH_CLIENT=10.40.18.7 49736 22
+SSH_CONNECTION=10.40.18.7 51966 10.40.18.20 22
+SSH_CLIENT=10.40.18.7 51966 22
 SNPS_VCS_PYTHON3=/mnt/hidden_home/synopsys/vcs/linux64/bin/Python3/bin/python3
 SNPS_VCS_CLANG_PATH=/mnt/hidden_home/synopsys/vcs/linux64/clang
 SNPS_ROOT=/mnt/hidden_home/synopsys
@@ -82,9 +85,10 @@ LC_HOME=/mnt/hidden_home/synopsys/lc/X-2025.06-SP3
 LC_ALL=C
 ICC2_HOME=/mnt/hidden_home/synopsys/icc2/X-2025.06-SP2
 HISTCONTROL=ignoredups
-GPG_TTY=/dev/pts/0
+GPG_TTY=not a tty
 DEBUGINFOD_IMA_CERT_PATH=/etc/keys/ima:
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/2299/bus
+COLORTERM=truecolor
 0
 0
 27
@@ -112,7 +116,7 @@ DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/2299/bus
 1773236950 ../neuron_integer/neuron_int_lif/utils/encording.v
 1773236911 neuron_accelerator.v
 1764591403 /mnt/hidden_home/synopsys/vcs/linux64/packages/snps_msv_nettype_pkg/AN.DB
-1773351794 mnist_infertest_tb.v
+1773404632 mnist_infertest_tb.v
 1764232856 /mnt/hidden_home/synopsys/verdi/X-2025.06-SP2/share/PLI/VCS/LINUX64/verdi.tab
 1764575419 /mnt/hidden_home/synopsys/vcs/linux64/lib/vcsdp_lite.tab
 4
@@ -120,5 +124,5 @@ DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/2299/bus
 1764576997 /mnt/hidden_home/synopsys/vcs/linux64/lib/liberrorinf.so
 1764576990 /mnt/hidden_home/synopsys/vcs/linux64/lib/libsnpsmalloc.so
 1764576977 /mnt/hidden_home/synopsys/vcs/linux64/lib/libvfs.so
-1773351956 simv_mnist_inf.daidir
+1773404663 simv_mnist_inf.daidir
 -1 partitionlib

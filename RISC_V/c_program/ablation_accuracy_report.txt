@@ -1,0 +1,40 @@
+Hardware Inference A/B Report
+=============================
+
+samples=10
+sim_bin=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/inference_accelarator/neuron_accelerator/simv_mnist_inf
+converter=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/tools/weights/convert_ccode_weights_to_datamem.py
+LD_LIBRARY_PATH(add)=/mnt/hidden_home/synopsys/vcs/linux64/lib
+
+[baseline_hw]
+weights=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/c_program/best_weights_hw.txt
+int_scale=256.0 decay=lif24 reset=zero
+convert_ok=True sim_ok=False
+accuracy=
+notes=sim failed (rc=127); missing VCS runtime libs (LD_LIBRARY_PATH/module load)
+log=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/c_program/ablation_logs/baseline_hw_sim.log
+
+[replay32_lutdump]
+weights=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/c_program/best_weights_hw_replay32.txt
+int_scale=256.0 decay=lif24 reset=zero
+convert_ok=True sim_ok=False
+accuracy=
+notes=sim failed (rc=127); missing VCS runtime libs (LD_LIBRARY_PATH/module load)
+log=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/c_program/ablation_logs/replay32_lutdump_sim.log
+
+[replay32_spikeapprox]
+weights=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/c_program/best_weights_hw_replay32_spikeapprox.txt
+int_scale=256.0 decay=lif24 reset=zero
+convert_ok=True sim_ok=False
+accuracy=
+notes=sim failed (rc=127); missing VCS runtime libs (LD_LIBRARY_PATH/module load)
+log=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/c_program/ablation_logs/replay32_spikeapprox_sim.log
+
+[baseline_hw_scale_stress_int1]
+weights=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/c_program/best_weights_hw.txt
+int_scale=1.0 decay=lif24 reset=zero
+convert_ok=False sim_ok=False
+accuracy=
+notes=convert failed (rc=1)
+log=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/RISC_V/c_program/ablation_logs/baseline_hw_scale_stress_int1_convert.log
+
