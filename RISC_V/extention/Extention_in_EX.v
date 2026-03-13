@@ -10,7 +10,7 @@ module customCalculation (clk, rst_n, enable, error_term_in, gradient_val, grad_
     input wire load_new_weight; // Signal to load new weight value
     output reg signed [31:0] Updated_weight;   // The calculated weight change
 
-    localparam signed [15:0] LR = 16'sd16;
+    localparam signed [15:0] LR = 16'sd150;
     
     wire signed [31:0] delta_out;
     reg apply_update_d;
