@@ -76,7 +76,20 @@ module neuron_accelerator #(
     output wire [packet_width-1:0] main_fifo_dout_out,  // Spike output to the network
 
     // accelerator done
-    output wire accelerator_done
+    output wire accelerator_done,
+    output wire dbg_all_clusters_done,  // expose for testbench monitoring
+
+    // ================== Port B: Shared Memory Dump Interface ================
+    output reg  [15:0] portb_addr,       // Word address into shared memory
+    output reg  [31:0] portb_din,        // Data to write
+    output reg         portb_we,         // Write enable
+    output reg         portb_en,         // Port enable
+    output wire        dump_done,        // High for 1 cycle when dump completes
+
+    // Layout config (set by CPU before inference starts)
+    input wire  [15:0] vmem_base_addr,   // Start word-address of V_mem region
+    input wire  [15:0] spike_base_addr,  // Start word-address of Spike region
+    input wire  [3:0]  current_timestep  // Current timestep index (0..T-1)
 );
 
     // ================== Parameters ================
@@ -131,6 +144,15 @@ module neuron_accelerator #(
     assign all_forwarders_done = &(forwarder_4_done | done_mask) && forwarder_8_done;
     assign resolvers_done = &(weight_resolver_done | done_mask);
     assign accelerator_done = all_clusters_done & all_forwarders_done & main_fifo_empty_in & main_fifo_empty_out & resolvers_done;
+    assign dbg_all_clusters_done = all_clusters_done;  // expose for debug
+
+    // ================== V_mem & Spike & Neurons-Done Collection Wires ================
+    // Total neurons = number_of_clusters * neurons_per_cluster
+    localparam N_TOTAL   = number_of_clusters * neurons_per_cluster;
+    localparam N_SPIKE_W = (N_TOTAL + 31) / 32;
+
+    wire [32*N_TOTAL-1:0] all_pre_spike;     // Pre-fire V_mem (for backprop dump)
+    wire [N_TOTAL-1:0]    all_spikes;         // Spike bits, packed
 
     // ================== Main Spike In FIFO ================
     fifo #(
@@ -420,9 +442,125 @@ module neuron_accelerator #(
                     ),
 
                     // cluster done
-                    .cluster_done(cluster_done[j])
+                    .cluster_done(cluster_done[j]),
+
+                    // dump interface
+                    .v_pre_spike_out(all_pre_spike[(i*4+j)*32*neurons_per_cluster +: 32*neurons_per_cluster]),
+                    .spikes_out_raw(all_spikes[(i*4+j)*neurons_per_cluster   +: neurons_per_cluster])
                 );
             end
         end
     endgenerate
+
+    // =========================================================================
+    //  Dump FSM — writes V_mem then Spikes to Shared Memory (Port B)
+    //  Triggers when ALL clusters finish computing V_mem (neurons_done).
+    //  This fires every timestep as soon as neuron computation is done,
+    //  independent of the spike encoder (outgoing_enc_done).
+    // =========================================================================
+    localparam DUMP_IDLE   = 2'd0;
+    localparam DUMP_VMEM   = 2'd1;
+    localparam DUMP_SPIKES = 2'd2;
+    localparam DUMP_DONE   = 2'd3;
+    // Extra 3-bit FSM to allow a 1-cycle LATCH state between IDLE and VMEM
+    // (re-use the 2-bit encoding; we add a flag 'dump_latch_cycle' instead)
+
+    reg [1:0]  dump_state;
+    reg [10:0] dump_idx;             // neuron counter or spike-word counter
+    reg [3:0]  t_latch;              // timestep latched when dump starts
+    reg        prev_clusters_done;   // for rising-edge detection
+    reg        dump_latch_cycle;     // 1-cycle pipeline delay after trigger
+    reg [N_TOTAL-1:0]    latched_spikes;    // spikes captured at dump trigger
+    reg [32*N_TOTAL-1:0] latched_pre_spike; // pre-spike vmem captured 1 cycle after trigger
+
+    always @(posedge clk) begin
+        if (rst) begin
+            dump_state         <= DUMP_IDLE;
+            portb_we           <= 1'b0;
+            portb_en           <= 1'b0;
+            portb_addr         <= 16'h0;
+            portb_din          <= 32'h0;
+            dump_idx           <= 11'd0;
+            t_latch            <= 4'd0;
+            prev_clusters_done <= 1'b0;
+            dump_latch_cycle   <= 1'b0;
+            latched_spikes     <= {N_TOTAL{1'b0}};
+            latched_pre_spike  <= {32*N_TOTAL{1'b0}};
+        end else begin
+            prev_clusters_done <= accelerator_done;  // track accelerator_done
+
+            case (dump_state)
+
+                // ── Wait for rising edge of accelerator_done ──
+                DUMP_IDLE: begin
+                    portb_we <= 1'b0;
+                    portb_en <= 1'b0;
+                    if (accelerator_done && !prev_clusters_done) begin
+                        // Rising edge detected.  Don't read all_pre_spike yet —
+                        // it is being updated by non-blocking assignments in the
+                        // same clock cycle.  Wait one cycle (dump_latch_cycle)
+                        // so the registers settle, then latch everything.
+                        dump_latch_cycle <= 1'b1;
+                        t_latch          <= current_timestep;
+                        dump_idx         <= 11'd0;
+                    end
+
+                    // One cycle AFTER the trigger: latch stable values
+                    if (dump_latch_cycle) begin
+                        dump_latch_cycle  <= 1'b0;
+                        latched_spikes    <= all_spikes;
+                        latched_pre_spike <= all_pre_spike;
+                        dump_state        <= DUMP_VMEM;
+                    end
+                end
+
+                // ── Write one V_mem word per cycle (N_TOTAL cycles total) ──
+                DUMP_VMEM: begin
+                    portb_en   <= 1'b1;
+                    portb_we   <= 1'b1;
+                    portb_addr <= vmem_base_addr
+                                  + ({12'd0, t_latch} * N_TOTAL[15:0])
+                                  + {5'd0, dump_idx};
+                    portb_din  <= latched_pre_spike[dump_idx*32 +: 32];  // from latch!
+
+                    if (dump_idx == N_TOTAL - 1) begin
+                        dump_state <= (|latched_spikes) ? DUMP_SPIKES : DUMP_DONE;
+                        dump_idx   <= 11'd0;
+                    end else begin
+                        dump_idx <= dump_idx + 1'd1;
+                    end
+                end
+
+                // ── Pack 32 spikes per word, write one word per cycle ──
+                DUMP_SPIKES: begin
+                    portb_en   <= 1'b1;
+                    portb_we   <= 1'b1;
+                    portb_addr <= spike_base_addr
+                                  + ({12'd0, t_latch} * N_SPIKE_W[15:0])
+                                  + {5'd0, dump_idx};
+                    portb_din  <= latched_spikes[dump_idx*32 +: 32]; // from latch!
+
+                    if (dump_idx == N_SPIKE_W - 1) begin
+                        dump_state <= DUMP_DONE;
+                        dump_idx   <= 11'd0;
+                    end else begin
+                        dump_idx <= dump_idx + 1'd1;
+                    end
+                end
+
+                // ── One idle cycle, then back to waiting for next timestep ──
+                DUMP_DONE: begin
+                    portb_we   <= 1'b0;
+                    portb_en   <= 1'b0;
+                    dump_state <= DUMP_IDLE;
+                end
+
+                default: dump_state <= DUMP_IDLE;
+            endcase
+        end
+    end
+
+    // dump_done: pulses high for exactly one cycle when DUMP_DONE state is active
+    assign dump_done = (dump_state == DUMP_DONE);
+
 endmodule

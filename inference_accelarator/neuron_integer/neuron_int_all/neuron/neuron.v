@@ -48,7 +48,8 @@ module neuron (
     input wire [31:0] neuron_weight_in,
     input wire rst_potential,
     output wire spike,
-    output wire done
+    output wire done,
+    output wire [31:0] v_pre_spike_out  // pre-fire potential (for backprop)
 );
     wire load;
     wire [9:0] address;
@@ -110,6 +111,7 @@ module neuron (
         .model(adder_model),
         .init_mode(init_mode_adder),
         .final_potential(final_potential),
+        .v_pre_spike(v_pre_spike_out),    // NEW: pre-fire potential for backprop
         .done(adder_done),
         .spike(spike)
     );
