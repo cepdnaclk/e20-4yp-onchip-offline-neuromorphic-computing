@@ -7,3 +7,29 @@ riscv64-unknown-elf-objdump -d block4_lif.elf > block4_lif.dump
 riscv64-unknown-elf-gcc -march=rv32im -mabi=ilp32 -O1 -nostdlib -T ../snn_tests/link.ld ../snn_tests/crt0.s state2_surrogate.c -o state2_surrogate.elf
 riscv64-unknown-elf-objcopy -O verilog --verilog-data-width=4 state2_surrogate.elf state2_surrogate.hex
 riscv64-unknown-elf-objdump -d state2_surrogate.elf > state2_surrogate.dump
+
+
+cd ~/e20-4yp-onchip-offline-neuromorphic-computing/tools/weights
+
+# Model A: pymatched (16-hidden, LIF2, normalised Poisson)
+python3 convert_ccode_weights_to_datamem.py \
+    ../../RISC_V/c_program/best_weights_pymatched.txt \
+    -o ../../inference_accelarator/neuron_accelerator/data_mem_pymatched.mem \
+    --int-scale 256 --decay lif2 --reset-mode zero
+
+# Model B: hw (200-hidden, LIF24, raw-pixel Poisson)
+python3 convert_ccode_weights_to_datamem.py \
+    ../../RISC_V/c_program/best_weights_hw.txt \
+    -o ../../inference_accelarator/neuron_accelerator/data_mem_mnist_new.mem \
+    --int-scale 256 --decay lif24 --reset-mode zero
+
+cd ~/e20-4yp-onchip-offline-neuromorphic-computing/inference_accelarator/neuron_accelerator
+
+# Compile (change the -o name to match the model you're testing)
+vcs -full64 -sverilog -debug_access+all +v2k mnist_infertest_tb.v -o simv_test
+
+# Quick sanity check (10 samples)
+./simv_test +input_count=10
+
+# Full 320-sample inference
+./simv_test
