@@ -27,9 +27,9 @@ module alu (data1,data2,ALU_OPCODE,Output);
             5'b00010:#1 Output = data1|data2;                          //OR instruction
             5'b00011:#1 Output = data1^data2;                          //XOR instruction
             5'b00100:#1 Output = data1&data2;                          //AND instruction
-            5'b00101:#2 Output = data1>>data2;                         //SLR instruction
-            5'b00110:#2 Output = data1<<data2;                         //SLL instruction
-            5'b00111:#2 Output = data1>>>data2;                        //SRA instruction
+            5'b00101:#2 Output = data1>>data2[4:0];                         //SLR instruction
+            5'b00110:#2 Output = data1<<data2[4:0];                         //SLL instruction
+            5'b00111:#2 Output = $signed(data1)>>>data2[4:0];               //SRA instruction
             5'b01000:#3 Output = data1*data2;                          //MUL instruction
             5'b01001:#3 Output = MULH_result;                          //MULH instruction
             5'b01010:#3 Output = MULHU_result;                         //MULHU instruction

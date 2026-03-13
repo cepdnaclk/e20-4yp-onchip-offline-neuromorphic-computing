@@ -9,7 +9,7 @@ module custom_backprop_unit (
     output reg  signed [31:0]   delta_out
 );
 
-    localparam signed [15:0] BETA = 16'sd243; // 0.95 * 256
+    localparam signed [15:0] BETA = 16'sd192; // 0.75 * 256
 
     reg  signed [31:0] dm_prev;
 
