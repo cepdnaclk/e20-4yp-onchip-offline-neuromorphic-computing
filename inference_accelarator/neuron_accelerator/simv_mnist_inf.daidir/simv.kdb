@@ -1,0 +1,21 @@
+rc file Version 1.0
+
+[Design]
+COMPILE_PATH=/home/e20439/e20-4yp-onchip-offline-neuromorphic-computing/inference_accelarator/neuron_accelerator
+VCS_HOME=/mnt/hidden_home/synopsys/vcs
+VERDI_HOME=/mnt/hidden_home/synopsys/verdi/X-2025.06-SP2
+SystemC=FALSE
+UUM=FALSE
+KDB=FALSE
+USE_NOVAS_HOME=FALSE
+COSIM=FALSE
+TOP=mnist_infertest_tb 
+OPTION=-ssv -ssy 
+ELAB_OPTION=-ssv -ssy 
+
+[Value]
+WREALX=ffff534e50535f58
+WREALZ=ffff534e50535f5a
+
+[CompInfo]
+FLOW_OPTS=-ssv -ssy 

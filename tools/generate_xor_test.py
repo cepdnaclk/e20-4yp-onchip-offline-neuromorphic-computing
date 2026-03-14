@@ -213,8 +213,11 @@ def generate_xor_data():
     b.extend(pkt_configure_neuron(0, 0, 0, decay=0.0, vt=3.0, mode=LIF2_MODE))
     # H1 (cluster 0, neuron 1): AND-like, VT=8.0
     b.extend(pkt_configure_neuron(0, 0, 1, decay=0.0, vt=8.0, mode=LIF2_MODE))
-    # Output (cluster 1, neuron 0): XOR, VT=10.0
-    b.extend(pkt_configure_neuron(0, 1, 0, decay=0.0, vt=10.0, mode=LIF2_MODE))
+    # Output (cluster 1, neuron 0): XOR, VT=25.0
+    # VT must be >20 so a single H0 spike (+20) cannot fire the output alone.
+    # Two consecutive un-cancelled H0 spikes (+20+20=40>=25) will fire it,
+    # which is exactly what happens for the (1,0) and (0,1) true-output cases.
+    b.extend(pkt_configure_neuron(0, 1, 0, decay=0.0, vt=25.0, mode=LIF2_MODE))
     
     # ========== 3. INCOMING FORWARDER CONFIG ==========
     # Cluster 0: base=0, register external cluster 62
@@ -293,7 +296,7 @@ def main():
     print("  SF4[0] main→cl0+cl1: 0b00110")
     print("  SF4[1] cl0→main+cl1: 0b00101")
     print("  SF4[2] cl1→main:     0b00001")
-    print("\nNeurons: H0(VT=3), H1(VT=8), Out(VT=10)")
+    print("\nNeurons: H0(VT=3), H1(VT=8), Out(VT=25)")
     print("Weights: A/B→H0/H1:+5, H0→Out:+20, H1→Out:-20")
     print("\nExpected: [0,0]→0  [0,1]→1  [1,0]→1  [1,1]→0")
 

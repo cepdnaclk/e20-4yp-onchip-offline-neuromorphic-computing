@@ -1,0 +1,12 @@
+nohup: ignoring input
+==============================================
+MNIST Inference Testbench
+  time_step_window = 16
+  input_neurons    = 784
+  nn_layers        = 2
+  input_count      = 100
+  Cluster map: input=0-24, hidden=25-30, output=31
+==============================================
+WARNING: mnist_inference_tb.v:200: $readmemh(data_mem.mem): Not enough words in the file for the requested range [0:800000].
+WARNING: mnist_inference_tb.v:201: $readmemh(spike_mem.mem): Not enough words in the file for the requested range [0:4000000].
+[INIT] byte 0 / ~668774

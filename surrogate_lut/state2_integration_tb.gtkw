@@ -1,0 +1,209 @@
+[*]
+[*] GTKWave save file — state2_integration_tb (Level 7)
+[*]
+[*] WHAT YOU ARE LOOKING AT:
+[*]   This is the Level 7 end-to-end State 2 surrogate substitution test.
+[*]   It verifies the full STATE 2 data path:
+[*]
+[*]     snn_shared_memory_wb  (dual-port BRAM)
+[*]       Port B — pre-loaded with raw Q16.16 V_mem values (STATE 1 output)
+[*]       Port A — CPU FSM reads V_mem, writes surrogate gradient back
+[*]
+[*]     surrogate_lut_wb  (256-entry ROM)
+[*]       Queried by CPU FSM: lut_index = vmem_word[23:16]
+[*]       Returns 8-bit surrogate gradient
+[*]
+[*] TEST VECTORS:
+[*]   vmem[0] = 0x00050000  (v=5.0  Q16.16) → lut[5]  = 0xBF → write 0x000000BF
+[*]   vmem[1] = 0x00050000  (v=5.0  Q16.16) → lut[5]  = 0xBF → write 0x000000BF
+[*]   vmem[2] = 0x00140000  (v=20.0 Q16.16) → lut[20] = 0x61 → write 0x00000061
+[*]   vmem[3] = 0x00000000  (v=0.0  Q16.16) → lut[0]  = 0xFF → write 0x000000FF
+[*]
+[*] KEY PHASES TO OBSERVE (in time order):
+[*]
+[*]  ① RESET (~0–100 ns):
+[*]     rst = 1, then falls LOW at t≈100 ns
+[*]     All Wishbone buses idle (stb=0, cyc=0)
+[*]
+[*]  ② PHASE 1 — Port B pre-load (~100–140 ns):
+[*]     portb_we + portb_en strobe 4 times (one per test vector)
+[*]     portb_addr = VMEM_WORD_BASE+0..3  (0x1000, 0x1001, 0x1002, 0x1003)
+[*]     portb_din  = 0x00050000 / 0x00050000 / 0x00140000 / 0x00000000
+[*]     BRAM mem[0x1000..0x1003] filled with raw V_mem
+[*]
+[*]  ③ PHASE 2 — Port A readback verification (~150 ns):
+[*]     wb_stb_i / wb_cyc_i pulses × 4
+[*]     wb_adr_i walks: 0x20004000, 0x20004004, 0x20004008, 0x2000400C
+[*]     wb_ack_o fires after 1 cycle each time
+[*]     wb_dat_o returns raw V_mem words (confirm PHASE 1 write succeeded)
+[*]
+[*]  ④ PHASE 3 — Standalone LUT queries (~200 ns):
+[*]     lut_stb / lut_cyc pulse × 3
+[*]     lut_adr = 0xA0000014 (idx=5),  0xA0000050 (idx=20),  0xA0000000 (idx=0)
+[*]     lut_ack fires after 1 cycle
+[*]     lut_dato returns 0x000000BF / 0x00000061 / 0x000000FF
+[*]     Checks 5, 6, 7 pass here
+[*]
+[*]  ⑤ PHASE 4 — STATE 2 substitution loop (~250 ns):
+[*]     For each i in 0..3:
+[*]       Port A read  → readback = raw V_mem
+[*]       LUT query    → grad = lut[readback[23:16]]
+[*]       Port A write → mem[vmem_addr(i)] ← {24'd0, grad}
+[*]     Watch wb_we_i toggle HIGH during write cycles
+[*]     watch wb_dat_i = 0x000000BF / 0xBF / 0x61 / 0xFF
+[*]
+[*]  ⑥ PHASE 5 — Final verification (~350 ns):
+[*]     Port A reads × 4 → wb_dat_o must equal gradient values
+[*]     readback sequence: 0x000000BF, 0x000000BF, 0x00000061, 0x000000FF
+[*]     collision_count must remain 0 throughout
+[*]
+[*] PASS CRITERIA (8 checks):
+[*]   [1] vmem[0] after pass = 0x000000BF
+[*]   [2] vmem[1] after pass = 0x000000BF
+[*]   [3] vmem[2] after pass = 0x00000061
+[*]   [4] vmem[3] after pass = 0x000000FF
+[*]   [5] LUT index=5  returns 0xBF
+[*]   [6] LUT index=20 returns 0x61
+[*]   [7] LUT index=0  returns 0xFF (peak)
+[*]   [8] No Port A/B collisions during STATE 2 pass
+[*]
+[*] Open with:
+[*]   gtkwave state2_integration_tb.vcd state2_integration_tb.gtkw
+[*]
+[dumpfile] "/home/ravindu/FYP/e20-4yp-onchip-offline-neuromorphic-computing/surrogate_lut/state2_integration_tb.vcd"
+[savefile] "/home/ravindu/FYP/e20-4yp-onchip-offline-neuromorphic-computing/surrogate_lut/state2_integration_tb.gtkw"
+[timestart] 0
+[size] 1920 1080
+[pos] 0 0
+*-18.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] state2_integration_tb.
+[treeopen] state2_integration_tb.shared_mem.
+[treeopen] state2_integration_tb.lut.
+[signals_width] 420
+
+@28
+-◆ GROUP 1: System Clock & Reset
+@28
+state2_integration_tb.clk
+state2_integration_tb.rst
+-END_GROUP
+
+@28
+-◆ GROUP 2: Port B — Pre-load V_mem  (simulates STATE 1 accelerator dump)
+[color] 4
+@28
+state2_integration_tb.portb_we
+state2_integration_tb.portb_en
+@22
+state2_integration_tb.portb_addr[12:0]
+@800028
+state2_integration_tb.portb_din[31:0]
+@800028
+state2_integration_tb.portb_dout[31:0]
+-END_GROUP
+
+@28
+-◆ GROUP 3: snn_shared_memory_wb — Port B internal signals
+[color] 4
+@28
+state2_integration_tb.shared_mem.portb_we
+state2_integration_tb.shared_mem.portb_en
+state2_integration_tb.shared_mem.portb_writing
+@22
+state2_integration_tb.shared_mem.portb_addr[12:0]
+@800028
+state2_integration_tb.shared_mem.portb_din[31:0]
+-END_GROUP
+
+@28
+-◆ GROUP 4: Port A Wishbone — CPU reads V_mem  (PHASE 2 & PHASE 4 reads)
+[color] 6
+@28
+state2_integration_tb.mem_stb
+state2_integration_tb.mem_cyc
+state2_integration_tb.mem_we
+state2_integration_tb.mem_ack
+@800022
+state2_integration_tb.mem_adr[31:0]
+@800028
+state2_integration_tb.mem_dati[31:0]
+@800028
+state2_integration_tb.mem_dato[31:0]
+-END_GROUP
+
+@28
+-◆ GROUP 5: snn_shared_memory_wb — Port A internal signals
+[color] 6
+@28
+state2_integration_tb.shared_mem.wb_stb_i
+state2_integration_tb.shared_mem.wb_cyc_i
+state2_integration_tb.shared_mem.wb_we_i
+state2_integration_tb.shared_mem.wb_ack_o
+@800022
+state2_integration_tb.shared_mem.wb_adr_i[31:0]
+@800022
+state2_integration_tb.shared_mem.porta_addr[12:0]
+@800028
+state2_integration_tb.shared_mem.wb_dat_i[31:0]
+@800028
+state2_integration_tb.shared_mem.wb_dat_o[31:0]
+-END_GROUP
+
+@28
+-◆ GROUP 6: surrogate_lut_wb — Wishbone query bus  (PHASE 3 & PHASE 4)
+[color] 5
+@28
+state2_integration_tb.lut_stb
+state2_integration_tb.lut_cyc
+state2_integration_tb.lut_ack
+@800022
+state2_integration_tb.lut_adr[31:0]
+@800028
+state2_integration_tb.lut_dato[31:0]
+-END_GROUP
+
+@28
+-◆ GROUP 7: surrogate_lut_wb — Internal ROM signals
+[color] 5
+@28
+state2_integration_tb.lut.wb_stb_i
+state2_integration_tb.lut.wb_cyc_i
+state2_integration_tb.lut.wb_ack_o
+@800022
+state2_integration_tb.lut.wb_adr_i[31:0]
+@800022
+state2_integration_tb.lut.lut_index[7:0]
+@800028
+state2_integration_tb.lut.wb_dat_o[31:0]
+-END_GROUP
+
+@28
+-◆ GROUP 8: STATE 2 Loop Registers — readback + grad per iteration
+[color] 3
+@800028
+state2_integration_tb.readback[31:0]
+@22
+state2_integration_tb.grad[7:0]
+@8
+state2_integration_tb.i[31:0]
+-END_GROUP
+
+@28
+-◆ GROUP 9: Collision Detect — must stay LOW entire simulation
+[color] 1
+@28
+state2_integration_tb.collision_detect
+state2_integration_tb.shared_mem.collision_detect
+@8
+state2_integration_tb.collision_count[31:0]
+-END_GROUP
+
+@28
+-◆ GROUP 10: Test Score
+@8
+state2_integration_tb.pass_count[31:0]
+state2_integration_tb.fail_count[31:0]
+-END_GROUP
+
+[pattern_trace] 1
+[pattern_trace] 0
