@@ -38,6 +38,7 @@ W2_MAX = 100
 W1_MIN = -50
 W1_MAX = 50
 CENTER_OUTPUT_BLAME = True
+TARGETED_W2 = False
 
 N_HIDDEN = 200
 N_OUTPUT = 10
@@ -353,6 +354,29 @@ def apply_final_clamp(w1: List[List[int]], w2: List[List[int]]) -> None:
             w2[i][j] = clamp_w2(clamp16(w2[i][j]))
 
 
+def apply_accumulated_updates(
+    w1: List[List[int]],
+    w2: List[List[int]],
+    accum_w1: List[List[int]],
+    accum_w2: List[List[int]],
+    divisor: float,
+    targeted_w2: bool,
+) -> None:
+    if divisor <= 0:
+        raise ValueError("divisor must be > 0")
+
+    if not targeted_w2:
+        for i in range(N_INPUT):
+            for j in range(N_HIDDEN):
+                avg_offset = int(round(accum_w1[i][j] / divisor))
+                w1[i][j] = clamp_w1(clamp16(w1[i][j] - avg_offset))
+
+    for i in range(N_HIDDEN):
+        for j in range(N_OUTPUT):
+            avg_offset = int(round(accum_w2[i][j] / divisor))
+            w2[i][j] = clamp_w2(clamp16(w2[i][j] - avg_offset))
+
+
 def run_learning(
     weights_path: Path,
     smem_path: Path,
@@ -365,7 +389,11 @@ def run_learning(
     delta_clip: int,
     center_hidden_blame: bool,
     center_output_blame: bool,
+    targeted_w2: bool,
+    update_mode: str,
+    micro_batch_size: int,
     sample_id: int | None,
+    sample_offset: int,
     max_samples: int | None,
 ) -> None:
     w1_base, w2_base = parse_weight_file(weights_path)
@@ -380,16 +408,25 @@ def run_learning(
     )
     if sample_id is not None:
         common_samples = [s for s in common_samples if s == sample_id]
+    if sample_offset > 0:
+        common_samples = common_samples[sample_offset:]
     if max_samples is not None and max_samples > 0:
         common_samples = common_samples[:max_samples]
     if not common_samples:
         raise ValueError("No overlapping sample IDs between smem and blame files")
 
-    # Strict frozen-batch update:
-    # accumulate deltas using fixed base weights, then apply once.
+    if update_mode not in {"frozen-batch", "online", "micro-batch"}:
+        raise ValueError(f"Unsupported update_mode: {update_mode}")
+    if micro_batch_size <= 0:
+        raise ValueError("micro_batch_size must be > 0")
+
+    # Frozen-batch update accumulates deltas using fixed base weights, then applies once.
+    # Online update applies each sample immediately to the live weights.
     accum_w1 = [[0 for _ in range(N_HIDDEN)] for _ in range(N_INPUT)]
     accum_w2 = [[0 for _ in range(N_OUTPUT)] for _ in range(N_HIDDEN)]
     used_samples = 0
+    contributing_samples = 0
+    pending_contributors = 0
 
     for s in common_samples:
         ts_map = smem_by_sample[s]
@@ -406,62 +443,108 @@ def run_learning(
         blame_vec = blame_by_sample[s]
         if center_output_blame:
             blame_vec = center_values(blame_vec)
-        hidden_blame = hidden_blame_from_w2(w2_base, blame_vec)
+        has_nonzero_blame = any(v != 0 for v in blame_vec)
+        if has_nonzero_blame:
+            contributing_samples += 1
+
+        # If blame is fully zero, this sample contributes no learning signal.
+        if not has_nonzero_blame:
+            continue
+
+        w2_ref = w2 if update_mode in {"online", "micro-batch"} else w2_base
+        hidden_blame = hidden_blame_from_w2(w2_ref, blame_vec)
         if center_hidden_blame:
             hidden_blame = center_values(hidden_blame)
         if hidden_blame_clip > 0:
             hidden_blame = [clamp_symmetric(v, hidden_blame_clip) for v in hidden_blame]
 
+        if targeted_w2:
+            output_indices = [j for j, v in enumerate(blame_vec) if v != 0]
+        else:
+            output_indices = list(range(N_OUTPUT))
+
         for i in range(N_HIDDEN):
             spike_pattern = 0
             for t in range(N_TS):
                 spike_pattern |= (int(ts_map[t][f"spike_h{i}"]) & 0x1) << t
-            for j in range(N_OUTPUT):
-                accum_w2[i][j] += cached_delta_offset(
+            for j in output_indices:
+                delta_offset = cached_delta_offset(
                     blame_vec[j],
                     grads_per_output[j],
                     spike_pattern,
                     lr_w2,
                     delta_clip,
                 )
+                if update_mode == "online":
+                    w2[i][j] = clamp_w2(clamp16(w2[i][j] - delta_offset))
+                else:
+                    accum_w2[i][j] += delta_offset
 
-        input_patterns = pack_input_spike_patterns(input_ts_map)
-        hidden_deltas = [
-            cached_w1_delta(hidden_blame[hidden_idx], 0, lr_w1, delta_clip)
-            for hidden_idx in range(N_HIDDEN)
-        ]
-        for input_idx in range(N_INPUT):
-            spike_pattern = input_patterns[input_idx]
-            for hidden_idx in range(N_HIDDEN):
-                delta_offset = (
-                    hidden_deltas[hidden_idx]
-                    if spike_pattern == 0
-                    else cached_w1_delta(hidden_blame[hidden_idx], spike_pattern, lr_w1, delta_clip)
-                )
-                accum_w1[input_idx][hidden_idx] += delta_offset
+        # Targeted mode keeps W1 fixed and only adjusts selected W2 channels.
+        if not targeted_w2:
+            input_patterns = pack_input_spike_patterns(input_ts_map)
+            hidden_deltas = [
+                cached_w1_delta(hidden_blame[hidden_idx], 0, lr_w1, delta_clip)
+                for hidden_idx in range(N_HIDDEN)
+            ]
+            for input_idx in range(N_INPUT):
+                spike_pattern = input_patterns[input_idx]
+                for hidden_idx in range(N_HIDDEN):
+                    delta_offset = (
+                        hidden_deltas[hidden_idx]
+                        if spike_pattern == 0
+                        else cached_w1_delta(hidden_blame[hidden_idx], spike_pattern, lr_w1, delta_clip)
+                    )
+                    if update_mode == "online":
+                        w1[input_idx][hidden_idx] = clamp_w1(clamp16(w1[input_idx][hidden_idx] - delta_offset))
+                    else:
+                        accum_w1[input_idx][hidden_idx] += delta_offset
+
+        if update_mode == "micro-batch":
+            pending_contributors += 1
+            if pending_contributors >= micro_batch_size:
+                apply_accumulated_updates(w1, w2, accum_w1, accum_w2, float(pending_contributors), targeted_w2)
+                accum_w1 = [[0 for _ in range(N_HIDDEN)] for _ in range(N_INPUT)]
+                accum_w2 = [[0 for _ in range(N_OUTPUT)] for _ in range(N_HIDDEN)]
+                pending_contributors = 0
 
     if used_samples == 0:
         raise ValueError("No complete samples were usable for learning")
+    if contributing_samples == 0:
+        raise ValueError(
+            "No samples produced nonzero blame; no weight updates can be applied"
+        )
 
-    for i in range(N_INPUT):
-        for j in range(N_HIDDEN):
-            avg_offset = int(round(accum_w1[i][j] / float(used_samples)))
-            w1[i][j] = clamp16(w1_base[i][j] - avg_offset)
-
-    for i in range(N_HIDDEN):
-        for j in range(N_OUTPUT):
-            avg_offset = int(round(accum_w2[i][j] / float(used_samples)))
-            w2[i][j] = clamp16(w2_base[i][j] - avg_offset)
+    if update_mode == "frozen-batch":
+        # Average only across samples that actually contributed nonzero blame.
+        avg_divisor = float(contributing_samples)
+        if targeted_w2:
+            w1 = [row[:] for row in w1_base]
+        else:
+            w1 = [row[:] for row in w1_base]
+        w2 = [row[:] for row in w2_base]
+        apply_accumulated_updates(w1, w2, accum_w1, accum_w2, avg_divisor, targeted_w2)
+    elif update_mode == "micro-batch" and pending_contributors > 0:
+        apply_accumulated_updates(w1, w2, accum_w1, accum_w2, float(pending_contributors), targeted_w2)
 
     apply_final_clamp(w1, w2)
     write_weight_file(out_path, w1, w2)
 
     print(f"Samples used for learning: {used_samples}")
+    print(f"Samples with nonzero blame: {contributing_samples}")
+    print(f"Targeted W2 mode: {'ON' if targeted_w2 else 'OFF'}")
     if sample_id is not None:
         print(f"Selected sample id: {sample_id}")
+    if sample_offset > 0:
+        print(f"Sample offset applied: {sample_offset}")
     if max_samples is not None and max_samples > 0:
         print(f"Max samples requested: {max_samples}")
-    print("Update mode: frozen-batch (average delta per sample applied once)")
+    if update_mode == "online":
+        print("Update mode: online (per-sample updates applied immediately)")
+    elif update_mode == "micro-batch":
+        print(f"Update mode: micro-batch (average delta applied every {micro_batch_size} contributing samples)")
+    else:
+        print("Update mode: frozen-batch (average delta per sample applied once)")
     print(f"Updated weight file written to:\n  {out_path}")
 
 
@@ -521,10 +604,40 @@ def main() -> None:
         help="Disable zero-mean centering of output blame vector per sample",
     )
     parser.add_argument(
+        "--targeted-w2",
+        action="store_true",
+        help=(
+            "Targeted update mode: only update W2 channels with nonzero blame "
+            "(e.g., true/pred in class-directional blame), keep W1 fixed"
+        ),
+    )
+    parser.add_argument(
+        "--update-mode",
+        choices=["frozen-batch", "online", "micro-batch"],
+        default="frozen-batch",
+        help=(
+            "Weight update mode: 'frozen-batch' averages deltas over contributing samples, "
+            "'online' applies each sample update immediately to the live weights, "
+            "'micro-batch' averages and applies every K contributing samples"
+        ),
+    )
+    parser.add_argument(
+        "--micro-batch-size",
+        type=int,
+        default=32,
+        help="Number of contributing samples per applied update in micro-batch mode (default: 32)",
+    )
+    parser.add_argument(
         "--sample-id",
         type=int,
         default=None,
         help="Use only one sample id for the update (default: use all overlapping samples)",
+    )
+    parser.add_argument(
+        "--sample-offset",
+        type=int,
+        default=0,
+        help="Skip the first N sorted overlapping sample ids before learning (default: 0)",
     )
     parser.add_argument(
         "--max-samples",
@@ -557,7 +670,11 @@ def main() -> None:
         args.clip_delta,
         not args.no_center_hidden_blame,
         not args.no_center_output_blame,
+        args.targeted_w2,
+        args.update_mode,
+        args.micro_batch_size,
         args.sample_id,
+        args.sample_offset,
         args.max_samples,
     )
 
