@@ -1,3 +1,9 @@
 riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -O1 -nostdlib -T link.ld crt0.s block4_lif.c -o block4_lif.elf
 riscv64-unknown-elf-objcopy -O verilog --verilog-data-width=4 block4_lif.elf block4_lif.hex
 riscv64-unknown-elf-objdump -d block4_lif.elf > block4_lif.dump
+
+# STATE 2: Surrogate Gradient Substitution firmware (RV32IM — uses MUL for LUT index)
+# Uses snn_tests/link.ld (wider RAM map) + snn_tests/crt0.s
+riscv64-unknown-elf-gcc -march=rv32im -mabi=ilp32 -O1 -nostdlib -T ../snn_tests/link.ld ../snn_tests/crt0.s state2_surrogate.c -o state2_surrogate.elf
+riscv64-unknown-elf-objcopy -O verilog --verilog-data-width=4 state2_surrogate.elf state2_surrogate.hex
+riscv64-unknown-elf-objdump -d state2_surrogate.elf > state2_surrogate.dump

@@ -10,9 +10,10 @@ module potential_adder (
     input wire [2:0] init_mode,
     input wire load,
     
-    output reg [31:0] final_potential, 
-    output reg done,
-    output reg spike
+    output reg  [31:0] final_potential,
+    output reg  [31:0] v_pre_spike,     // pre-fire potential for backprop (REGISTERED, holds value)
+    output reg  done,
+    output reg  spike
 );
 
     // Common Signals
@@ -122,22 +123,26 @@ module potential_adder (
     always @(posedge clk) begin
         if (rst) begin
             final_potential <= 0;
-            spike <= 0;
-            done <= 0;
+            spike           <= 0;
+            done            <= 0;
+            v_pre_spike     <= 0;  // cleared on reset
         end else if(adder_state == 2) begin
             if (model == `IZHI_AD) begin
-                spike <= (weight_added > v_threshold);
+                spike           <= (weight_added > v_threshold);
                 final_potential <= (weight_added > v_threshold) ? c : weight_added[31:0];
             end else begin // LIF and QIF
-                spike <= (weight_added > v_threshold);
+                spike           <= (weight_added > v_threshold);
                 final_potential <= (weight_added > v_threshold) ? 0 : weight_added;
             end
+            v_pre_spike <= weight_added[31:0]; // latch pre-fire potential, holds until next timestep
             done <= 1;
         end else begin
-            done <= 0;
+            done  <= 0;
             spike <= 0;
+            // v_pre_spike and final_potential HOLD their values (not reset here)
         end
     end
+
 endmodule
 
 // IZHIKEVICH MODEL

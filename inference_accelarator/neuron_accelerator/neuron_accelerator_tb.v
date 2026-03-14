@@ -1,4 +1,5 @@
 `include "neuron_accelerator.v"
+`include "../../shared_memory/snn_shared_memory_wb.v"
 `timescale 1ns / 100ps
 
 module neuron_accelerator_tb;
@@ -7,7 +8,7 @@ module neuron_accelerator_tb;
     parameter main_fifo_depth = 32;
     parameter forwarder_8_fifo_depth = 16;
     parameter forwarder_4_fifo_depth = 8;
-    parameter number_of_clusters = 64;
+    parameter number_of_clusters = 32;  // cluster_group_count*4 = 8*4 = 32 actual clusters
     parameter neurons_per_cluster = 32;
     parameter incoming_weight_table_rows = 1024;
     parameter max_weight_table_rows = 4096;
@@ -38,15 +39,57 @@ module neuron_accelerator_tb;
     reg waiting_for_data = 0; // Flag to indicate if we are waiting for data
 
     wire accelerator_done;
+    wire dump_done;           // HIGH for 1 cycle when dump FSM completes
+    wire dbg_all_clusters_done;
+
+    // ── Port B: Accelerator → Shared Memory ──
+    wire [15:0] portb_addr;
+    wire [31:0] portb_din;
+    wire        portb_we;
+    wire        portb_en;
+    wire [31:0] portb_dout;     // shared memory read-back (for CPU sim)
+    wire        collision_det;
+
+    // ── Port A: Wishbone (CPU simulation for readback) ──
+    reg  [31:0] wb_adr_i = 0;
+    reg  [31:0] wb_dat_i = 0;
+    wire [31:0] wb_dat_o;
+    reg  [3:0]  wb_sel_i = 4'hF;
+    reg         wb_we_i = 0, wb_stb_i = 0, wb_cyc_i = 0;
+    wire        wb_ack_o;
+
+    // Shared memory: 49152 words (192 KB)
+    // vmem_base=0xA000, spike_base=0xB000, WB base=0x2000_0000
+    localparam SMEM_WB_BASE  = 32'h2000_0000;
+    localparam SMEM_DEPTH    = 49152;
+
+    snn_shared_memory_wb #(
+        .MEM_DEPTH(SMEM_DEPTH),
+        .BASE_ADDR(SMEM_WB_BASE)
+    ) shared_mem (
+        .clk(clk), .rst(rst),
+        // Port A: Wishbone (CPU)
+        .wb_adr_i(wb_adr_i), .wb_dat_i(wb_dat_i),
+        .wb_dat_o(wb_dat_o), .wb_sel_i(wb_sel_i),
+        .wb_we_i(wb_we_i), .wb_stb_i(wb_stb_i),
+        .wb_cyc_i(wb_cyc_i), .wb_ack_o(wb_ack_o),
+        // Port B: Accelerator dump
+        .portb_addr(portb_addr[14:2]),  // 13-bit word addr from 15:2 of 16-bit
+        .portb_din(portb_din),
+        .portb_dout(portb_dout),
+        .portb_we(portb_we),
+        .portb_en(portb_en),
+        .collision_detect(collision_det)
+    );
 
     reg start_init;
     reg init_done;
 
     // inferencing signals - configurable via runtime parameters
-    parameter time_step_window = 20;
-    parameter input_neurons = 784;
-    parameter nn_layers = 3;
-    parameter input_count = 2560;
+    parameter time_step_window = 10; // XOR spike_mem: 10 timesteps per sample
+    parameter input_neurons = 2;     // XOR: only 2 input neurons (A and B)
+    parameter nn_layers = 1;         // XOR: 1 layer (no inter-layer propagation lag)
+    parameter input_count = 4;    // run all 4 XOR patterns: (0,0),(0,1),(1,0),(1,1)
     
     // Runtime parameter values (overridden by +args)
     integer runtime_time_step_window;
@@ -90,11 +133,42 @@ module neuron_accelerator_tb;
         .main_fifo_dout_out(main_fifo_dout_out),
         .main_fifo_rd_en_out(main_fifo_rd_en_out),
         .main_fifo_empty_out(main_fifo_empty_out),
-        .accelerator_done(accelerator_done)
+        .accelerator_done(accelerator_done),
+        .dbg_all_clusters_done(dbg_all_clusters_done),
+        .dump_done(dump_done),
+        // Port B dump interface
+        .portb_addr      (portb_addr),
+        .portb_din       (portb_din),
+        .portb_we        (portb_we),
+        .portb_en        (portb_en),
+        .vmem_base_addr  (16'hA000),
+        .spike_base_addr (16'hB000),
+        .current_timestep(time_step_index[3:0])
     );
     
     integer i=0;
     integer j=0;
+
+    // ─── Dump Monitor: prints every real V_mem and spike written to memory ───
+    integer dump_vmem_count = 0;
+    integer dump_spike_count = 0;
+    always @(posedge clk) begin
+        if (portb_we && portb_en) begin
+            if (portb_addr >= 16'hA000 && portb_addr < 16'hB000) begin
+                $display("[T=%0d DUMP V_MEM] neuron=%0d  addr=0x%04h  v_mem=0x%08h",
+                          time_step_index,
+                          portb_addr - 16'hA000 - time_step_index*64*32,
+                          portb_addr, portb_din);
+                dump_vmem_count = dump_vmem_count + 1;
+            end else if (portb_addr >= 16'hB000) begin
+                $display("[T=%0d DUMP SPIKE] word=%0d   addr=0x%04h  spikes=0b%b",
+                          time_step_index,
+                          portb_addr - 16'hB000,
+                          portb_addr, portb_din);
+                dump_spike_count = dump_spike_count + 1;
+            end
+        end
+    end
 
     always #5 clk = ~clk; // Clock generation
     initial begin
@@ -208,27 +282,30 @@ module neuron_accelerator_tb;
                         main_fifo_wr_en_in <= 0; 
                     end
                 end else begin
-                    main_fifo_din_in <= 0; // Clear FIFO input
-                    main_fifo_wr_en_in <= 0; // Stop writing to main FIFO
-                    if (accelerator_done) begin
-                        input_neuron_index <= 0; // Reset input neuron index
-                        time_step_index <= time_step_index + 1; // Move to next time step
+                    main_fifo_din_in <= 0;
+                    main_fifo_wr_en_in <= 0;
+                    // Wait for dump to finish BEFORE asserting time_step
+                    // (dump takes 1056 cycles, computation only ~20 cycles)
+                    if (dump_done) begin
+                        input_neuron_index <= 0;
+                        time_step_index <= time_step_index + 1;
                         $display("Time step %d, input index %d", time_step_index, input_index);
-                        time_step <= 1; // Trigger time step
+                        time_step <= 1;
                     end
                 end
             end else if(time_step_index < (runtime_time_step_window + runtime_nn_layers - 1)) begin
-                // continue without inputs
+                // no-input phase: accelerator_done is fine here (no new spikes to capture)
                 if (accelerator_done) begin
-                    time_step_index <= time_step_index + 1; // Move to next time step
+                    time_step_index <= time_step_index + 1;
                     $display("Time step %d, no inputs", time_step_index);
                 end
             end else begin
-                if (accelerator_done) begin
-                    time_step_index <= 0; // Reset time step count
-                    input_index <= input_index + 1; // Move to next input index
-                    rst_potential <= 1; // Reset potential for next input
-                    start_inf <= 0; // Stop the inference process
+                // Final phase: wait for dump then end sample
+                if (dump_done) begin
+                    time_step_index <= 0;
+                    input_index <= input_index + 1;
+                    rst_potential <= 1;
+                    start_inf <= 0;
                     $display("Inference completed for input index %d", input_index);
                 end
             end
@@ -255,10 +332,49 @@ module neuron_accelerator_tb;
             rst_potential <= 0; // Reset potential signal
             start_inf <= 1; // Stop the inference process
         end
+    end
+
+    // ── Wishbone read helper ──
+    reg [31:0] wb_rd_result;
+    task cpu_read;
+        input [31:0] baddr;
+        begin
+            @(posedge clk); #1;
+            wb_adr_i = baddr; wb_we_i = 0;
+            wb_stb_i = 1; wb_cyc_i = 1; wb_sel_i = 4'hF;
+            @(posedge wb_ack_o); @(posedge clk); #1;
+            wb_rd_result = wb_dat_o;
+            wb_stb_i = 0; wb_cyc_i = 0;
+        end
+    endtask
+
+    // ── After all inference completes: CPU reads back 8 V_mem + 2 spike words ──
+    always @(posedge clk) begin
         if (input_index >= runtime_input_count) begin
-            $display("==============================================");
-            $display("Simulation completed: %0d samples processed", runtime_input_count);
-            $display("==============================================");
+            // Wait a few cycles for final dump to land
+            repeat(50) @(posedge clk);
+            $display("\n====== CPU READBACK FROM SHARED MEMORY (Port A Wishbone) ======");
+            $display("  (vmem_base word=0xA000 → byte=0x2002_8000)");
+            $display("  Reading first 8 neurons V_mem of timestep 0:");
+            begin : readback
+                integer k;
+                for (k = 0; k < 8; k = k + 1) begin
+                    cpu_read(SMEM_WB_BASE + (16'hA000 + k) * 4);
+                    $display("  [WB CPU READ] vmem[%0d] @ 0x%08h = 0x%08h",
+                             k, SMEM_WB_BASE + (16'hA000 + k) * 4, wb_rd_result);
+                end
+                $display("  Reading spike word 0 of timestep 0:");
+                cpu_read(SMEM_WB_BASE + 16'hB000 * 4);
+                $display("  [WB CPU READ] spike[0] @ 0x%08h = 0x%08h",
+                         SMEM_WB_BASE + 16'hB000 * 4, wb_rd_result);
+            end
+            $display("  Total Port B V_mem writes : %0d", dump_vmem_count);
+            $display("  Total Port B Spike writes : %0d", dump_spike_count);
+            if (dump_vmem_count > 0 && dump_spike_count > 0)
+                $display("  PASS: Accelerator dumped data into Shared Memory!");
+            else
+                $display("  FAIL: No dump detected!");
+            $display("================================================================");
             $finish;
         end
     end

@@ -266,7 +266,7 @@ def generate_spike_mem():
 
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_dir = os.path.join(script_dir, '..', 'rtl', 'neuron_accelerator')
+    output_dir = os.path.join(script_dir, '..', 'inference_accelarator', 'neuron_accelerator')
     
     print("=" * 60)
     print("XOR Test Data Generator (v4 - with spike forwarder init)")

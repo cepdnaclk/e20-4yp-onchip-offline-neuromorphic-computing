@@ -76,8 +76,8 @@ input[31:0]      WRITEDATA;
 output reg [31:0] READDATA;
 output reg BUSYWAIT;
 
-// Declare memory array 1024 x 8-bits 
-reg [7:0] memory_array [0:1023];
+// Declare memory array 4096 x 8-bits 
+reg [7:0] memory_array [0:4095];
 
 //Busy wait
 always @(READ or WRITE)
@@ -104,18 +104,18 @@ begin
     begin
         case(FUNCT3)
         3'b000: //SB
-             memory_array[ADDRESS] <= WRITEDATA[7:0];
+             memory_array[ADDRESS] = WRITEDATA[7:0];
         3'b001: //SH
         begin
-             memory_array[ADDRESS]   <= WRITEDATA[7:0];    
-             memory_array[ADDRESS+1] <= WRITEDATA[15:8];   
+             memory_array[ADDRESS]   = WRITEDATA[7:0];    
+             memory_array[ADDRESS+1] = WRITEDATA[15:8];   
         end
         3'b010: //SW
         begin
-             memory_array[ADDRESS]   <= WRITEDATA[7:0];    
-             memory_array[ADDRESS+1] <= WRITEDATA[15:8];   
-             memory_array[ADDRESS+2] <= WRITEDATA[23:16]; 
-             memory_array[ADDRESS+3] <= WRITEDATA[31:24];  
+             memory_array[ADDRESS]   = WRITEDATA[7:0];    
+             memory_array[ADDRESS+1] = WRITEDATA[15:8];   
+             memory_array[ADDRESS+2] = WRITEDATA[23:16]; 
+             memory_array[ADDRESS+3] = WRITEDATA[31:24];  
         end
         endcase
     end
@@ -123,7 +123,7 @@ end
 
 integer i;
 initial begin
-    for(i=0; i<1024; i=i+1) memory_array[i] = 0;
+    for(i=0; i<4096; i=i+1) memory_array[i] = 0;
 end
 
 endmodule
