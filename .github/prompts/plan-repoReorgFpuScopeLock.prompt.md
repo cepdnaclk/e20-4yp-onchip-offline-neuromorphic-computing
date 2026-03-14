@@ -31,7 +31,7 @@ Directly reorganize tooling and firmware-related code into workflow-based struct
 2. Extend ignore patterns to match new build/report/output locations after reorganization.
 
 6. Phase 6 - FU/F-extension Technical Direction
-1. Treat current architecture as RV32IM + custom neuromorphic instructions, not RV32F entirely ,inly neccessary insturction for the custom backprop oparations.
+1. Treat current architecture as RV32IM + custom neuromorphic instructions, not RV32F entirely, only necessary instructions for the custom backprop operations.
 2. Validate FU/backprop path correctness using existing custom-unit and CPU benchmark testbenches.
 
 4. Define minimal instruction contract for your backprop firmware: integer control/memory ops + custom instructions only.
