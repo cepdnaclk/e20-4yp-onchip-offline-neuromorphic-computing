@@ -11,8 +11,10 @@ module customCalculation (clk, rst_n, enable, error_term_in, gradient_val, grad_
     output reg signed [31:0] Updated_weight;   // The calculated weight change
 
     localparam signed [15:0] LR = 16'sd16;
+    localparam signed [31:0] DELTA_CLIP = 32'sd64;
     
     wire signed [31:0] delta_out;
+    wire signed [31:0] delta_clipped;
     reg apply_update_d;
     reg signed [15:0] error_term_latched;
     reg enable_latched;  // Latched enable signal for continuous computation
@@ -31,7 +33,20 @@ module customCalculation (clk, rst_n, enable, error_term_in, gradient_val, grad_
         end
     endfunction
 
-    assign lr_mul = $signed(delta_out) * $signed(LR);
+    function signed [31:0] clip_delta32;
+        input signed [31:0] value;
+        begin
+            if (value > DELTA_CLIP)
+                clip_delta32 = DELTA_CLIP;
+            else if (value < -DELTA_CLIP)
+                clip_delta32 = -DELTA_CLIP;
+            else
+                clip_delta32 = value;
+        end
+    endfunction
+
+    assign delta_clipped = clip_delta32(delta_out);
+    assign lr_mul = $signed(delta_clipped) * $signed(LR);
     assign lr_delta = lr_mul >>> 8;
 
     custom_backprop_unit backprop_unit (

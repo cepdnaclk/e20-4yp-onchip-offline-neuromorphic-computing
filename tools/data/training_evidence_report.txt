@@ -1,0 +1,28 @@
+﻿=== Training Evidence Report ===
+Date: 2026-03-14 02:13:29
+
+Experiment:
+- Start from RANDOM W2 initialization (W1 preserved)
+- Train offline on train split hidden spike features
+- Evaluate before/after on same fixed test window
+
+Config:
+- Train samples: 5000
+- Test samples: 1000
+- Test offset : 1000
+- Timesteps   : 16
+- Seed        : 42
+- Epochs      : 40
+- LR          : 0.2
+- WeightDecay : 0.0001
+
+Results:
+- RANDOM BEFORE : 9.6% (96/1000)
+- RANDOM AFTER  : 40% (400/1000)
+- TRAINING GAIN : 30.4%
+
+Artifacts:
+- Before log : tools\data\infer_exp_rand_before.log
+- After log  : tools\data\infer_exp_rand_after.log
+- Random init weights   : C:\Users\pc\Downloads\best_weights_hw_w2rand_init.txt
+- Trained random weights: C:\Users\pc\Downloads\best_weights_hw_w2rand_trained.txt
