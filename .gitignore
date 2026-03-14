@@ -1,47 +1,72 @@
 # ===========================
-# Node.js / xpm
+# OS and editor
 # ===========================
-node_modules/
-npm-debug.log*
-yarn-error.log*
-*.log
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
 
 # ===========================
-# LiteX SoC Environment
+# Logs
 # ===========================
-# LiteX packages (installed in soc/ folder, not tracked)
-soc/*
-!soc/README.md
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# ===========================
+# Node.js and xpm
+# ===========================
+node_modules/
 
 # ===========================
 # Python
 # ===========================
 __pycache__/
 *.py[cod]
-*.pyc
-*.egg-info/
 *.egg
+*.egg-info/
+*.so
 dist/
 build/
-*.so
+.venv/
+/models/venv
 
 # ===========================
-# RISC-V Compiled Build Outputs
+# LiteX SoC environment
 # ===========================
-*.elf
-*.dump
-*.vvp
+# Keep only docs in soc/; generated packages are local-only.
+soc/*
+!soc/README.md
+
+# ===========================
+# Generic compiled outputs
+# ===========================
 *.o
 *.out
 *.bin
+*.elf
+*.dump
+*.vvp
 
-# C program build outputs (generated from compilation)
+# ===========================
+# RISC-V c_program outputs
+# ===========================
 RISC_V/c_program/*.hex
 RISC_V/c_program/*.elf
 RISC_V/c_program/*.dump
 
 # ===========================
-# Verilog Simulation Binaries (no extension, compiled by iverilog)
+# Verilog simulation waveforms
+# ===========================
+*.vcd
+*.fst
+*.lxt
+
+# ===========================
+# Verilog simulation binaries and temp dirs
 # ===========================
 extention/backprop_sim
 extention/pipeline_sim
@@ -60,26 +85,7 @@ RISC_V/CPU/lifo_buffer_intergrated
 inference_accelarator/neuron_accelerator/sim
 inference_accelarator/neuron_cluster/sim
 
-# ===========================
-# Verilog Simulation Waveforms
-# ===========================
-*.vcd
-*.fst
-*.lxt
-
-# ===========================
-# OS & Editor
-# ===========================
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
-*~
-.vscode/
-.idea/
 /inference_accelarator/neuron_accelerator/simv.daidir
-/inference_accelarator/neuron_accelerator/csrc
 /inference_accelarator/neuron_accelerator/simv_mnist.daidir
-/models/venv
-*.log
 /inference_accelarator/neuron_accelerator/simv_test.daidir
+/inference_accelarator/neuron_accelerator/csrc
