@@ -54,28 +54,9 @@ The system is implemented on a **RISC-V SoC** with a custom inference accelerato
 
 The chip operates in three sequential states, orchestrated by the on-chip RISC-V CPU:
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     On-Chip SNN SoC                             │
-│                                                                 │
-│  ┌──────────────────┐    ┌────────────────┐    ┌────────────┐  │
-│  │  STATE 1         │    │  STATE 2        │    │  STATE 3   │  │
-│  │  Inference       │───▶│  Surrogate      │───▶│  Learning  │  │
-│  │  Accelerator     │    │  Substitution   │    │  Backprop  │  │
-│  │  (RTL/FPGA)      │    │  (RISC-V CPU)   │    │  (Custom   │  │
-│  │                  │    │                 │    │  ISA Ext.) │  │
-│  └──────────────────┘    └────────────────┘    └────────────┘  │
-│          │                       │                    │         │
-│          └───────────────────────┴────────────────────┘         │
-│                              Shared BRAM (Wishbone)              │
-│                                                                 │
-│  ┌──────────────────────────────────────────┐                   │
-│  │  Custom RISC-V Extensions (6 instructions)│                  │
-│  │  LIFOPUSH · LIFOPOP · BKPROP             │                   │
-│  │  LOADWT · LIFOPUSHM · LIFOWB             │                   │
-│  └──────────────────────────────────────────┘                   │
-└─────────────────────────────────────────────────────────────────┘
-```
+![SoC Architecture](./docs/images/image.png)
+
+The SoC connects all major blocks — RISC-V control CPU, Custom Backprop Unit, Neuron Accelerator, Surrogate Gradient LUT, and Shared Memory — over a common Wishbone bus. External I/O (I2C, GPIO, SPI) is available via the Encode/Decode interface block.
 
 ### State Descriptions
 
@@ -175,6 +156,22 @@ The custom backprop unit was benchmarked against an equivalent pure-software RV3
 | 1 | ~33% |
 | 10 | 78.50% |
 | **Best** | **80.90%** |
+
+### On-Chip Learning Methods: Softmax vs Perceptron
+
+After the SNN hidden layers have been trained, two output-layer learning strategies are applied and compared on holdout accuracy:
+
+**Softmax Learning** applies a softmax function to the 10 output neuron responses (total spike counts over all timesteps), converting them into class probabilities. Cross-entropy loss is then minimised via gradient descent, which provides smooth, well-calibrated probability estimates. This is mathematically equivalent to a soft multi-class classifier on top of the SNN's learned spike representations.
+
+**Perceptron Learning** uses a hard, error-driven update rule directly on the output weights. If the predicted class is wrong, weights for the correct class are incremented and weights for the predicted class are decremented in proportion to the input spike rate. No probability computation is needed — it is a simple, hardware-friendly rule that requires only integer comparisons and additions, making it particularly well-suited for on-chip deployment.
+
+![Accuracy Comparison: Softmax vs Perceptron Learning](./docs/images/comparison_accuracy_bar.png)
+
+Starting from a pre-trained model at **72.7%** baseline accuracy, Softmax Learning improves to **74.5%** while Perceptron Learning reaches **78.8%** — a +6.1 percentage point gain over the baseline.
+
+![Perceptron Learning Progress Across Rounds](./docs/images/perceptron_learning_progress.png)
+
+The Perceptron learning curve shows rapid convergence: accuracy rises from 72.2% at Round 0 to **81.56%** by Round 3, stabilising through Round 5. This demonstrates that a small number of on-chip replay passes with the perceptron rule is sufficient to push classification performance well beyond the initial trained baseline.
 
 ---
 

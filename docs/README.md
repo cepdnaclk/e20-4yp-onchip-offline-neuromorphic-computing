@@ -89,7 +89,9 @@ This computation is accelerated by the custom RISC-V backprop unit, which includ
 
 The full on-chip learning loop operates as three sequential states per training sample:
 
-![System Architecture](./images/sample.png)
+![SoC Architecture](./images/image.png)
+
+The SoC connects all major blocks over a shared Wishbone bus: the RISC-V control CPU with its Custom Backprop Unit, the Neuron Accelerator (LIF inference hardware), the Surrogate Gradient LUT (256-entry ROM), and Shared Memory (dual-port BRAM). An Encode/Decode block bridges the internal bus to external I/O peripherals (I2C, GPIO, SPI).
 
 | State | Executor | Function |
 |-------|----------|----------|
@@ -205,6 +207,22 @@ The primary speedup comes from the hardware delta computation and weight update 
 | 1 | ~33.0% |
 | 10 | 78.50% |
 | **Peak** | **80.90%** |
+
+### On-Chip Output-Layer Learning: Softmax vs Perceptron
+
+After the SNN's hidden layers are trained, two lightweight output-layer learning strategies are evaluated for on-chip adaptation:
+
+**Softmax Learning** converts the 10 output neuron responses (accumulated spike counts over all timesteps) into a probability distribution using the softmax function, then minimises cross-entropy loss via gradient descent. This provides smooth, calibrated class probability estimates and is mathematically equivalent to training a soft linear classifier on top of the SNN's spike representations.
+
+**Perceptron Learning** applies a hard, error-driven weight update directly to the output weights: if the predicted class is wrong, weights for the correct class are nudged upwards and weights for the wrong class are nudged downwards in proportion to the input spike rate. No probability computation is required — the rule needs only comparisons and additions, making it extremely compact and well suited for on-chip execution with minimal hardware overhead.
+
+![Accuracy Comparison: Softmax vs Perceptron Learning](./images/comparison_accuracy_bar.png)
+
+Starting from a pre-trained baseline of **72.7%** holdout accuracy, Softmax Learning improves to **74.5%** (+1.8 pp) while Perceptron Learning reaches **78.8%** (+6.1 pp), demonstrating that the simpler hardware-friendly rule achieves greater adaptation benefit.
+
+![Perceptron Learning Progress Across Rounds](./images/perceptron_learning_progress.png)
+
+The Perceptron learning curve shows rapid convergence: accuracy rises sharply from 72.2% at Round 0 to **81.56%** by Round 3, then plateaus — indicating that only a small number of on-chip replay passes are needed to fully exploit the learned spike representations.
 
 ### Weight Update Stability
 
