@@ -1,29 +1,29 @@
 {
     "team": [
         {
-            "name": "Team Member Name 1",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "S.M.P.H. Samarakoon",
+            "email": "e20346@eng.pdn.ac.lk",
+            "eNumber": "E/20/346"
         },
         {
-            "name": "Team Member Name 2",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "Wakkumbura M.M.S.S.",
+            "email": "e20419@eng.pdn.ac.lk",
+            "eNumber": "E/20/419"
         },
         {
-            "name": "Team Member Name 3",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "Wickramasinghe J.M.W.G.R.L.",
+            "email": "e20439@eng.pdn.ac.lk",
+            "eNumber": "E/20/439"
         }
     ],
     "supervisors": [
         {
-            "name": "Dr. Supervisor 1",
-            "email": "email@eng.pdn.ac.lk"
+            "name": "Dr. Isuru Nawinne",
+            "email": "isurun@eng.pdn.ac.lk"
         },
         {
-            "name": "Dr. Supervisor 2",
-            "email": "email@eng.pdn.ac.lk"
+            "name": "Prof. Roshan G. Ragel",
+            "email": "roshanr@eng.pdn.ac.lk"
         }
     ],
     "media": [
@@ -33,5 +33,5 @@
             "url": "#"
         }
     ],
-    "tags": ["Final Year Projects"]
+    "tags": ["Final Year Projects", "Neuromorphic Computing", "FPGA", "Spiking Neural Networks", "RISC-V", "On-Chip Learning"]
 }

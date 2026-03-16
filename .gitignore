@@ -25,6 +25,12 @@ dist/
 build/
 *.so
 
+# Virtual environments (any location)
+.venv/
+venv/
+env/
+.env/
+
 # ===========================
 # RISC-V Compiled Build Outputs
 # ===========================
