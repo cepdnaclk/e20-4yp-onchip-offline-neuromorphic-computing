@@ -83,9 +83,8 @@ Thumbs.db
 *~
 .vscode/
 .idea/
-/inference_accelarator/neuron_accelerator/simv.daidir
-/inference_accelarator/neuron_accelerator/csrc
-/inference_accelarator/neuron_accelerator/simv_mnist.daidir
 /models/venv
 *.log
-/inference_accelarator/neuron_accelerator/simv_test.daidir
+*.daidir
+*csrc
+.venv
